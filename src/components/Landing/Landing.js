@@ -1,17 +1,9 @@
-import React, {Component} from 'react'
+import React, { Component } from "react";
 
-class Landing extends Component{
-    constructor(){
-        super()
-
-
-    }
-
-    render(){
-        return (
-            <div>This is the landing page</div>
-        )
-    }
+class Landing extends Component {
+  render() {
+    return <div>This is Landing Component!</div>;
+  }
 }
 
-export default Landing
+export default Landing;
