@@ -22,5 +22,7 @@ export default (
     <Route path="/playerview" component={PlayerView} />
     <Route path="/judgeview" component={JudgeView} />
     <Route path="/scores" component={Scores} />
+    <Route path="/header" component={Header} />
+
   </Switch>
 );
