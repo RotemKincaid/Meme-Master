@@ -9,6 +9,8 @@ const { SERVER_PORT, CONNECTION_STRING, SESSION_SECRET } = process.env;
 
 app.use(express.json());
 
+massive("db", db);
+
 app.listen(SERVER_PORT, () =>
   console.log(SERVER_PORT, `server running on port ${SERVER_PORT}`)
 );
