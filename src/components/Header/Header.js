@@ -8,6 +8,9 @@ class Header extends Component {
         This is Header Component!
         <nav>
           <li>
+            <Link to="/">Landing</Link>
+          </li>
+          <li>
             <Link to="/creategame">Create Game</Link>
           </li>
           <li>
