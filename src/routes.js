@@ -1,7 +1,7 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 import Landing from "./components/Landing/Landing";
-import Header from "./components/Header/Header";
+// import Header from "./components/Header/Header";
 import CreateGame from "./components/CreateGame/CreateGame";
 import CreateUser from "./components/CreateUser/CreateUser";
 import JoinGame from "./components/JoinGame/JoinGame";
@@ -14,6 +14,7 @@ import Scores from "./components/Scores/Scores";
 export default (
   <Switch>
     <Route exact path="/" component={Landing} />
+    {/* <Route path="/header" component={Header} /> */}
     <Route path="/creategame" component={CreateGame} />
     <Route path="/joingame" component={JoinGame} />
     <Route path="/createuser" component={CreateUser} />
