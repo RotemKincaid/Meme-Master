@@ -9,7 +9,7 @@ class JoinGame extends Component {
         <h1>This is going to be the logo!</h1>
         <h3>Enter Game PIN:</h3>
         <input />
-        <button><Link  className='link' to='/createuser'>NEXT</Link></button>
+        <Link to='/createuser'><button>NEXT</button></Link>
       </div>
     );
   }
