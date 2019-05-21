@@ -3,7 +3,9 @@ import './CreateGame.scss'
 
 class CreateGame extends Component {
   render() {
-    return <div className='creategame'>This is CreateGame Component!</div>;
+    return( <div className='creategame'>This is CreateGame Component!
+    </div>
+    );
   }
 }
 
