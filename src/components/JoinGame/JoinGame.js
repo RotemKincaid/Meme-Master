@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./JoinGame.scss";
 
 class JoinGame extends Component {
   render() {
