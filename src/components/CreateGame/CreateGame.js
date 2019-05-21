@@ -1,8 +1,9 @@
 import React, { Component } from "react";
+import './CreateGame.scss'
 
 class CreateGame extends Component {
   render() {
-    return <div>This is CreateGame Component!</div>;
+    return <div className='creategame'>This is CreateGame Component!</div>;
   }
 }
 
