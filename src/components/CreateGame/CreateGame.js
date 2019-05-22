@@ -2,19 +2,24 @@ import React, { Component } from "react";
 import './CreateGame.scss'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
+import {connect} from 'react-redux'
+import {setGamePin} from '../../dux/reducer'
+
+
+
 
 class CreateGame extends Component {
   constructor(){
     super()
 
     this.state ={
-      game: null,
       gamePin: '', 
     }
   }
 
   createGame = () => {
     const {gamePin} = this.state
+    this.props.setGamePin(gamePin);
     axios.post('/api/newgame', {gamePin: gamePin}).then(res => {
       console.log('res at create game', res)
       this.setState({
@@ -47,4 +52,14 @@ class CreateGame extends Component {
   }
 }
 
-export default CreateGame;
+const mapStateToProps = reduxState => {
+  return {
+    gamePin: reduxState.gamePin
+  };
+};
+
+const mapDispatchToProps = {
+  setGamePin: setGamePin
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateGame);

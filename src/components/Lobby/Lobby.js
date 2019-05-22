@@ -1,9 +1,47 @@
 import React, { Component } from "react";
 import {Link} from 'react-router-dom'
 import './Lobby.scss'
+import io from 'socket.io-client'
+import {connect} from 'react-redux'
+import {setGamePin} from '../../dux/reducer'
+
+const socket = io('http://localhost:4052')
 
 class Lobby extends Component {
+  constructor(){
+    super()
+
+    this.state = {
+      message: '',
+      joined: false
+    };
+
+    socket.on('news', data => {
+      console.log(data);
+      this.setState({
+          message: data
+      });
+    });
+
+    socket.on('welcome', pin => {
+      console.log('Welcome to the room', pin);
+      this.setState({
+          joined: true
+      });
+    });
+  }
+
+  componentDidMount(){
+    //get game pin and join room 
+    const {gamePin} = this.props.gamePin
+    console.log('gamePin from props at component did mount', gamePin)
+    socket.emit('Join Room', {
+      gamePin: this.props.gamePin
+    })
+
+  }
   render() {
+    console.log('props at lobby', this.props)
     return (
     <div className='lobby'>This is Lobby Component!
       <h1>PLAYERS</h1>
@@ -18,4 +56,14 @@ class Lobby extends Component {
   }
 }
 
-export default Lobby;
+const mapStateToProps = reduxState => {
+  return {
+    gamePin: reduxState.gamePin
+  };
+};
+
+const mapDispatchToProps = {
+  setGamePin: setGamePin
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Lobby);
