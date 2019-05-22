@@ -60,9 +60,7 @@ class JoinGame extends Component {
         <h2>My message: {message}</h2>
         <h3>Enter Game PIN:</h3>
         <input />
-<<<<<<< HEAD
         <button><Link  className='link' to='/createuser'>NEXT</Link></button>
-=======
         <button
           onClick={() =>
             socket.emit("Join Room", {
@@ -92,7 +90,6 @@ class JoinGame extends Component {
         <h2>
           Joined Room:<div>{mappedNames}</div>
         </h2>
->>>>>>> f5160a7a27153bb0eba1453dc879eba26019f8fc
       </div>
     );
   }
