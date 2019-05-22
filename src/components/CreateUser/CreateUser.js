@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "./CreateUser.scss";
+import {connect} from "react-redux";
+import {setPlayerUsername} from '../../dux/reducer'
+
+
 
 class CreateUser extends Component {
   render() {
@@ -36,4 +40,17 @@ class CreateUser extends Component {
   }
 }
 
-export default CreateUser;
+function mapStateToProps(state) {
+  return {
+    gamePin: state.gamePin
+  };
+}
+
+const mapDispatchToProps = {
+  setPlayerUsername: setPlayerUsername
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CreateUser);
