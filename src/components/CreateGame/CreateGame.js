@@ -8,7 +8,7 @@ import {setGamePin} from '../../dux/reducer'
 import io from 'socket.io-client'
 
 
-const socket = io('http://localhost:4052')
+
 
 
 class CreateGame extends Component {
@@ -21,6 +21,7 @@ class CreateGame extends Component {
   }
 
   createGame = () => {
+    const socket = io('http://localhost:4052')
     const {gamePin} = this.state
     this.props.setGamePin(gamePin);
 

@@ -5,7 +5,7 @@ import io from 'socket.io-client'
 import {connect} from 'react-redux'
 import {setGamePin} from '../../dux/reducer'
 
-const socket = io('http://localhost:4052')
+
 
 class Lobby extends Component {
   constructor(){
@@ -16,17 +16,20 @@ class Lobby extends Component {
       joined: false
     };
 
+    
+
+    
+  }
+
+  componentDidMount(){
+    const socket = io('http://localhost:4052')
+
     socket.on('welcome', data => {
       console.log(data);
       this.setState({
           message: data
       });
     });
-
-    
-  }
-
-  componentDidMount(){
     
     //get game pin and join room 
     const {gamePin} = this.props.gamePin

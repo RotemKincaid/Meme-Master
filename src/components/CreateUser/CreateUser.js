@@ -7,7 +7,7 @@ import io from 'socket.io-client'
 import {connect} from 'react-redux'
 import {setUser} from '../../dux/reducer'
 
-const socket = io('http://localhost:4052')
+
 
 class CreateUser extends Component {
   constructor(){
@@ -20,6 +20,7 @@ class CreateUser extends Component {
   }
 
   componentDidMount(){
+    const socket = io('http://localhost:4052')
     if (this.props.gamePin) {
       const {gamePin} = this.props.gamePin
       console.log(gamePin)
@@ -39,6 +40,7 @@ class CreateUser extends Component {
   }
 
   createUsername = () => {
+    const socket = io('http://localhost:4052')
 
     const {username} = this.state
     this.props.setUser(username)

@@ -52,7 +52,7 @@ massive(CONNECTION_STRING).then(db => {
 
 //sockets 
 
-var sesh = {session: 'nosesion'}
+var sesh = {}
 
 
 
@@ -105,6 +105,8 @@ io.on("connection", function(socket) {
       console.log('SESH after adding AT create game', socket.handshake.session.data)
 
       sesh = socket.handshake.session.data
+
+      
     
 });
 
