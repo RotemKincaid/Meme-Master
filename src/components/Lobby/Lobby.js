@@ -27,6 +27,7 @@ class Lobby extends Component {
   }
 
   componentDidMount(){
+    
     //get game pin and join room 
     const {gamePin} = this.props.gamePin
     console.log('gamePin from props at component did mount', gamePin)

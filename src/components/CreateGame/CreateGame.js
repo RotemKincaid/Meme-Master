@@ -5,7 +5,10 @@ import axios from 'axios'
 import {connect} from 'react-redux'
 import {setGamePin} from '../../dux/reducer'
 
+import io from 'socket.io-client'
 
+
+const socket = io('http://localhost:4052')
 
 
 class CreateGame extends Component {
@@ -20,12 +23,17 @@ class CreateGame extends Component {
   createGame = () => {
     const {gamePin} = this.state
     this.props.setGamePin(gamePin);
-    axios.post('/api/newgame', {gamePin: gamePin}).then(res => {
-      console.log('res at create game', res)
-      this.setState({
-        pin: res.data.gamePin
-      })
+
+    socket.emit('Create Game', {
+      gamePin: gamePin
     })
+
+    // axios.post('/api/newgame', {gamePin: gamePin}).then(res => {
+    //   console.log('res at create game', res)
+    //   this.setState({
+    //     pin: res.data.gamePin
+    //   })
+    // })
   }
   render() {
     console.log(this.state)

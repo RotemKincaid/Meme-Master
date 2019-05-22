@@ -14,14 +14,38 @@ class CreateUser extends Component {
     super()
 
     this.state = {
-      username: ''
+      username: '',
+      gamePin: ''
     }
+  }
+
+  componentDidMount(){
+    if (this.props.gamePin) {
+      const {gamePin} = this.props.gamePin
+      console.log(gamePin)
+      //check session
+      
+        socket.emit('Check Session', {gamePin: gamePin})
+  
+      
+    }
+
+    else{
+        console.log('no game pin in redux')
+
+      }
+    
+
   }
 
   createUsername = () => {
 
     const {username} = this.state
     this.props.setUser(username)
+
+    socket.emit('Add User', {
+      users: username
+    })
 
     
 

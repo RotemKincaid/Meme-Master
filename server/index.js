@@ -18,8 +18,12 @@ var app = require('express')(),
   io = require("socket.io")(server),
   session = require("express-session")({
     secret: SESSION_SECRET,
-    resave: true,
-    saveUninitialized: true
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      //miliseconds - seconds - minutes - hours - week
+      maxAge: 1000 * 60 * 60 * 24 * 14
+    }
   }),
   sharedsession = require("express-socket.io-session");
 
@@ -48,6 +52,8 @@ massive(CONNECTION_STRING).then(db => {
 
 //sockets 
 
+var sesh = {session: 'nosesion'}
+
 
 
 
@@ -55,29 +61,96 @@ massive(CONNECTION_STRING).then(db => {
 // Use express-session middleware for express
 
 
-io.use(sharedsession(session))
+io.use(sharedsession(session, {
+  autoSave: true
+}))
 
 io.on("connection", function(socket) {
   // Accept a login event with user's data
   console.log('a user connected')
 
+  let data = null
+  socket.handshake.session.data = sesh
+
   socket.emit('welcome', 'Welcome to the Meme Master Game!')
+
+  socket.on('Check Session', function(data) {
+    socket.handshake.session.data = sesh
+    console.log('SESH before adding AT check session', socket.handshake.session.data)
+
+    console.log('data at check session', data)
+
+    console.log('socket.handshake.session.data.gamePin', socket.handshake.session.data.gamePin)
+
+    console.log('sesh', sesh)
+
+    console.log('sesh.data.gamepin', sesh.data.gamePin)
+    
+    if (sesh.data.gamePin === data.gamePin) {
+      socket.handshake.session.data = sesh
+      console.log('continue with session')
+    }else{
+      console.log('there is no session')
+    }
+  })
+
+  socket.on('Create Game', function(data) {
+    console.log('data at create game',data)
+    console.log('SESH before adding AT create game', socket.handshake.session.data)
+    
+    
+      socket.handshake.session.data = {...socket.handshake.session.data, data};
+      socket.handshake.session.save();
+
+      console.log('SESH after adding AT create game', socket.handshake.session.data)
+
+      sesh = socket.handshake.session.data
+    
+});
 
 
   socket.on('Add User', function(data) {
-    console.log('data at join game',data)
-      socket.handshake.session.data = {...socket.handshake.session.data, data};
+    socket.handshake.session.data = sesh
+    console.log('sesh at beginning of add user', sesh)
+    console.log('data at add user', data)
+    console.log('SESH before adding AT ADD USER SOCKET', socket.handshake.session.data)
+      
+      // let newUsers = [...sesh.users, data.users]
+
+      // console.log('newusers', newUsers)
+      
+      let newData ={...sesh, users: [data.users]}
+      console.log('newData at add user', newData)
+
+      socket.handshake.session.data = newData;
       socket.handshake.session.save();
+      
+      
+      sesh = socket.handshake.session.data
+      
+      console.log(sesh.users)
+      // let users = sesh.users
+      // console.log('sesh.users', users)
+      
+
+      console.log('SHARED SESH after adding AT ADD USER SOCKET', socket.handshake.session.data)
     
   });
   
 
   socket.on('Join Game', function(data) {
       console.log('data at join game',data)
-      
-      
-        socket.handshake.session.data = {...socket.handshake.session.data, data};
-        socket.handshake.session.save();
+
+      socket.handshake.session.data = sesh
+
+      console.log('SESH before join game', socket.handshake.session.data)
+
+      if (sesh.data.gamePin === data.gamePin) {
+        socket.handshake.session.data = sesh
+        console.log('continue with session')
+      }else{
+        console.log('there is no session')
+      }
       
   });
   
