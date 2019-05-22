@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "./CreateUser.scss";
 import {connect} from "react-redux";
-import {setPlayerUsername} from '../../dux/reducer'
+import {setPlayerUsername, setAvatarUrl} from '../../dux/reducer'
 
 
 
@@ -47,7 +47,8 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  setPlayerUsername: setPlayerUsername
+  setPlayerUsername: setPlayerUsername,
+  setAvatarUrl: setAvatarUrl
 };
 
 export default connect(

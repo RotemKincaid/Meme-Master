@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import io from "socket.io-client";
 import {connect} from "react-redux";
 import {setGamePin} from '../../dux/reducer'
+
 var socket = io.connect();
 
 class CreateGame extends Component {
