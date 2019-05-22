@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import {Link} from 'react-router-dom'
 import './Lobby.scss'
 
+import {connect} from "react-redux";
+import {setGameObject} from '../../dux/reducer'
+
 class Lobby extends Component {
   render() {
     return (
@@ -18,4 +21,18 @@ class Lobby extends Component {
   }
 }
 
-export default Lobby;
+function mapStateToProps(state) {
+  return {
+    gamePin: state.gamePin,
+    gameObject: state.gameObject
+  };
+}
+
+const mapDispatchToProps = {
+  setGameObject: setGameObject
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Lobby);

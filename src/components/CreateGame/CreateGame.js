@@ -3,7 +3,7 @@ import "./CreateGame.scss";
 import { Link } from "react-router-dom";
 import io from "socket.io-client";
 import {connect} from "react-redux";
-import {setGamePin} from '../../dux/reducer'
+import {setGamePin, setGameObject} from '../../dux/reducer'
 
 var socket = io.connect();
 
@@ -58,12 +58,14 @@ class CreateGame extends Component {
 
 function mapStateToProps(state) {
   return {
-    gamePin: state.gamePin
+    gamePin: state.gamePin,
+    gameObject: state.gameObject
   };
 }
 
 const mapDispatchToProps = {
-  setGamePin: setGamePin
+  setGamePin: setGamePin,
+  setGameObject: setGameObject
 };
 
 export default connect(
