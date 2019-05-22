@@ -6,7 +6,8 @@ import reducer from './reducer'
 const rootReducer = combineReducers({
     gamePin:  reducer,
     username: reducer,
-    avatar_url: reducer
+    avatar_url: reducer,
+    gameObject: reducer,
 })
 
 export default createStore(rootReducer, applyMiddleware(promiseMiddleware));
