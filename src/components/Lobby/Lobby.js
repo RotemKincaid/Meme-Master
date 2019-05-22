@@ -16,27 +16,22 @@ class Lobby extends Component {
       joined: false
     };
 
-    socket.on('news', data => {
+    socket.on('welcome', data => {
       console.log(data);
       this.setState({
           message: data
       });
     });
 
-    socket.on('welcome', pin => {
-      console.log('Welcome to the room', pin);
-      this.setState({
-          joined: true
-      });
-    });
+    
   }
 
   componentDidMount(){
     //get game pin and join room 
     const {gamePin} = this.props.gamePin
     console.log('gamePin from props at component did mount', gamePin)
-    socket.emit('Join Room', {
-      gamePin: this.props.gamePin
+    socket.emit('Join Game', {
+      gamePin: gamePin
     })
 
   }

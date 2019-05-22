@@ -1,27 +1,34 @@
-const express = require("express");
-const app = express();
+require('dotenv').config()
+const express = require('express')
+
 const controller = require("./Controllers/controller");
 const massive = require("massive");
-const session = require("express-session");
-require("dotenv").config();
+
+
+
 // const app = require('express')();
-const server = require('http').Server(app);
-const io = require('socket.io')(server);
+
+
 const socketController = require('./Controllers/socketController');
 
+
 const { SERVER_PORT, CONNECTION_STRING, SESSION_SECRET } = process.env;
+var app = require('express')(),
+  server  = require("http").createServer(app),
+  io = require("socket.io")(server),
+  session = require("express-session")({
+    secret: SESSION_SECRET,
+    resave: true,
+    saveUninitialized: true
+  }),
+  sharedsession = require("express-socket.io-session");
+
 
 app.use(express.json());
 
-app.use(session({
-  secret: SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-      //miliseconds - seconds - minutes - hours - week
-      maxAge: 1000 * 60 * 60 * 24 * 14
-  }
-}))
+app.use(session)
+
+
 
 
 
@@ -41,23 +48,65 @@ massive(CONNECTION_STRING).then(db => {
 
 //sockets 
 
-io.on('connection', function(socket) {
+
+
+
+
+// Use express-session middleware for express
+
+
+io.use(sharedsession(session))
+
+io.on("connection", function(socket) {
+  // Accept a login event with user's data
   console.log('a user connected')
 
-  socket.emit('news', 'hello world')
+  socket.emit('welcome', 'Welcome to the Meme Master Game!')
 
-  socket.on('my other event', function(data) {
-    console.log(data);
 
-    socket.emit('custom message', 'Complete')
-  })
+  socket.on('Add User', function(data) {
+    console.log('data at join game',data)
+      socket.handshake.session.data = {...socket.handshake.session.data, data};
+      socket.handshake.session.save();
+    
+  });
+  
 
-  socket.on('Join Room', function(data){        socketController.joinRoom(data, socket, io)
-    console.log(data)
+  socket.on('Join Game', function(data) {
+      console.log('data at join game',data)
+      
+      
+        socket.handshake.session.data = {...socket.handshake.session.data, data};
+        socket.handshake.session.save();
+      
+  });
+  
+  socket.on("logout", function(data) {
+      if (socket.handshake.session.data) {
+          delete socket.handshake.session.data;
+          socket.handshake.session.save();
+      }
+  });        
+});
 
-    socket.emit('custom message', 'new user joined with the pin')
-  })
-})
+
+// io.on('connection', function(socket) {
+//   console.log('a user connected')
+
+//   socket.emit('news', 'hello world')
+
+//   socket.on('my other event', function(data) {
+//     console.log(data);
+
+//     socket.emit('custom message', 'Complete')
+//   })
+
+//   socket.on('Join Room', function(data){        socketController.joinRoom(data, socket, io)
+//     console.log(data)
+
+//     socket.emit('custom message', 'new user joined with the pin')
+//   })
+// })
 
 
 
