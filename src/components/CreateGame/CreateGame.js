@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./CreateGame.scss";
 import { Link } from "react-router-dom";
 import io from "socket.io-client";
+import { connect } from "react-redux";
 var socket = io.connect();
 
 class CreateGame extends Component {
@@ -53,4 +54,13 @@ class CreateGame extends Component {
   }
 }
 
-export default CreateGame;
+function mapStateToProps(state) {
+  return state;
+}
+
+const mapDispatchToProps = {};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CreateGame);
