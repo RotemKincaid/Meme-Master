@@ -30,12 +30,12 @@ class JoinGame extends Component {
       });
     });
 
-    socket.on("welcome to", players => {
-      console.log("Welcome to the room", players);
-      this.setState({
-        players
-      });
-    });
+    // socket.on("welcome to", players => {
+    //   console.log("Welcome to the room", players);
+    //   this.setState({
+    //     players
+    //   });
+    // });
   }
 
   nameHandler = e => {
@@ -62,21 +62,21 @@ class JoinGame extends Component {
         <input />
         <button><Link  className='link' to='/createuser'>NEXT</Link></button>
         <button
-          onClick={() =>
-            socket.emit("Join Room", {
-              username: playerName,
-              gamePin: 12345
-            })
-          }
+          // onClick={() =>
+          //   socket.emit("Join Room", {
+          //     username: playerName,
+          //     gamePin: 12345
+          //   })
+          // }
         >
           Join Room
         </button>
-        <input
+        {/* <input
           // value={this.state.playerName}
           type="text"
           placeholder="nickname"
           onChange={this.nameHandler}
-        />
+        /> */}
         <button
           onClick={() => {
             socket.emit("name", {
