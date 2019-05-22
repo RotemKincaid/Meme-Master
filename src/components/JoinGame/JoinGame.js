@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
+import { connect } from "react-router-dom";
+
 import "./JoinGame.scss";
 import io from "socket.io-client";
 const socket = io("http://localhost:4052");
@@ -57,10 +59,14 @@ class JoinGame extends Component {
         This is JoinGame
         <h1>This is going to be the logo!</h1>
         {/* <h3>{mappedNames}</h3> */}
-        <h2>My message: {message}</h2>
+        {/* <h2>My message: {message}</h2> */}
         <h3>Enter Game PIN:</h3>
         <input />
-        <button><Link  className='link' to='/createuser'>NEXT</Link></button>
+        <button>
+          <Link className="link" to="/createuser">
+            NEXT
+          </Link>
+        </button>
         <button
           // onClick={() =>
           //   socket.emit("Join Room", {
@@ -89,7 +95,7 @@ class JoinGame extends Component {
         </button>
         <h2>
           Joined Room:<div>{mappedNames}</div>
-        </h2>
+        </h2> */}
       </div>
     );
   }

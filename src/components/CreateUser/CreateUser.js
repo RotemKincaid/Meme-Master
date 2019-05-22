@@ -22,12 +22,7 @@ class CreateUser extends Component {
     });
   }
 
-
-  nameHandler = e => {
-    this.setState({
-      playerName: e.target.value
-    });
-  };
+  
 
   render() {
 

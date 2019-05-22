@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import "./CreateGame.scss";
 import { Link } from "react-router-dom";
 import io from "socket.io-client";
+import { connect } from "react-redux";
+import { setGamePin } from "../../dux/reducer";
+
 var socket = io.connect();
 
 class CreateGame extends Component {
@@ -31,12 +34,12 @@ class CreateGame extends Component {
     return (
       <div className="creategame">
         <div>
-           Here Is Your Game PIN         
-          {/* <button onClick={() => this.generateRandom()}>get pin</button> */}
-                  <h3>{gameNumber}</h3>
-                                           
+        <h3>This is your game pin </h3>
+        <h3>{gameNumber}</h3>
+                           <h3>Share Game PIN with other players</h3>
+                         
         </div>
-        <h4>Give Your PIN To All Other Players</h4>
+
         <Link className="link" to="/createuser">
           <button onClick={() => socket.emit("room", { gameNumber })}>
             Next
@@ -47,4 +50,17 @@ class CreateGame extends Component {
   }
 }
 
-export default CreateGame;
+function mapStateToProps(state) {
+  return {
+    gamePin: state.gamePin
+  };
+}
+
+const mapDispatchToProps = {
+  setGamePin: setGamePin
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CreateGame);
