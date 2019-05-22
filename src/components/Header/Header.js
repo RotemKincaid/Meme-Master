@@ -4,6 +4,7 @@ import "./Header.scss";
 
 class Header extends Component {
   render() {
+    
     return (
       <div className="header-main">
         <nav>

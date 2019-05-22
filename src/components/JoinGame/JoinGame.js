@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {Link} from 'react-router-dom'
 import "./JoinGame.scss";
 import io from "socket.io-client";
 const socket = io("http://localhost:4052");
@@ -59,6 +60,7 @@ class JoinGame extends Component {
         <h2>My message: {message}</h2>
         <h3>Enter Game PIN:</h3>
         <input />
+        <button><Link  className='link' to='/createuser'>NEXT</Link></button>
         <button
           onClick={() =>
             socket.emit("Join Room", {
