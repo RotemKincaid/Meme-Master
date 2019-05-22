@@ -29,10 +29,10 @@ class JoinGame extends Component {
       });
     });
 
-    socket.on("welcome to", pin => {
-      console.log("Welcome to the room", pin);
+    socket.on("welcome to", players => {
+      console.log("Welcome to the room", players);
       this.setState({
-        joined: true
+        players
       });
     });
   }
@@ -62,6 +62,7 @@ class JoinGame extends Component {
         <button
           onClick={() =>
             socket.emit("Join Room", {
+              username: playerName,
               gamePin: 12345
             })
           }
@@ -84,7 +85,9 @@ class JoinGame extends Component {
         >
           Send Name
         </button>
-        <h2>Joined Room: {joined ? <div>{mappedNames}</div> : <div />}</h2>
+        <h2>
+          Joined Room:<div>{mappedNames}</div>
+        </h2>
       </div>
     );
   }
