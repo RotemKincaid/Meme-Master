@@ -1,5 +1,7 @@
 const players = [];
-const games = {}
+const games = {};
+const cardsFromDb = [];
+const mediaFromDb = [];
 
 const cardsFromDb = []
 const mediaFromDb = []
@@ -12,11 +14,11 @@ const mediaFromDb = []
 
 module.exports = {
   joinRoom: (data, socket, io) => {
-    console.log(data, "W");
+    console.log(data, "---> data");
     socket.join(data.gamePin);
     players.push(data.username);
-    console.log(players, "players");
-    io.to(data.gamePin).emit("welcome to", players);
+    console.log(players, data.gamePin, "players");
+    io.in(data.gamePin).emit("welcome to", players);
   },
 
   getCards: (req, res) => {
@@ -48,7 +50,7 @@ module.exports = {
       turn: 1,
       images: mediaFromDb,
       current_image: "",
-      players : [
+      players: [
         {
             username: "Francisca",
             hand: [],
@@ -68,13 +70,10 @@ module.exports = {
   }
 
 
-  
+    games[data.gamePin] = newGame;
+    console.log(data);
 
-  
-
-
-
-
-
-
+    io.in(data.gamePin).emit("send new game", newGame);
+    console.log();
+  }
 };

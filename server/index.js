@@ -34,22 +34,13 @@ app.get('/api/media', SocketController.getMedia)
 
 
 
-// app.get('/', function (req, res) {
-//   res.sendFile(__dirname + '/index.html');
-// });
 
-// ------------------------this is th eblock cam added in order to make socket rooms dynamically----
-// handle incoming connections from clients
-// io.sockets.on("connection", function(socket) {
-// once a client has connected, we expect to get a ping from them saying what room they want to join
-
-// now, it's easy to send a message to just the clients in a given room
-// room = "abc123";
-// io.sockets.in(room).emit("message", "what is going on, party people?");
-// // this message will NOT go to the client defined above
-// io.sockets.in("foobar").emit("message", "anyone in this room yet?");
-
-// --------------------------------------------------
+massive(CONNECTION_STRING)
+  .then(db => {
+    app.set("db", db);
+    console.log("connected to db");
+  })
+  .catch(err => console.log("error connecting to db", err));
 
 io.on("connection", function(socket) {
   socket.on("room", function(room) {

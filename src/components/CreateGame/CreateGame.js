@@ -29,26 +29,26 @@ class CreateGame extends Component {
     });
   }
   componentDidMount() {
-    const { gameNumber } = this.state;
+    const { gamePin } = this.state;
     this.generateRandom();
   }
   generateRandom() {
     this.setState({
-      gameNumber: Math.floor(100000 + Math.random() * 900000)
+      gamePin: Math.floor(100000 + Math.random() * 900000)
     });
   }
 
   sendGame() {
-    const { gameNumber } = this.state;
+    const { gamePin } = this.state;
 
-    socket.emit("room", { gameNumber });
-    this.props.setGamePin(this.state.gameNumber);
+    socket.emit("create game", { gamePin });
+    this.props.setGamePin(this.state.gamePin);
   }
   render() {
     console.log(this.props.gameObject)
     const { gameNumber } = this.state;
     console.log(this.props.gamePin);
-    console.log(gameNumber);
+    console.log(gamePin);
     return (
       <div className="creategame">
         <div>

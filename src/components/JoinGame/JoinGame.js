@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import {setGamePin } from "../../dux/reducer"
-
+import { setGamePin } from "../../dux/reducer";
 
 import "./JoinGame.scss";
 import io from "socket.io-client";
@@ -49,10 +48,10 @@ class JoinGame extends Component {
   };
 
   render() {
-    const { message, joined, playerName, players } = this.state;
+    const { playerName, players } = this.state;
     // console.log(playerName);
     console.log(this.state.players);
-    console.log(this.props)
+    console.log(this.props);
 
     const mappedNames = players.map(name => {
       return <div key={name.id}>{name} Joined</div>;
@@ -61,7 +60,6 @@ class JoinGame extends Component {
       <div className="join-game">
         This is JoinGame
         <h1>This is going to be the logo!</h1>
-        
         <h3>Enter Game PIN:</h3>
         <input />
         <button>
@@ -70,12 +68,12 @@ class JoinGame extends Component {
           </Link>
         </button>
         <button
-          // onClick={() =>
-          //   socket.emit("Join Room", {
-          //     username: playerName,
-          //     gamePin: 12345
-          //   })
-          // }
+        // onClick={() =>
+        //   socket.emit("Join Room", {
+        //     username: playerName,
+        //     gamePin: 12345
+        //   })
+        // }
         >
           Join Room
         </button>
@@ -97,18 +95,20 @@ class JoinGame extends Component {
         </button>
         <h2>
           Joined Room:<div>{mappedNames}</div>
-        </h2> 
+        </h2>
       </div>
-    
     );
   }
 }
-function mapStateToProps(state){
-  return state
+function mapStateToProps(state) {
+  return state;
 }
 
 const mapDispatchToProps = {
   setGamePin: setGamePin
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(JoinGame);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(JoinGame);
