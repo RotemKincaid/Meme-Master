@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import "./CreateUser.scss";
 import { Link } from "react-router-dom";
-import {connect} from "react-redux"
-import {setGamePin } from "../../dux/reducer"
+import { connect } from "react-redux";
+import { setGamePin } from "../../dux/reducer";
 
 import io from "socket.io-client";
 const socket = io("http://localhost:4052");
@@ -14,55 +14,122 @@ class CreateUser extends Component {
     this.state = {
       players: [],
       username: "",
-      avatar: ""
+      avatar: "",
+      gamePin: null
     };
 
-    socket.on("welcome to", players => {
-      console.log("Welcome to the room", players);
+    // socket.on("welcome to", players => {
+    //   console.log("Welcome to the room", players);
+    //   this.setState({
+    //     players
+    //   });
+    // });
+
+    socket.on("welcome to", data => {
+      console.log("Welcome, ", data);
+      const { gamePin } = this.props.gamePin;
       this.setState({
-        players
+        username: data,
+        players: data,
+        gamePin
       });
     });
   }
 
+  nameHandler = e => {
+    this.setState({
+      username: e.target.value
+    });
+  };
+
+  handlePin = e => {
+    this.setState({
+      gamePin: e.target.value
+    });
+  };
+
+  pinMatch = () => {
+    if (this.state.gamePin === this.props.gamePin.gamePin) {
+      console.log("GAME PIN MATCHES");
+    } else {
+      console.log("SOMETHING IS WRONG");
+    }
+  };
+
   render() {
-    console.log(this.props.gamePin)
-    const { username } = this.state;
+    console.log(this.props.gamePin);
+    const { gamePin } = this.props.gamePin;
+    const { username, players } = this.state;
+    const mappedNames = players.map(name => {
+      return <div key={name.id}>{name} Joined</div>;
+    });
+
     return (
       <div className="createuser">
         This is the Create User Component!
-
-        <h2>Enter game pin</h2>
-
-        <input 
-
-        value={this.props.gamePin.gamePin}
-        placeholder="game pin" />
+        <h2>game pin{this.props.gamePin.gamePin}</h2>
+        {this.props.gamePin.gamePin ? (
+          <div />
+        ) : (
+          <input
+            value={this.state.gamePin}
+            placeholder="game pin"
+            onChange={this.handlePin}
+          />
+        )}
         <h2>Enter Username</h2>
         <input
-          value={""}
+          // value={this.state.username}
           type="text"
           placeholder="nickname"
           onChange={this.nameHandler}
         />
+        {/* <button
+          onClick={() => {
+            socket.emit("name", {
+              username: username,
+              players: players.push(username),
+              gamePin: this.state.gamePin
+            });
+          }}
+        >
+          Send Name
+        </button> */}
         <h2>Select Avatar:</h2>
         <select>
-          <option></option>
+          <option />
           <option value="avatar url two">2</option>
           <option value="avatar url three">3</option>
         </select>
+        <br />
         <button
           onClick={() =>
             socket.emit("Join Room", {
               username: username,
-              gamePin: 12345
+              players: players.push(username),
+              gamePin: this.state.gamePin
+                ? this.state.gamePin
+                : this.props.gamePin.gamePin
             })
           }
+        >
+          Join Room- click here first!
+        </button>
+        <button
+        // onClick={() =>
+        //   socket.emit("Join Room", {
+        //     username: username,
+        //     gamePin: 12345
+        //   })
+        // }
         >
           <Link className="link" to="/lobby">
             NEXT
           </Link>
         </button>
+        <h2>
+          Joined Room:<div>{mappedNames}</div>
+        </h2>
       </div>
     );
   }
@@ -70,13 +137,13 @@ class CreateUser extends Component {
 
 function mapStateToProps(state) {
   return {
-    gamePin: state.gamePin,
+    gamePin: state.gamePin
     // gameObject: state.gameObject
   };
 }
 
 const mapDispatchToProps = {
-  setGamePin: setGamePin,
+  setGamePin: setGamePin
   // setGameObject: setGameObject
 };
 

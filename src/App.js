@@ -5,12 +5,11 @@ import Header from "./components/Header/Header";
 import "./App.css";
 
 function App(props) {
-  console.log(props.history.location)
-  const {pathname} = props.location
-  
+  // console.log(props.history.location)
+  // const { pathname } = props.location;
+
   return (
     <div className="App">
-
       {/* this will avoid showing the header when on the landing page, it will be commented out until we are ready */}
 
       {/* {pathname !== '/' ? (
@@ -20,8 +19,8 @@ function App(props) {
       <div></div>
       )} */}
 
-      <Header/>
-      
+      <Header />
+
       {routes}
     </div>
   );
