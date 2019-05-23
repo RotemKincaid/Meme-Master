@@ -1,36 +1,51 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import "./CreateUser.scss";
-import {connect} from "react-redux";
-import {setPlayerUsername, setAvatarUrl} from '../../dux/reducer'
-
-
+import { Link } from "react-router-dom";
+import io from "socket.io-client";
+const socket = io("http://localhost:4052");
 
 class CreateUser extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      players: [],
+      username: "",
+      avatar: ""
+    };
+
+    socket.on("welcome to", players => {
+      console.log("Welcome to the room", players);
+      this.setState({
+        players
+      });
+    });
+  }
+
+  
+
   render() {
+
+    const {username} = this.state
     return (
       <div className="createuser">
         This is CreateUser Component!
         <h2>USERNAME:</h2>
-        <input />
-        {/* <input
+        <input
           // value={this.state.playerName}
           type="text"
           placeholder="nickname"
           onChange={this.nameHandler}
         />
-        <button
-          onClick={() => {
-            socket.emit("name", {
-              playerName,
-              players: players.push(playerName)
-            });
-          }}
-        >
-          Send Name
-        </button> */}{" "}
         <h2>SELECT AVATAR:</h2>
-        <button>
+        <button
+          onClick={() =>
+            socket.emit("Join Room", {
+              username:username,
+              gamePin: 12345
+            })
+          }
+        >
           <Link className="link" to="/lobby">
             NEXT
           </Link>
@@ -40,18 +55,4 @@ class CreateUser extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    gamePin: state.gamePin
-  };
-}
-
-const mapDispatchToProps = {
-  setPlayerUsername: setPlayerUsername,
-  setAvatarUrl: setAvatarUrl
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CreateUser);
+export default CreateUser;

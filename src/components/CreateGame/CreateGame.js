@@ -4,14 +4,16 @@ import { Link } from "react-router-dom";
 import io from "socket.io-client";
 import {connect} from "react-redux";
 import {setGamePin, setGameObject} from '../../dux/reducer'
-var socket = io.connect();
+
+
+const socket = io("http://localhost:4052");
 
 
 class CreateGame extends Component {
   constructor() {
     super();
     this.state = {
-      gameNumber: null
+      gameNumber: 0
     };
     socket.on("message", function(data) {
       console.log("Incoming message:", data);
@@ -24,9 +26,13 @@ class CreateGame extends Component {
     this.setState({
       gameNumber: Math.floor(100000 + Math.random() * 900000)
     });
+    const gameNumber = this.state
+    this.props.setGamePin(gameNumber)
   }
   render() {
     const { gameNumber } = this.state;
+    console.log(this.props.gamePin)
+    console.log(gameNumber);
     return (
       <div className="creategame">
         <div>
@@ -38,6 +44,9 @@ class CreateGame extends Component {
         <Link className="link" to="/createuser">
           <button onClick={() => socket.emit("room", { gameNumber })}>
             Next
+          </button>
+          <button onClick={() => socket.emit("Create Game", { gameNumber })}>
+            Create Game
           </button>
         </Link>
       </div>
