@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { connect } from "react-router-dom";
 
 import "./JoinGame.scss";
 import io from "socket.io-client";
@@ -47,7 +46,7 @@ class JoinGame extends Component {
   };
 
   render() {
-    const { message, joined, playerName, players } = this.state;
+    const { playerName, players } = this.state;
     // console.log(playerName);
     console.log(this.state.players);
 

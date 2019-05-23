@@ -1,7 +1,7 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 import Landing from "./components/Landing/Landing";
-import Header from "./components/Header/Header";
+// import Header from "./components/Header/Header";
 import CreateGame from "./components/CreateGame/CreateGame";
 import CreateUser from "./components/CreateUser/CreateUser";
 import JoinGame from "./components/JoinGame/JoinGame";
@@ -23,6 +23,5 @@ export default (
     <Route path="/playerview" component={PlayerView} />
     <Route path="/judgeview" component={JudgeView} />
     <Route path="/scores" component={Scores} />
-    
   </Switch>
 );
