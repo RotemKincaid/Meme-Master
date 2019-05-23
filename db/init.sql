@@ -30,6 +30,7 @@ values('https://s3-us-west-1.amazonaws.com/memes-project/Mocking-Spongebob.jpg')
 ('https://s3-us-west-1.amazonaws.com/memes-project/drake.jpg'),
 ('https://s3-us-west-1.amazonaws.com/memes-project/evilllll.jpg'), 
 -- this was the first ten photos that i entered dont redo these ^
+-- this is a secondary comment to practice git commands
 
 
 ('When your grandma asks you to help her with technology'),
@@ -129,6 +130,7 @@ values('https://s3-us-west-1.amazonaws.com/memes-project/Mocking-Spongebob.jpg')
 ('When you realize Guy Fieri makes millions of dollars a year eating food'),
 
 ('When you flip the pillow over to the cold side');
+
 
 
 
