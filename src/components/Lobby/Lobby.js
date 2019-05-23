@@ -24,7 +24,22 @@ class Lobby extends Component {
     });
   }
 
+  componentDidMount() {}
+
   render() {
+    const { gameObject } = this.props.gameObject;
+    console.log("gameObject from redux", gameObject);
+    const { players } = gameObject;
+    console.log(players);
+
+    const mappedPlayers = players.map(player => {
+      return (
+        <div style={{ display: "flex" }}>
+          <h1>{player.username}</h1>
+          <img height={"50px"} width={"auto"} src={player.avatar} />
+        </div>
+      );
+    });
     return (
       <div className="lobby">
         This is Lobby Component!

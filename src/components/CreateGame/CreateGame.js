@@ -12,40 +12,45 @@ class CreateGame extends Component {
     super();
 
     this.state = {
-      gameNumber: 0
+      gamePin: 0,
+      game: {}
     };
 
-    socket.on("message", function(data) {
-      console.log("Incoming message:", data);
+    socket.on("send new game", newGame => {
+      console.log("game sent from server:", newGame);
+      this.setState({
+        game: newGame
+      });
+      this.props.setGameObject(newGame);
     });
   }
 
   componentDidMount() {
-    const { gameNumber } = this.state;
+    const { gamePin } = this.state;
     this.generateRandom();
     // this.props.setGamePin(gameNumber.gamePin);
   }
   generateRandom() {
     this.setState({
-      gameNumber: Math.floor(100000 + Math.random() * 900000)
+      gamePin: Math.floor(100000 + Math.random() * 900000)
     });
   }
 
   sendGame() {
-    const { gameNumber } = this.state;
+    const { gamePin } = this.state;
 
-    socket.emit("room", { gameNumber });
-    this.props.setGamePin(this.state.gameNumber);
+    socket.emit("create game", { gamePin });
+    this.props.setGamePin(this.state.gamePin);
   }
 
   render() {
-    const { gameNumber } = this.state;
+    const { gamePin } = this.state;
     console.log(this.props.gamePin);
-    console.log(gameNumber);
+    console.log(gamePin);
     return (
       <div className="creategame">
         <div>
-          <h3>This is your game pin </h3> <h3>{gameNumber}</h3>
+          <h3>This is your game pin </h3> <h3>{gamePin}</h3>
                            <h3>Share Game PIN with other players</h3>
                          
         </div>
