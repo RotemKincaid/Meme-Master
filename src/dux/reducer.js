@@ -1,5 +1,5 @@
 const initialState = {
-    gamePin: '',
+    gamePin: "",
     username: '',
     avatar_url: '',
     gameObject: {},
