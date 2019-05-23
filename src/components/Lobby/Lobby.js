@@ -6,6 +6,8 @@ import {connect} from "react-redux";
 import {setGameObject} from '../../dux/reducer'
 
 class Lobby extends Component {
+
+  
   render() {
     return (
     <div className='lobby'>This is Lobby Component!
