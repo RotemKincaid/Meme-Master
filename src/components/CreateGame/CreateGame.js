@@ -21,14 +21,21 @@ class CreateGame extends Component {
   }
 
   componentDidMount() {
+    const { gameNumber } = this.state;
     this.generateRandom();
+    // this.props.setGamePin(gameNumber.gamePin);
   }
   generateRandom() {
     this.setState({
       gameNumber: Math.floor(100000 + Math.random() * 900000)
     });
-    const gameNumber = this.state;
-    this.props.setGamePin(gameNumber);
+  }
+
+  sendGame() {
+    const { gameNumber } = this.state;
+
+    socket.emit("room", { gameNumber });
+    this.props.setGamePin(this.state.gameNumber);
   }
 
   render() {
@@ -44,9 +51,7 @@ class CreateGame extends Component {
         </div>
 
         <Link className="link" to="/createuser">
-          <button onClick={() => socket.emit("room", { gameNumber })}>
-            Next
-          </button>
+          <button onClick={() => this.sendGame()}>Next</button>
         </Link>
       </div>
     );

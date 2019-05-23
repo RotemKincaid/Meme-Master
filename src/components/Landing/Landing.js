@@ -10,7 +10,7 @@ class Landing extends Component {
         This is Landing Component!
         <h1>MEME MASTER</h1>
         <button><Link className='link' to='/creategame'>CREATE GAME</Link></button><br/>
-        <button><Link className='link' to='/joingame'>JOIN GAME</Link></button>
+        <button><Link className='link' to='/createuser'>JOIN GAME</Link></button>
     
         
 
