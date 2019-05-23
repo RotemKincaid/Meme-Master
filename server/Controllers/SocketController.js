@@ -52,7 +52,7 @@ module.exports = {
         {
             username: "Francisca",
             hand: [],
-            avatar:"",
+            avatar:"https://s3-us-west-1.amazonaws.com/memes-project/Mocking-Spongebob.jpg",
             judge: false,
             score: 0,
             chosen_card: {}

@@ -29,23 +29,30 @@ class Lobby extends Component {
     const {players} = gameObject
     console.log(players)
 
-    const mappedPlayers = players.map(player => {
-      return <div>
-        <h1>{player.username}</h1>
-        <img src={player.avatar_url}/>
-        </div>
-    })
+    
+      const mappedPlayers = players.map(player => {
+        return <div style={{display: 'flex'}}>
+          <h1>{player.username}</h1>
+          <img height={'50px'} width={'auto'} src={player.avatar}/>
+          </div>
+      })
+      
+
 
     
 
     return (
     <div className='lobby'>This is Lobby Component!
       <h1>PLAYERS</h1>
-      <div>
+      
+        <div>
         'this will display the players list as they join'
-        {mappedPlayers}
+          {mappedPlayers}
 
-      </div>
+        </div>
+      
+        
+      
       <button><Link className='link' to='/playerview'>CLICK WHEN YOU ARE READY! -playerview-</Link></button>
       <button><Link className='link' to='/judgeview'>CLICK WHEN YOU ARE READY! -judgeview-</Link></button>
     </div>
