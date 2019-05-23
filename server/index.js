@@ -63,7 +63,7 @@ io.on("connection", function(socket) {
       socket.emit("welcome", data.playerName);
     });
   });
-  socket.on("Create Game", data => SocketController.gamesObjectCreator(data, socket, io, app));
+  socket.on("Create Game", data => SocketController.gamesObjectCreator(data, socket, io));
   socket.on("Join Room", data => SocketController.joinRoom(data, socket, io));
 
 });

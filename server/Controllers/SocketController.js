@@ -23,36 +23,24 @@ module.exports = {
     var newCards = []
     const db = req.app.get('db')
     db.get_cards().then(cardsdb => {
-      cardsFromDb.push(cardsdb[0])
-
-      // console.log(cardsdb)
-      // console.log(cardsdb)
-      // newCards.push(cardsdb)
-      // res.status(200).send(cardsdb)
-      
+      cardsFromDb.push(cardsdb)
     })
-    // console.log('cardsFromDb', cardsFromDb)
-
   },
 
   getMedia: (req, res) => {
     const db = req.app.get('db')
     db.get_media().then(mediadb => {
-      mediaFromDb.push(mediadb[0])
+      mediaFromDb.push(mediadb)
     })
-    
   },
 
   gamesObjectCreator: (data,socket,io, app) => {
     console.log(data, 'data coming to gamesObjectCreator')
-
-   
-
     console.log('cardsFromDb', cardsFromDb)
-    console.log('cardsFromDb', mediaFromDb)
+    console.log('mediaFromDb', mediaFromDb)
 
-    socket.join(data.gamePin);
-    io.to(data.gamePin).emit("welcome to");
+    socket.join(data.gameNumber);
+    io.to(data.gameNumber).emit("welcome to");
     
     
     let newGame = {
@@ -62,7 +50,7 @@ module.exports = {
       current_image: "",
       players : [
         {
-            username: "",
+            username: "Francisca",
             hand: [],
             avatar:"",
             judge: false,
@@ -73,7 +61,10 @@ module.exports = {
       active: true
     }
 
-    // games[gamePin] = newGame
+    games[data.gameNumber] = newGame
+    console.log(games)
+
+    io.to(data.gameNumber).emit("Send New Game", newGame);
   }
 
 
