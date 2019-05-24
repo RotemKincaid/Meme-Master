@@ -1,15 +1,7 @@
 import React, { Component } from "react";
-import {
-  AppRegistry,
-  Image,
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  Dimensions,
-  Animated
-} from "react-native";
-import Moment from "./Moment";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
 import "./CreateUser.scss";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
@@ -18,13 +10,12 @@ import { setGamePin, setGameObject } from "../../dux/reducer";
 import io from "socket.io-client";
 const socket = io.connect("http://localhost:4052");
 
-const { width, height } = Dimensions.get("window");
-const Images = [
-  { image: require("./media/bigmouth.jpeg"), title: "Bigmouth" },
-  { image: require("./media/chinaman.jpeg"), title: "Chinaman" },
-  { image: require("./media/copsmoking.png"), title: "Commander" },
-  { image: require("./media/flattop.jpeg"), title: "FlatTop" }
-];
+// const Images = [
+//   { image: require("./media/bigmouth.jpeg"), title: "Bigmouth" },
+//   { image: require("./media/chinaman.jpeg"), title: "Chinaman" },
+//   { image: require("./media/copsmoking.png"), title: "Commander" },
+//   { image: require("./media/flattop.jpeg"), title: "FlatTop" }
+// ];
 class CreateUser extends Component {
   constructor(props) {
     super(props);
@@ -34,8 +25,7 @@ class CreateUser extends Component {
       username: "",
       avatar: "",
       gamePin: null,
-      game: {},
-      animatedScroll: new Animated.Value(0)
+      game: {}
     };
 
     socket.on("send game after player joined", game => {
@@ -56,14 +46,6 @@ class CreateUser extends Component {
       });
     });
   }
-
-  // _renderItem({ item, index }) {
-  //   return (
-  //     <View style={styles.slide}>
-  //       <Text>Hello </Text>
-  //     </View>
-  //   );
-  // }
 
   nameHandler = e => {
     this.setState({
@@ -86,6 +68,24 @@ class CreateUser extends Component {
   };
 
   render() {
+    var settings = {
+      className: "center",
+      centerMode: true,
+      dots: true,
+      centerPadding: "60px",
+      
+      infinite: true,
+      speed: 500,
+      slidesToShow: 5,
+      swipeToSlide: true,
+      afterChange: function (index){
+        console.log(
+          `Slider Changed to: ${index + 1}, background: #222; color: #bada55`
+        );
+      }
+      // slidesToScroll: 5
+    };
+
     console.log(this.props.gameObject);
     const { gamePin } = this.props.gamePin;
     const { username, players } = this.state;
@@ -107,52 +107,28 @@ class CreateUser extends Component {
           />
         )}
         <h2>Enter Username</h2>
-        <input
-          // value={this.state.username}
-          type="text"
-          placeholder="nickname"
-          onChange={this.nameHandler}
-        />
-        {/* <button
-          onClick={() => {
-            socket.emit("name", {
-              username: username,
-              players: players.push(username),
-              gamePin: this.state.gamePin
-            });
-          }}
-        >
-          Send Name
-        </button> */}
+        <input type="text" placeholder="nickname" onChange={this.nameHandler} />
         <h2>Select Avatar:</h2>
-        <View style={StyleSheet.container}>
-          <ScrollView
-            pagingEnabled
-            horizontal
-            scrollEventThrottle={16}
-            onScroll={Animated.event([
-              {
-                nativeEvent: {
-                  contentOffset: {
-                    x: this.state.animatedScroll
-                  }
-                }
-              }
-            ])}
-          >
-            {Images.map((image, i) => {
-              return <Moment key={i} {...image} />;
-            })}
-          </ScrollView>
-        </View>
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
+        <Slider {...settings}>
+          <div>
+            <img src="https://s3-us-west-1.amazonaws.com/memes-project/avatars/commander.jpeg" />
+          </div>
+          <div>
+            <img src="https://s3-us-west-1.amazonaws.com/memes-project/avatars/bigmouth.jpeg" />
+          </div>
+          <div>
+            <img src="https://s3-us-west-1.amazonaws.com/memes-project/avatars/chinaman.jpeg" />
+          </div>
+          <div>
+            <img src="https://s3-us-west-1.amazonaws.com/memes-project/avatars/copsmoking.png" />
+          </div>
+          <div>
+            <img src="https://s3-us-west-1.amazonaws.com/memes-project/avatars/flattop.jpeg" />
+          </div>
+          <div>
+            <img src="" />
+          </div>
+        </Slider>
         <br />
         <br />
         <button
@@ -168,14 +144,7 @@ class CreateUser extends Component {
         >
           Join Room- click here first!
         </button>
-        <button
-        // onClick={() =>
-        //   socket.emit("Join Room", {
-        //     username: username,
-        //     gamePin: 12345
-        //   })
-        // }
-        >
+        <button>
           <Link className="link" to="/lobby">
             NEXT
           </Link>
