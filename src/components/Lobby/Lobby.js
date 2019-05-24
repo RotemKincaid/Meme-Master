@@ -32,6 +32,15 @@ class Lobby extends Component {
     })
   }
 
+  startGame =() =>{
+    console.log('startGame hit!')
+    const { gamePin } = this.props.gamePin;
+    console.log('gamepin at start game', gamePin)
+
+    socket.emit("prepare game", { gamePin });
+    
+  }
+
   render() {
     const { gameObject } = this.props.gameObject;
     console.log("gameObject from redux", this.props.gameObject);
@@ -58,6 +67,7 @@ class Lobby extends Component {
             CLICK WHEN YOU ARE READY! -playerview-
           </Link>
         </button>
+        <button onClick={this.startGame}>START GAME</button>
         <button>
           <Link className="link" to="/judgeview">
             CLICK WHEN YOU ARE READY! -judgeview-

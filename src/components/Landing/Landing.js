@@ -6,7 +6,7 @@ import axios from 'axios'
 class Landing extends Component {
   
   componentDidMount(){
-    axios.get('/api/cards').then(cards => {
+    axios.get('/api/cards1').then(cards => {
       console.log('cards from db are on server')
     })
     axios.get('/api/media').then(media => {

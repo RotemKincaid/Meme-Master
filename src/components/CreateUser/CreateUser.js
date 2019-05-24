@@ -2,54 +2,70 @@ import React, { Component } from "react";
 import "./CreateUser.scss";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { setGamePin, setGameObject } from "../../dux/reducer";
+import { setGamePin, setGameObject, setSocket } from "../../dux/reducer";
 
 import io from "socket.io-client";
-const socket = io.connect("http://localhost:4052");
+// const {socket} = this.props.socket
+// var socket = ""
+
 
 class CreateUser extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       players: [],
       username: "",
       avatar: "",
       gamePin: null,
-      game: {}
+      game: {},
+      socket: ''
     };
-
-    socket.on("send game after player joined", game => {
-      this.setState({
-        game: game
-      });
-
-      this.props.setGameObject(game);
-    });
-
-    socket.on("welcome to", data => {
-      console.log("Welcome, ", data);
-      const { gamePin } = this.props.gamePin;
-      this.setState({
-        username: data,
-        players: data,
-        gamePin
-      });
-    });
 
     
 
-    socket.on("send updated game", game => {
-      console.log("game sent from server:", game);
-      this.setState({
-        game: game
-      });
-      this.props.setGameObject(game);
-    });
+    // const {socket} = this.props.socket
+    // socket = this.props.socket
+    
+    console.log('socket at create user constructor', this.state.socket)
+
+    // socket.on("send game after player joined", game => {
+    //   this.setState({
+    //     game: game
+    //   });
+
+    //   this.props.setGameObject(game);
+    // });
+
+    // socket.on("welcome to", data => {
+    //   console.log("Welcome, ", data);
+    //   const { gamePin } = this.props.gamePin;
+    //   this.setState({
+    //     username: data,
+    //     players: data,
+    //     gamePin
+    //   });
+    // });
+
+    
+  
+    
 
 
 
 
+  }
+
+  componentDidMount (){
+    // console.log('this.props. at component did moutn set user',this.props)
+    const {gameObject, gamePin} = this.props
+    console.log(gameObject.players)
+    this.setState({
+      // game: gameObject,
+      // gamePin: gamePin,
+      socket: this.props.socket.socket
+      
+    })
   }
 
   nameHandler = e => {
@@ -72,16 +88,36 @@ class CreateUser extends Component {
     }
   };
 
+  joinRoom = () => {
+    console.log('HIT JOIN ROOM')
+    const {username, socket} = this.state 
+    const {gamePin} = this.props.gamePin
+    socket.emit("Join Room", {
+              username: username,
+              // players: players.push(username),
+              gamePin: gamePin
+            })
+            socket.on("send updated game", game => {
+              console.log("game sent from server:", game);
+              this.setState({
+                game: game
+              });
+              this.props.setGameObject(game);
+            });
+  }
+
   render() {
-    console.log(this.props.gameObject)
+    console.log('PROPS FROM REDUX AT CREATE USER', this.props)
+    console.log('state at create user', this.state)
 
-
+    // const {socket} = this.props.socket
     console.log(this.props.gamePin);
     const { gamePin } = this.props.gamePin;
-    const { username, players } = this.state;
-    const mappedNames = players.map(name => {
-      return <div key={name.id}>{name} Joined</div>;
-    });
+    const { username, players , socket} = this.state;
+    // const mappedNames = players.map(name => {
+    //   return <div key={name.id}>{name} Joined</div>;
+    // });
+    
 
     return (
       <div className="createuser">
@@ -121,19 +157,11 @@ class CreateUser extends Component {
           <option value="avatar url three">3</option>
         </select>
         <br />
-        <button
-          onClick={() =>
-            socket.emit("Join Room", {
-              username: username,
-              players: players.push(username),
-              gamePin: this.state.gamePin
-                ? this.state.gamePin
-                : this.props.gamePin.gamePin
-            })
-          }
-        >
+        <button onClick={this.joinRoom}>JOIN GAME</button>
+        {/* <button
+          onClick={() => this.joinRoom}>
           Join Room- click here first!
-        </button>
+        </button> */}
         <button
         // onClick={() =>
         //   socket.emit("Join Room", {
@@ -147,7 +175,7 @@ class CreateUser extends Component {
           </Link>
         </button>
         <h2>
-          Joined Room:<div>{mappedNames}</div>
+          {/* Joined Room:<div>{mappedNames}</div> */}
         </h2>
       </div>
     );
@@ -157,7 +185,8 @@ class CreateUser extends Component {
 function mapStateToProps(state) {
   return {
     gamePin: state.gamePin,
-    gameObject: state.gameObject
+    gameObject: state.gameObject,
+    socket: state.socket
   };
 }
 
