@@ -8,18 +8,28 @@ import io from "socket.io-client";
 const socket = io("http://localhost:4052");
 
 class Lobby extends Component {
-  constructor() {
-    super();
+  constructor(){
+    super()
 
-    this.state = {
+    this.state ={
       game: {}
-    };
-  }
+    }
 
-  componentDidMount() {
+    socket.on("get prepared game", game => {
+      console.log("game sent from server after being prepared", game);
+      console.log('prepared game', game)
+      
+      this.setState({
+        game: game
+      });
+
+      this.props.setGameObject(game);
+    });
+  }
+  componentDidMount(){
     this.setState({
       game: this.props.gameObject.gameObject
-    });
+    })
   }
 
   render() {
