@@ -16,20 +16,32 @@ class Lobby extends Component {
       players: []
     };
 
-    socket.on("message", players => {
+    socket.on("welcome to", players => {
       console.log(players, "are in the room!");
       this.setState({
         players
       });
     });
+
+    socket.on("send new game", newGame => {
+      console.log(newGame);
+      this.setState({
+        game: newGame
+      });
+    });
   }
 
-  componentDidMount() {}
+  // componentDidMount() {
+  //   this.setState({
+  //     game: this.props.gameObject.gameObject
+  //   });
+  // }
 
   render() {
-    const { gameObject } = this.props.gameObject;
-    console.log("gameObject from redux", gameObject);
-    const { players } = gameObject;
+    // const { gameObject } = this.props.gameObject;
+    console.log("gameObject from redux", this.props.gameObject);
+
+    const { players } = this.state;
     console.log(players);
 
     const mappedPlayers = players.map(player => {

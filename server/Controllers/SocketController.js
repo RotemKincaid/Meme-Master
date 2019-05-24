@@ -10,6 +10,22 @@ module.exports = {
     players.push(data.username);
     console.log(players, data.gamePin, "players");
     io.in(data.gamePin).emit("welcome to", players);
+
+    let newPlayer = {
+      username: data.username,
+      hand: [],
+      avatar: "",
+      judge: false,
+      score: 0,
+      chosen_card: {}
+    };
+    let theGame = data.gamePin;
+    games[theGame].players.push(newPlayer);
+
+    io.in(data.gamePin).emit(
+      "send game after player joined",
+      games[data.gamePin]
+    );
   },
 
   getCards: (req, res) => {
@@ -36,23 +52,15 @@ module.exports = {
       turn: 1,
       images: mediaFromDb,
       current_image: "",
-      players: [
-        {
-          username: "",
-          hand: [],
-          avatar: "",
-          judge: false,
-          score: 0,
-          chosen_card: {}
-        }
-      ],
+      players: [],
       active: true
     };
 
-    games[data.gamePin] = newGame;
-    console.log(data," line 53 SC");
+    let theGame = data.gamePin;
+    games[theGame] = newGame;
+    console.log(data, "am I getting the data from the frontend?");
 
-    io.in(data.gamePin).emit("send new game", newGame);
-    console.log();
+    io.to(theGame).emit("send new game", newGame);
+    console.log(newGame);
   }
 };

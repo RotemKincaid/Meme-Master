@@ -1,29 +1,50 @@
 import React, { Component } from "react";
+import {
+  AppRegistry,
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  Dimensions,
+  Animated
+} from "react-native";
+import Moment from "./Moment";
 import "./CreateUser.scss";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { setGamePin } from "../../dux/reducer";
+import { setGamePin, setGameObject } from "../../dux/reducer";
 
 import io from "socket.io-client";
-const socket = io("http://localhost:4052");
+const socket = io.connect("http://localhost:4052");
 
+const { width, height } = Dimensions.get("window");
+const Images = [
+  { image: require("./media/bigmouth.jpeg"), title: "Bigmouth" },
+  { image: require("./media/chinaman.jpeg"), title: "Chinaman" },
+  { image: require("./media/copsmoking.png"), title: "Commander" },
+  { image: require("./media/flattop.jpeg"), title: "FlatTop" }
+];
 class CreateUser extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       players: [],
       username: "",
       avatar: "",
-      gamePin: null
+      gamePin: null,
+      game: {},
+      animatedScroll: new Animated.Value(0)
     };
 
-    // socket.on("welcome to", players => {
-    //   console.log("Welcome to the room", players);
-    //   this.setState({
-    //     players
-    //   });
-    // });
+    socket.on("send game after player joined", game => {
+      this.setState({
+        game: game
+      });
+
+      this.props.setGameObject(game);
+    });
 
     socket.on("welcome to", data => {
       console.log("Welcome, ", data);
@@ -35,6 +56,14 @@ class CreateUser extends Component {
       });
     });
   }
+
+  // _renderItem({ item, index }) {
+  //   return (
+  //     <View style={styles.slide}>
+  //       <Text>Hello </Text>
+  //     </View>
+  //   );
+  // }
 
   nameHandler = e => {
     this.setState({
@@ -57,7 +86,7 @@ class CreateUser extends Component {
   };
 
   render() {
-    console.log(this.props.gamePin);
+    console.log(this.props.gameObject);
     const { gamePin } = this.props.gamePin;
     const { username, players } = this.state;
     const mappedNames = players.map(name => {
@@ -96,11 +125,35 @@ class CreateUser extends Component {
           Send Name
         </button> */}
         <h2>Select Avatar:</h2>
-        <select>
-          <option />
-          <option value="avatar url two">2</option>
-          <option value="avatar url three">3</option>
-        </select>
+        <View style={StyleSheet.container}>
+          <ScrollView
+            pagingEnabled
+            horizontal
+            scrollEventThrottle={16}
+            onScroll={Animated.event([
+              {
+                nativeEvent: {
+                  contentOffset: {
+                    x: this.state.animatedScroll
+                  }
+                }
+              }
+            ])}
+          >
+            {Images.map((image, i) => {
+              return <Moment key={i} {...image} />;
+            })}
+          </ScrollView>
+        </View>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
         <br />
         <button
           onClick={() =>
@@ -137,14 +190,14 @@ class CreateUser extends Component {
 
 function mapStateToProps(state) {
   return {
-    gamePin: state.gamePin
-    // gameObject: state.gameObject
+    gamePin: state.gamePin,
+    gameObject: state.gameObject
   };
 }
 
 const mapDispatchToProps = {
-  setGamePin: setGamePin
-  // setGameObject: setGameObject
+  setGamePin: setGamePin,
+  setGameObject: setGameObject
 };
 
 export default connect(
