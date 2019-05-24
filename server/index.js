@@ -25,8 +25,10 @@ io.on("connection", function(socket) {
     SocketController.gameObjectCreator(data, socket, io)
   );
 });
-
-app.get("/api/cards", SocketController.getCards);
+// getting cards into the game object
+app.get("/api/cards1", SocketController.getCardsToObject);
+// get the cards to frontend
+app.get("/api/cards2", SocketController.getCardsToFront);
 app.get("/api/media", SocketController.getMedia);
 
 server.listen(SERVER_PORT, () =>

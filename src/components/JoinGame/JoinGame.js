@@ -33,12 +33,12 @@ class JoinGame extends Component {
       });
     });
 
-    // socket.on("welcome to", players => {
-    //   console.log("Welcome to the room", players);
-    //   this.setState({
-    //     players
-    //   });
-    // });
+    socket.on("welcome to", players => {
+      console.log("Welcome to the room", players);
+      this.setState({
+        players
+      });
+    });
   }
 
   nameHandler = e => {

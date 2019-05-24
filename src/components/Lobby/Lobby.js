@@ -12,42 +12,27 @@ class Lobby extends Component {
     super();
 
     this.state = {
-      game: {},
-      players: []
+      game: {}
     };
+  }
 
-    socket.on("welcome to", players => {
-      console.log(players, "are in the room!");
-      this.setState({
-        players
-      });
-    });
-
-    socket.on("send new game", newGame => {
-      console.log(newGame);
-      this.setState({
-        game: newGame
-      });
+  componentDidMount() {
+    this.setState({
+      game: this.props.gameObject.gameObject
     });
   }
 
-  // componentDidMount() {
-  //   this.setState({
-  //     game: this.props.gameObject.gameObject
-  //   });
-  // }
-
   render() {
-    // const { gameObject } = this.props.gameObject;
+    const { gameObject } = this.props.gameObject;
     console.log("gameObject from redux", this.props.gameObject);
 
-    const { players } = this.state;
+    const { players } = gameObject;
     console.log(players);
 
     const mappedPlayers = players.map(player => {
       return (
         <div style={{ display: "flex" }}>
-          <h1>{player.username}</h1>
+          <h6>{player.username}</h6>
           <img height={"50px"} width={"auto"} src={player.avatar} />
         </div>
       );
@@ -57,6 +42,7 @@ class Lobby extends Component {
         This is Lobby Component!
         <h1>PLAYERS</h1>
         <div>'this will display the players list as they join'</div>
+        <h2>{mappedPlayers}</h2>
         <button>
           <Link className="link" to="/playerview">
             CLICK WHEN YOU ARE READY! -playerview-
