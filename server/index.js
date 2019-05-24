@@ -16,21 +16,26 @@ massive(CONNECTION_STRING)
 
 io.on("connection", function(socket) {
   socket.emit("news", " hello world");
+  
   socket.on("name", function(data) {
     console.log(data, "AHHHH MONSTERS");
     socket.emit("welcome", data.playerName);
   });
-  socket.on("Join Room", data => {
-    console.log(data);
-    SocketController.joinRoom(data, socket, io);
-  });
+
+  socket.on("Join Room", data => SocketController.joinRoom(data, socket, io));
 
   socket.on("create game", data =>
     SocketController.gameObjectCreator(data, socket, io)
   );
-});
 
-app.get("/api/cards", SocketController.getCards);
+  socket.on("prepare game", data =>
+    SocketController.prepareGame(data, socket, io)
+  );
+});
+// getting cards into the game object
+app.get("/api/cards1", SocketController.getCardsToObject);
+// get the cards to frontend
+app.get("/api/cards2", SocketController.getCardsToFront);
 app.get("/api/media", SocketController.getMedia);
 
 server.listen(SERVER_PORT, () =>

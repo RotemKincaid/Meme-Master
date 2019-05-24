@@ -45,6 +45,20 @@ class CreateUser extends Component {
         gamePin
       });
     });
+
+    
+
+    socket.on("send updated game", game => {
+      console.log("game sent from server:", game);
+      this.setState({
+        game: game
+      });
+      this.props.setGameObject(game);
+    });
+
+
+
+
   }
 
   nameHandler = e => {
@@ -87,6 +101,10 @@ class CreateUser extends Component {
     };
 
     console.log(this.props.gameObject);
+    console.log(this.props.gameObject)
+
+
+    console.log(this.props.gamePin);
     const { gamePin } = this.props.gamePin;
     const { username, players } = this.state;
     const mappedNames = players.map(name => {

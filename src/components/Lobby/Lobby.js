@@ -8,19 +8,27 @@ import io from "socket.io-client";
 const socket = io("http://localhost:4052");
 
 class Lobby extends Component {
-  constructor() {
-    super();
+  constructor(){
+    super()
 
-    this.state = {
-      game: {},
-      players: []
-    };
+    this.state ={
+      game: {}
+    }
 
+<<<<<<< HEAD
     socket.on("welcome to", players => {
       console.log(players, "are in the room!");
+=======
+    socket.on("get prepared game", game => {
+      console.log("game sent from server after being prepared", game);
+      console.log('prepared game', game)
+      
+>>>>>>> 9f901f105d3c700be05d037dc30b41907098c4b5
       this.setState({
-        players
+        game: game
       });
+
+      this.props.setGameObject(game);
     });
 
     socket.on("send new game", newGame => {
@@ -30,6 +38,7 @@ class Lobby extends Component {
       });
     });
   }
+<<<<<<< HEAD
 
   // componentDidMount() {
   //   this.setState({
@@ -42,12 +51,25 @@ class Lobby extends Component {
     console.log("gameObject from redux", this.props.gameObject);
 
     const { players } = this.state;
+=======
+  componentDidMount(){
+    this.setState({
+      game: this.props.gameObject.gameObject
+    })
+  }
+
+  render() {
+    const { gameObject } = this.props.gameObject;
+    console.log("gameObject from redux", this.props.gameObject);
+
+    const { players } = gameObject;
+>>>>>>> 9f901f105d3c700be05d037dc30b41907098c4b5
     console.log(players);
 
     const mappedPlayers = players.map(player => {
       return (
         <div style={{ display: "flex" }}>
-          <h1>{player.username}</h1>
+          <h6>{player.username}</h6>
           <img height={"50px"} width={"auto"} src={player.avatar} />
         </div>
       );
@@ -57,6 +79,7 @@ class Lobby extends Component {
         This is Lobby Component!
         <h1>PLAYERS</h1>
         <div>'this will display the players list as they join'</div>
+        <h2>{mappedPlayers}</h2>
         <button>
           <Link className="link" to="/playerview">
             CLICK WHEN YOU ARE READY! -playerview-

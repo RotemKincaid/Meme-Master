@@ -1,8 +1,19 @@
 import React, { Component } from "react";
 import './Landing.scss'
 import {Link} from 'react-router-dom'
+import axios from 'axios'
 
 class Landing extends Component {
+  
+  componentDidMount(){
+    axios.get('/api/cards').then(cards => {
+      console.log('cards from db are on server')
+    })
+    axios.get('/api/media').then(media => {
+      console.log('media from db are on server')
+    })
+  }
+
   render() {
     
     return (

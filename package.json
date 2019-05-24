@@ -10,6 +10,7 @@
     "express": "^4.17.0",
     "express-session": "^1.16.1",
     "express-socket.io-session": "^1.3.5",
+    "lodash": "^4.17.11",
     "massive": "^5.10.0",
     "node-sass": "^4.12.0",
     "react": "^16.8.6",
