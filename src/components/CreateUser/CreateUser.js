@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { setGamePin, setGameObject } from "../../dux/reducer";
 
 import io from "socket.io-client";
-const socket = io("http://localhost:4052");
+const socket = io.connect("http://localhost:4052");
 
 class CreateUser extends Component {
   constructor() {
@@ -19,12 +19,13 @@ class CreateUser extends Component {
       game: {}
     };
 
-    // socket.on("welcome to", players => {
-    //   console.log("Welcome to the room", players);
-    //   this.setState({
-    //     players
-    //   });
-    // });
+    socket.on("send game after player joined", game => {
+      this.setState({
+        game: game
+      });
+
+      this.props.setGameObject(game);
+    });
 
     socket.on("welcome to", data => {
       console.log("Welcome, ", data);

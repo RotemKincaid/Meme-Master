@@ -14,11 +14,30 @@ class Lobby extends Component {
     this.state ={
       game: {}
     }
+
+    socket.on("get prepared game", game => {
+      console.log("game sent from server after being prepared", game);
+      console.log('prepared game', game)
+      
+      this.setState({
+        game: game
+      });
+
+      this.props.setGameObject(game);
+    });
   }
   componentDidMount(){
     this.setState({
       game: this.props.gameObject.gameObject
     })
+  }
+
+  prepareGame = () => {
+    const {gamePin} = this.props.gamePin
+    console.log('gamepin at prepare game', gamePin)
+    socket.emit('prepare game', {gamePin})
+
+    
   }
 
   
@@ -55,7 +74,7 @@ class Lobby extends Component {
       
         
       
-      <button><Link className='link' to='/playerview'>CLICK WHEN YOU ARE READY! -playerview-</Link></button>
+      <button onClick={this.prepareGame}>CLICK WHEN YOU ARE READY! -playerview-</button>
       <button><Link className='link' to='/judgeview'>CLICK WHEN YOU ARE READY! -judgeview-</Link></button>
     </div>
     );
