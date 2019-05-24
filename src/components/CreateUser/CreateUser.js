@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./CreateUser.scss";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { setGamePin } from "../../dux/reducer";
+import { setGamePin, setGameObject } from "../../dux/reducer";
 
 import io from "socket.io-client";
 const socket = io("http://localhost:4052");
@@ -15,7 +15,8 @@ class CreateUser extends Component {
       players: [],
       username: "",
       avatar: "",
-      gamePin: null
+      gamePin: null,
+      game: {}
     };
 
     // socket.on("welcome to", players => {
@@ -34,6 +35,20 @@ class CreateUser extends Component {
         gamePin
       });
     });
+
+    
+
+    socket.on("send updated game", game => {
+      console.log("game sent from server:", game);
+      this.setState({
+        game: game
+      });
+      this.props.setGameObject(game);
+    });
+
+
+
+
   }
 
   nameHandler = e => {
@@ -57,6 +72,9 @@ class CreateUser extends Component {
   };
 
   render() {
+    console.log(this.props.gameObject)
+
+
     console.log(this.props.gamePin);
     const { gamePin } = this.props.gamePin;
     const { username, players } = this.state;
@@ -137,14 +155,14 @@ class CreateUser extends Component {
 
 function mapStateToProps(state) {
   return {
-    gamePin: state.gamePin
-    // gameObject: state.gameObject
+    gamePin: state.gamePin,
+    gameObject: state.gameObject
   };
 }
 
 const mapDispatchToProps = {
-  setGamePin: setGamePin
-  // setGameObject: setGameObject
+  setGamePin: setGamePin,
+  setGameObject: setGameObject
 };
 
 export default connect(

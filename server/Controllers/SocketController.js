@@ -3,72 +3,63 @@ const games = {};
 const cardsFromDb = [];
 const mediaFromDb = [];
 
-const cardsFromDb = []
-const mediaFromDb = []
-
-
-//getting cards from db
-
-
-    
-
 module.exports = {
   joinRoom: (data, socket, io) => {
+    console.log('games before user joins' , games)
+
     console.log(data, "---> data");
     socket.join(data.gamePin);
     players.push(data.username);
     console.log(players, data.gamePin, "players");
-    io.in(data.gamePin).emit("welcome to", players);
+    io.in(data.gamePin).emit("welcome to the game", data.username);
+
+    let newPlayer = {
+          username: data.username,
+          hand: [],
+          avatar: '',
+          judge: false,
+          score: 0,
+          chosen_card: {}
+    }
+
+    // newGame.players.push(newPlayer)
+
+    let objectKey = data.gamePin
+    games[objectKey].players.push(newPlayer)
+    console.log('game after player joins', games)
+
+    io.in(data.gamePin).emit("send updated game", games[objectKey]);
+
+
+
   },
 
   getCards: (req, res) => {
-    var newCards = []
-    const db = req.app.get('db')
+    var newCards = [];
+    const db = req.app.get("db");
     db.get_cards().then(cardsdb => {
-      cardsFromDb.push(cardsdb)
-    })
+      cardsFromDb.push(cardsdb);
+    });
   },
-
   getMedia: (req, res) => {
-    const db = req.app.get('db')
+    const db = req.app.get("db");
     db.get_media().then(mediadb => {
-      mediaFromDb.push(mediadb)
-    })
+      mediaFromDb.push(mediadb);
+    });
   },
 
-  gamesObjectCreator: (data,socket,io, app) => {
-    console.log(data, 'data coming to gamesObjectCreator')
-    console.log('cardsFromDb', cardsFromDb)
-    console.log('mediaFromDb', mediaFromDb)
+  gameObjectCreator: (data, socket, io) => {
+    socket.join(data.gamePin);
+    io.to(data.gamePin).emit("welcome to");
 
-    socket.join(data.gameNumber);
-    io.to(data.gameNumber).emit("welcome to");
-    
-    
     let newGame = {
       cards: cardsFromDb,
       turn: 1,
       images: mediaFromDb,
       current_image: "",
-      players: [
-        {
-            username: "Francisca",
-            hand: [],
-            avatar:"https://s3-us-west-1.amazonaws.com/memes-project/Mocking-Spongebob.jpg",
-            judge: false,
-            score: 0,
-            chosen_card: {}
-        }
-      ],
+      players: [],
       active: true
-    }
-
-    games[data.gameNumber] = newGame
-    console.log(games)
-
-    io.to(data.gameNumber).emit("Send New Game", newGame);
-  }
-
+    };
 
     games[data.gamePin] = newGame;
     console.log(data);

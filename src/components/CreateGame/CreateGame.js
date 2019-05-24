@@ -2,35 +2,33 @@ import React, { Component } from "react";
 import "./CreateGame.scss";
 import { Link } from "react-router-dom";
 import io from "socket.io-client";
-import {connect} from "react-redux";
-import {setGamePin, setGameObject} from '../../dux/reducer'
+import { connect } from "react-redux";
+import { setGamePin, setGameObject } from "../../dux/reducer";
 
-
-const socket = io("http://localhost:4052");
-
+var socket = io.connect();
 
 class CreateGame extends Component {
   constructor() {
     super();
-    this.state = {
-      gameNumber: 0,
-      game: []
-    };
-    socket.on("message", function(data) {
-      console.log("Incoming message:", data);
-    });
 
-    socket.on("Send New Game", game => {
-      console.log("game sent from the back", game);
+    this.state = {
+      gamePin: 0,
+      game: {}
+    };
+
+    socket.on("send new game", newGame => {
+      console.log("game sent from server:", newGame);
       this.setState({
-        game: game
+        game: newGame
       });
-      this.props.setGameObject(game)
+      this.props.setGameObject(newGame);
     });
   }
+
   componentDidMount() {
     const { gamePin } = this.state;
     this.generateRandom();
+    // this.props.setGamePin(gameNumber.gamePin);
   }
   generateRandom() {
     this.setState({
@@ -44,45 +42,39 @@ class CreateGame extends Component {
     socket.emit("create game", { gamePin });
     this.props.setGamePin(this.state.gamePin);
   }
+
   render() {
-    console.log(this.props.gameObject)
-    const { gameNumber } = this.state;
+    const { gamePin } = this.state;
     console.log(this.props.gamePin);
     console.log(gamePin);
     return (
       <div className="creategame">
         <div>
-        <h3>This is your game pin </h3>
-        <h3>{gameNumber}</h3>
-        <h3>Share Game PIN with other players</h3>
-                         
+          <h3>This is your game pin </h3> <h3>{gamePin}</h3>
+                           <h3>Share Game PIN with other players</h3>
+                         
         </div>
+
         <Link className="link" to="/createuser">
-          <button onClick={() => socket.emit("room", { gameNumber })}>
-            Next
-          </button>
-
-        {/* created this to test if game was getting media and cards */}
-          <button onClick={() => socket.emit("Create Game", { gameNumber })}>
-            Create Game
-          </button>
-
-
+          <button onClick={() => this.sendGame()}>Next</button>
         </Link>
       </div>
     );
   }
 }
+
 function mapStateToProps(state) {
   return {
     gamePin: state.gamePin,
     gameObject: state.gameObject
   };
 }
+
 const mapDispatchToProps = {
   setGamePin: setGamePin,
   setGameObject: setGameObject
 };
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
