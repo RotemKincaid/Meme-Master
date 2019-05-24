@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./CreateUser.scss";
+import Slider from "react-slick"
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { setGamePin, setGameObject } from "../../dux/reducer";
@@ -73,9 +74,15 @@ class CreateUser extends Component {
   };
 
   render() {
+    var settings = {
+      dots: true,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1
+    };
+    
     console.log(this.props.gameObject)
-
-
     console.log(this.props.gamePin);
     const { gamePin } = this.props.gamePin;
     const { username, players } = this.state;
