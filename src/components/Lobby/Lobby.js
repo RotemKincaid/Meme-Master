@@ -32,51 +32,38 @@ class Lobby extends Component {
     })
   }
 
-  prepareGame = () => {
-    const {gamePin} = this.props.gamePin
-    console.log('gamepin at prepare game', gamePin)
-    socket.emit('prepare game', {gamePin})
-
-    
-  }
-
-  
   render() {
-    console.log('state game on lobby', this.state.game)
+    const { gameObject } = this.props.gameObject;
+    console.log("gameObject from redux", this.props.gameObject);
 
-    const {gameObject} = this.props.gameObject
-    console.log('gameObject from redux', gameObject)
+    const { players } = gameObject;
+    console.log(players);
 
-    const {players} = gameObject
-    console.log(players)
-
-    
-      const mappedPlayers = players.map(player => {
-        return <div style={{display: 'flex'}}>
-          <h1>{player.username}</h1>
-          <img height={'50px'} width={'auto'} src={player.avatar}/>
-          </div>
-      })
-      
-
-
-    
-
-    return (
-    <div className='lobby'>This is Lobby Component!
-      <h1>PLAYERS</h1>
-      
-        <div>
-        'this will display the players list as they join'
-          {mappedPlayers}
-
+    const mappedPlayers = players.map(player => {
+      return (
+        <div style={{ display: "flex" }}>
+          <h6>{player.username}</h6>
+          <img height={"50px"} width={"auto"} src={player.avatar} />
         </div>
-      
-        
-      
-      <button onClick={this.prepareGame}>CLICK WHEN YOU ARE READY! -playerview-</button>
-      <button><Link className='link' to='/judgeview'>CLICK WHEN YOU ARE READY! -judgeview-</Link></button>
-    </div>
+      );
+    });
+    return (
+      <div className="lobby">
+        This is Lobby Component!
+        <h1>PLAYERS</h1>
+        <div>'this will display the players list as they join'</div>
+        <h2>{mappedPlayers}</h2>
+        <button>
+          <Link className="link" to="/playerview">
+            CLICK WHEN YOU ARE READY! -playerview-
+          </Link>
+        </button>
+        <button>
+          <Link className="link" to="/judgeview">
+            CLICK WHEN YOU ARE READY! -judgeview-
+          </Link>
+        </button>
+      </div>
     );
   }
 }

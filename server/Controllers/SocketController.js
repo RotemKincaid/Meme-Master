@@ -37,12 +37,16 @@ module.exports = {
 
   },
 
-  getCards: (req, res) => {
-    var newCards = [];
+  getCardsToObject: (req, res) => {
+    // var newCards = [];
     const db = req.app.get("db");
     db.get_cards().then(cardsdb => {
       cardsFromDb.push(cardsdb);
     });
+  },
+  getCardsToFront: (req, res) => {
+    const db = req.app.get("db");
+    db.get_cards().then(cards => res.status(200).send(cards));
   },
 
   getMedia: (req, res) => {

@@ -1,0 +1,11 @@
+.judgeview-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  .meme-image-judgeview {
+    height: auto;
+    width: 220px;
+  }
+}
