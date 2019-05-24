@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import "./CreateGame.scss";
 import { Link } from "react-router-dom";
-import io from "socket.io-client";
 import { connect } from "react-redux";
 import { setGamePin, setGameObject } from "../../dux/reducer";
 
-var socket = io.connect();
+import io from "socket.io-client";
+const socket = io.connect("http://localhost:4052");
 
 class CreateGame extends Component {
   constructor() {
