@@ -28,7 +28,8 @@ module.exports = {
 
   gameObjectCreator: (data, socket, io) => {
     socket.join(data.gamePin);
-    io.to(data.gamePin).emit("welcome to");
+
+    io.in(data.gamePin).emit("welcome to");
 
     let newGame = {
       cards: cardsFromDb,
@@ -49,7 +50,7 @@ module.exports = {
     };
 
     games[data.gamePin] = newGame;
-    console.log(data);
+    console.log(data," line 53 SC");
 
     io.in(data.gamePin).emit("send new game", newGame);
     console.log();

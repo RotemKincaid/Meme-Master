@@ -17,10 +17,14 @@ massive(CONNECTION_STRING)
 io.on("connection", function(socket) {
   socket.emit("news", " hello world");
   socket.on("name", function(data) {
-    console.log(data);
+    console.log(data, "AHHHH MONSTERS");
     socket.emit("welcome", data.playerName);
   });
-  socket.on("Join Room", data => SocketController.joinRoom(data, socket, io));
+  socket.on("Join Room", data => {
+    console.log(data);
+    SocketController.joinRoom(data, socket, io);
+  });
+
   socket.on("create game", data =>
     SocketController.gameObjectCreator(data, socket, io)
   );
