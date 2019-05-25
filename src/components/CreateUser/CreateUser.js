@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css"; 
-import "slick-carousel/slick/slick-theme.css";
+// import Slider from "react-slick";
+// import "slick-carousel/slick/slick.css";
+// import "slick-carousel/slick/slick-theme.css";
 import "./CreateUser.scss";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
@@ -9,6 +9,7 @@ import { setGamePin, setGameObject } from "../../dux/reducer";
 
 import io from "socket.io-client";
 const socket = io.connect("http://localhost:4052");
+
 
 // const Images = [
 //   { image: require("./media/bigmouth.jpeg"), title: "Bigmouth" },
@@ -25,7 +26,14 @@ class CreateUser extends Component {
       username: "",
       avatar: "",
       gamePin: null,
-      game: {}
+      game: {},
+      avatarData: [
+        "https://s3-us-west-1.amazonaws.com/memes-project/avatars/commander.jpeg",
+        "https://s3-us-west-1.amazonaws.com/memes-project/avatars/bigmouth.jpeg",
+        "https://s3-us-west-1.amazonaws.com/memes-project/avatars/chinaman.jpeg",
+        "https://s3-us-west-1.amazonaws.com/memes-project/avatars/copsmoking.png",
+        "https://s3-us-west-1.amazonaws.com/memes-project/avatars/flattop.jpeg"
+      ]
     };
 
     socket.on("send game after player joined", game => {
@@ -46,8 +54,6 @@ class CreateUser extends Component {
       });
     });
 
-    
-
     socket.on("send updated game", game => {
       console.log("game sent from server:", game);
       this.setState({
@@ -55,10 +61,6 @@ class CreateUser extends Component {
       });
       this.props.setGameObject(game);
     });
-
-
-
-
   }
 
   nameHandler = e => {
@@ -82,28 +84,16 @@ class CreateUser extends Component {
   };
 
   render() {
-    var settings = {
-      className: "center",
-      centerMode: true,
-      dots: true,
-      centerPadding: "60px",
-      
-      infinite: true,
-      speed: 500,
-      slidesToShow: 5,
-      swipeToSlide: true,
-      afterChange: function (index){
-        console.log(
-          `Slider Changed to: ${index + 1}, background: #222; color: #bada55`
-        );
-      }
-      // slidesToScroll: 5
-    };
+    const mappedAvatars = this.state.avatarData.map(avatars => {
+      return (
+        console.log()
+        
+          <img src={avatars.avatarData} />
+      );
+    });
 
     console.log(this.props.gameObject);
-    console.log(this.props.gameObject)
-
-
+    console.log(this.props.gameObject);
     console.log(this.props.gamePin);
     const { gamePin } = this.props.gamePin;
     const { username, players } = this.state;
@@ -127,26 +117,7 @@ class CreateUser extends Component {
         <h2>Enter Username</h2>
         <input type="text" placeholder="nickname" onChange={this.nameHandler} />
         <h2>Select Avatar:</h2>
-        <Slider {...settings}>
-          <div>
-            <img src="https://s3-us-west-1.amazonaws.com/memes-project/avatars/commander.jpeg" />
-          </div>
-          <div>
-            <img src="https://s3-us-west-1.amazonaws.com/memes-project/avatars/bigmouth.jpeg" />
-          </div>
-          <div>
-            <img src="https://s3-us-west-1.amazonaws.com/memes-project/avatars/chinaman.jpeg" />
-          </div>
-          <div>
-            <img src="https://s3-us-west-1.amazonaws.com/memes-project/avatars/copsmoking.png" />
-          </div>
-          <div>
-            <img src="https://s3-us-west-1.amazonaws.com/memes-project/avatars/flattop.jpeg" />
-          </div>
-          <div>
-            <img src="" />
-          </div>
-        </Slider>
+        <div className="avatarcontainer">{mappedAvatars}</div>
         <br />
         <br />
         <button

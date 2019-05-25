@@ -15,15 +15,10 @@ class Lobby extends Component {
       game: {}
     }
 
-<<<<<<< HEAD
-    socket.on("welcome to", players => {
-      console.log(players, "are in the room!");
-=======
     socket.on("get prepared game", game => {
       console.log("game sent from server after being prepared", game);
       console.log('prepared game', game)
       
->>>>>>> 9f901f105d3c700be05d037dc30b41907098c4b5
       this.setState({
         game: game
       });
@@ -38,20 +33,6 @@ class Lobby extends Component {
       });
     });
   }
-<<<<<<< HEAD
-
-  // componentDidMount() {
-  //   this.setState({
-  //     game: this.props.gameObject.gameObject
-  //   });
-  // }
-
-  render() {
-    // const { gameObject } = this.props.gameObject;
-    console.log("gameObject from redux", this.props.gameObject);
-
-    const { players } = this.state;
-=======
   componentDidMount(){
     this.setState({
       game: this.props.gameObject.gameObject
@@ -63,7 +44,6 @@ class Lobby extends Component {
     console.log("gameObject from redux", this.props.gameObject);
 
     const { players } = gameObject;
->>>>>>> 9f901f105d3c700be05d037dc30b41907098c4b5
     console.log(players);
 
     const mappedPlayers = players.map(player => {
