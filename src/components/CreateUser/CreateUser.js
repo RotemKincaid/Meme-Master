@@ -88,7 +88,7 @@ class CreateUser extends Component {
       return (
         console.log()
         
-          <img src={avatars.avatarData} />
+          // <img src={avatars.avatarData} />
       );
     });
 
