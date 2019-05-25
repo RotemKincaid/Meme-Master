@@ -5,15 +5,33 @@ import "./Lobby.scss";
 import { connect } from "react-redux";
 import { setGameObject } from "../../dux/reducer";
 import io from "socket.io-client";
-const socket = io("http://localhost:4052");
+// const socket = io("http://localhost:4052");
 
 class Lobby extends Component {
   constructor(){
     super()
 
     this.state ={
-      game: {}
+      game: {},
+      socket: ''
     }
+
+    
+  }
+  componentDidMount(){
+    this.setState({
+      game: this.props.gameObject.gameObject,
+      socket: this.props.socket.socket
+    })
+  }
+
+  startGame =() =>{
+    console.log('startGame hit!')
+    const {socket} = this.state
+    const { gamePin } = this.props.gamePin;
+    console.log('gamepin at start game', gamePin)
+
+    socket.emit("prepare game", { gamePin });
 
     socket.on("get prepared game", game => {
       console.log("game sent from server after being prepared", game);
@@ -25,11 +43,7 @@ class Lobby extends Component {
 
       this.props.setGameObject(game);
     });
-  }
-  componentDidMount(){
-    this.setState({
-      game: this.props.gameObject.gameObject
-    })
+    
   }
 
   render() {
@@ -58,6 +72,7 @@ class Lobby extends Component {
             CLICK WHEN YOU ARE READY! -playerview-
           </Link>
         </button>
+        <button onClick={this.startGame}>START GAME</button>
         <button>
           <Link className="link" to="/judgeview">
             CLICK WHEN YOU ARE READY! -judgeview-
@@ -71,7 +86,8 @@ class Lobby extends Component {
 function mapStateToProps(state) {
   return {
     gamePin: state.gamePin,
-    gameObject: state.gameObject
+    gameObject: state.gameObject,
+    socket: state.socket
   };
 }
 
