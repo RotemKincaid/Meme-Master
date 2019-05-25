@@ -10,6 +10,7 @@ import Lobby from "./components/Lobby/Lobby";
 import PlayerView from "./components/PlayerView/PlayerView";
 import JudgeView from "./components/JudgeView/JudgeView";
 import Scores from "./components/Scores/Scores";
+import WinnerPage from "./components/WinnerPage/WinnerPage";
 
 export default (
   <Switch>
@@ -22,6 +23,8 @@ export default (
     <Route path="/lobby" component={Lobby} />
     <Route path="/playerview" component={PlayerView} />
     <Route path="/judgeview" component={JudgeView} />
+    <Route path="/winner" component={WinnerPage} />
+
     <Route path="/scores" component={Scores} />
   </Switch>
 );
