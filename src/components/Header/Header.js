@@ -4,7 +4,6 @@ import "./Header.scss";
 
 class Header extends Component {
   render() {
-    
     return (
       <div className="header-main">
         <nav>
@@ -31,6 +30,9 @@ class Header extends Component {
           </li>
           <li>
             <Link to="/judgeview">Judge view</Link>
+          </li>
+          <li>
+            <Link to="/winner">WinnerPage</Link>
           </li>
           <li>
             <Link to="/scores">scores</Link>
