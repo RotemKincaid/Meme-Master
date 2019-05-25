@@ -5,17 +5,48 @@ import { connect } from "react-redux";
 import { setGamePin, setGameObject , setSocket} from "../../dux/reducer";
 
 import io from "socket.io-client";
-const socket = io.connect("http://localhost:4052");
-console.log(socket)
+// const socket = io.connect("http://localhost:4052");
+// console.log(socket)
 
 class CreateGame extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       gamePin: 0,
-      game: {}
+      game: {},
+      socket: ''
     };
+
+    
+  }
+
+  componentDidMount() {
+    const { gamePin } = this.state;
+    this.generateRandom();
+    this.setState({
+      // game: gameObject,
+      
+      socket: this.props.socket.socket
+      
+    })
+    // console.log('socket at component did mount',socket)
+    // this.props.setSocket(socket)
+
+    this.props.setGamePin(gamePin);
+  }
+  generateRandom() {
+    this.setState({
+      gamePin: Math.floor(100000 + Math.random() * 900000)
+    });
+  }
+
+  sendGame =() =>{
+    const { gamePin , socket} = this.state;
+     
+
+    socket.emit("create game", { gamePin });
+    this.props.setGamePin(this.state.gamePin);
 
     socket.on("send new game", newGame => {
       console.log("game sent from server:", newGame);
@@ -24,27 +55,6 @@ class CreateGame extends Component {
       });
       this.props.setGameObject(newGame);
     });
-  }
-
-  componentDidMount() {
-    const { gamePin } = this.state;
-    this.generateRandom();
-    console.log('socket at component did mount',socket)
-    this.props.setSocket(socket)
-
-    // this.props.setGamePin(gameNumber.gamePin);
-  }
-  generateRandom() {
-    this.setState({
-      gamePin: Math.floor(100000 + Math.random() * 900000)
-    });
-  }
-
-  sendGame() {
-    const { gamePin } = this.state;
-
-    socket.emit("create game", { gamePin });
-    this.props.setGamePin(this.state.gamePin);
   }
 
   render() {
@@ -60,7 +70,7 @@ class CreateGame extends Component {
         </div>
 
         <Link className="link" to="/createuser">
-          <button onClick={() => this.sendGame()}>Next</button>
+          <button onClick={this.sendGame}>Next</button>
         </Link>
       </div>
     );
@@ -70,7 +80,8 @@ class CreateGame extends Component {
 function mapStateToProps(state) {
   return {
     gamePin: state.gamePin,
-    gameObject: state.gameObject
+    gameObject: state.gameObject,
+    socket: state.socket
   };
 }
 

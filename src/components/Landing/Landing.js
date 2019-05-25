@@ -2,6 +2,12 @@ import React, { Component } from "react";
 import './Landing.scss'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
+import {setSocket} from "../../dux/reducer";
+import { connect } from "react-redux";
+
+import io from "socket.io-client";
+const socket = io("http://localhost:4052");
+console.log('new socket connection', socket)
 
 class Landing extends Component {
   
@@ -12,9 +18,12 @@ class Landing extends Component {
     axios.get('/api/media').then(media => {
       console.log('media from db are on server')
     })
+
+    this.props.setSocket(socket)
   }
 
   render() {
+    console.log(this.props.socket.socket)
     
     return (
     <div className='landing'>
@@ -30,4 +39,17 @@ class Landing extends Component {
   }
 }
 
-export default Landing;
+function mapStateToProps(state) {
+  return {
+    socket: state.socket
+  };
+}
+
+const mapDispatchToProps = {
+  setSocket: setSocket
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Landing);

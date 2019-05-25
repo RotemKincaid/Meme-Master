@@ -78,6 +78,7 @@ class CreateUser extends Component {
     this.setState({
       gamePin: e.target.value
     });
+    this.props.setGamePin(e.target.value)
   };
 
   pinMatch = () => {
@@ -89,6 +90,23 @@ class CreateUser extends Component {
   };
 
   joinRoom = () => {
+    console.log('HIT JOIN ROOM')
+    const {username, socket, gamePin} = this.state 
+    // const {gamePin} = this.props.gamePin
+    socket.emit("Join Room", {
+              username: username,
+              // players: players.push(username),
+              gamePin: gamePin
+            })
+            socket.on("send updated game", game => {
+              console.log("game sent from server:", game);
+              this.setState({
+                game: game
+              });
+              this.props.setGameObject(game);
+            });
+  }
+  joinRoomAsCreator = () => {
     console.log('HIT JOIN ROOM')
     const {username, socket} = this.state 
     const {gamePin} = this.props.gamePin
@@ -106,12 +124,16 @@ class CreateUser extends Component {
             });
   }
 
+
+
+
+
   render() {
     console.log('PROPS FROM REDUX AT CREATE USER', this.props)
     console.log('state at create user', this.state)
 
     // const {socket} = this.props.socket
-    console.log(this.props.gamePin);
+    // console.log(this.props.gamePin);
     const { gamePin } = this.props.gamePin;
     const { username, players , socket} = this.state;
     // const mappedNames = players.map(name => {
@@ -157,7 +179,17 @@ class CreateUser extends Component {
           <option value="avatar url three">3</option>
         </select>
         <br />
-        <button onClick={this.joinRoom}>JOIN GAME</button>
+
+        {this.props.gamePin.gamePin ? (
+          <button onClick={this.joinRoomAsCreator}>JOIN GAME</button>
+        ) : (
+          <button onClick={this.joinRoom}>JOIN GAME</button>
+        )}
+
+
+
+
+        
         {/* <button
           onClick={() => this.joinRoom}>
           Join Room- click here first!
