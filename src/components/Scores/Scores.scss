@@ -1,0 +1,51 @@
+.scores-wrapper {
+  background: white;
+  border: 1px solid rgb(31, 14, 31);
+  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
+  margin: 100px auto 0;
+  transition: all 0.7s;
+  width: 60%;
+
+  .scores-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #263238;
+    color: white;
+    height: 40px;
+    line-height: 40px;
+    padding: 5px 20px;
+    text-align: right;
+  }
+
+  .scores-body {
+    height: 400px;
+    width: 300px;
+    padding: 10px 15px;
+    text-align: center;
+  }
+
+  .scores-footer {
+    background: #263238;
+    height: 35px;
+    padding: 15px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  .cancel-btn {
+    color: white;
+    cursor: pointer;
+    float: right;
+    color: black;
+    // font-size: 20px;
+    margin: 0;
+  }
+}
+.backdrop {
+  background-color: rgba(48, 49, 48, 0.42);
+  height: 100%;
+  position: fixed;
+  transition: all 1.3s;
+  width: 100%;
+}
