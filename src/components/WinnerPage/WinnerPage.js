@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Scores from "../Scores/Scores";
+import "./WinnerPage.scss";
 
 class WinnerPage extends Component {
   constructor() {
@@ -24,7 +25,7 @@ class WinnerPage extends Component {
 
   render() {
     return (
-      <div>
+      <div className="winnerpage-main">
         {this.state.isOpen ? (
           <div onClick={this.closeScores} className="backdrop" />
         ) : null}
