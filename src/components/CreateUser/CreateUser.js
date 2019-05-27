@@ -5,9 +5,14 @@ import React, { Component } from "react";
 import "./CreateUser.scss";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { setGamePin, setGameObject, setSocket } from "../../dux/reducer";
+import {
+  setGamePin,
+  setGameObject,
+  setSocket,
+  setPlayerUsername
+} from "../../dux/reducer";
+import avatarData from "./avatarData";
 
-import io from "socket.io-client";
 // const {socket} = this.props.socket
 // var socket = ""
 
@@ -27,68 +32,7 @@ class CreateUser extends Component {
       avatar: "",
       gamePin: null,
       game: {},
-      avatarData: [
-        {
-          url:
-            "https://s3-us-west-1.amazonaws.com/memes-project/avatars/bigmouth.jpeg"
-        },
-        {
-          url:
-            "https://s3-us-west-1.amazonaws.com/memes-project/avatars/commander.jpeg"
-        },
-        {
-          url:
-            "https://s3-us-west-1.amazonaws.com/memes-project/avatars/chinaman.jpeg"
-        },
-        {
-          url:
-            "https://s3-us-west-1.amazonaws.com/memes-project/avatars/copsmoking.png"
-        },
-        {
-          url:
-            "https://s3-us-west-1.amazonaws.com/memes-project/avatars/flattop.jpeg"
-        },
-        {
-          url:
-            "https://s3-us-west-1.amazonaws.com/memes-project/avatars/fuckyourick.jpg"
-        },
-        {
-          url:
-            "https://s3-us-west-1.amazonaws.com/memes-project/avatars/gaymorty.jpeg"
-        },
-        {
-          url:
-            "https://s3-us-west-1.amazonaws.com/memes-project/avatars/girlshrug.jpeg"
-        },
-        {
-          url:
-            "https://s3-us-west-1.amazonaws.com/memes-project/avatars/hornycowboy.jpeg"
-        },
-        {
-          url:
-            "https://s3-us-west-1.amazonaws.com/memes-project/avatars/images.png"
-        },
-        {
-          url:
-            "https://s3-us-west-1.amazonaws.com/memes-project/avatars/momo.jpeg"
-        },
-        {
-          url:
-            "https://s3-us-west-1.amazonaws.com/memes-project/avatars/monkey.jpeg"
-        },
-        {
-          url:
-            "https://s3-us-west-1.amazonaws.com/memes-project/avatars/picka.png"
-        },
-        {
-          url:
-            "https://s3-us-west-1.amazonaws.com/memes-project/avatars/psycho.jpeg"
-        },
-        {
-          url:
-            "https://s3-us-west-1.amazonaws.com/memes-project/avatars/trump+.jpeg"
-        }
-      ],
+      avatarData: avatarData,
       socket: ""
     };
 
@@ -133,6 +77,7 @@ class CreateUser extends Component {
     this.setState({
       username: e.target.value
     });
+    this.props.setPlayerUsername(e.target.value);
   };
 
   handlePin = e => {
@@ -221,47 +166,45 @@ class CreateUser extends Component {
 
     return (
       <div className="createuser">
-        This is the Create User Component!
-        <h2>game pin{this.props.gamePin.gamePin}</h2>
-        {this.props.gamePin.gamePin ? (
-          <div />
-        ) : (
-          <input
-            value={this.state.gamePin}
-            placeholder="game pin"
-            onChange={this.handlePin}
-          />
-        )}
-        <h2>Enter Username</h2>
-        <input type="text" placeholder="nickname" onChange={this.nameHandler} />
-        <h2>Tap Image To Select Avatar:</h2>
-        <div className="avatar-container">
-          <div className="avatar-images">{mappedAvatars}</div>
+        <div className="createuser-inner">
+          <div className="pin-username">
+            <h2>Your Game Pin: {this.props.gamePin.gamePin}</h2>
+            {this.props.gamePin.gamePin ? (
+              <div />
+            ) : (
+              <input
+                value={this.state.gamePin}
+                placeholder="Enter game pin..."
+                onChange={this.handlePin}
+              />
+            )}
+            <br />
+            <h2>Enter Username</h2>
+            <input
+              type="text"
+              placeholder="Be creative..."
+              onChange={this.nameHandler}
+            />
+          </div>
+
+          <div className="avatar-container">
+            <h2>Tap Image To Select Avatar:</h2>
+            <div className="avatar-images">{mappedAvatars}</div>
+          </div>
+          {this.props.gamePin.gamePin ? (
+            <button onClick={this.joinRoomAsCreator}>
+              <Link className="link" to="/lobby">
+                JOIN GAME
+              </Link>
+            </button>
+          ) : (
+            <button onClick={this.joinRoom}>
+              <Link className="link" to="/lobby">
+                JOIN GAME
+              </Link>
+            </button>
+          )}
         </div>
-        <br />
-        <br />
-        {this.props.gamePin.gamePin ? (
-          <button onClick={this.joinRoomAsCreator}>JOIN GAME</button>
-        ) : (
-          <button onClick={this.joinRoom}>JOIN GAME</button>
-        )}
-        {/* <button
-          onClick={() => this.joinRoom}>
-          Join Room- click here first!
-        </button> */}
-        <button
-        // onClick={() =>
-        //   socket.emit("Join Room", {
-        //     username: username,
-        //     gamePin: 12345
-        //   })
-        // }
-        >
-          <Link className="link" to="/lobby">
-            NEXT
-          </Link>
-        </button>
-        <h2>{/* Joined Room:<div>{mappedNames}</div> */}</h2>
       </div>
     );
   }
@@ -277,7 +220,8 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   setGamePin: setGamePin,
-  setGameObject: setGameObject
+  setGameObject: setGameObject,
+  setPlayerUsername: setPlayerUsername
 };
 
 export default connect(

@@ -10,6 +10,7 @@ function Card(props) {
       className="card"
     >
       <p>{props.content}</p>
+      <button onClick={()=>props.chooseCard(props.card)}>CHOOSE CARD!</button>
     </div>
   );
 }

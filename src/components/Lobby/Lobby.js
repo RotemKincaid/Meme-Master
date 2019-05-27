@@ -85,7 +85,7 @@ class Lobby extends Component {
         <h2>{mappedPlayers}</h2>
         <button>
           <Link className="link" to="/playerview">
-            CLICK WHEN YOU ARE READY! -playerview-
+              PLAYER VIEW
           </Link>
         </button>
         <button onClick={this.startGame}>START GAME</button>
