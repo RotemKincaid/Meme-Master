@@ -36,6 +36,10 @@ io.on("connection", function(socket) {
     SocketController.changeTurn(data, socket, io)
   );
 
+  socket.on("choose card", data =>
+    SocketController.chooseCard(data, socket, io)
+  );
+
   
 
 

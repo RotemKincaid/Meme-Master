@@ -163,5 +163,24 @@ module.exports = {
 
 
 
+  },
+
+  chooseCard: (data, socket, io) => {
+    console.log('hit choose card', data)
+
+    let gamePin = data.gamePin
+
+    let players = games[gamePin].players
+
+    players.chosen_card = data.card
+    
+    const fileteredCards = players.hand.filter(card => card.card_id  === card.id)
+
+
+
   }
+
+
+
+
 };
