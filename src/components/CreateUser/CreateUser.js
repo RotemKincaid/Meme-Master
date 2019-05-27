@@ -151,18 +151,7 @@ class CreateUser extends Component {
     }
   };
 
-// <<<<<<< HEAD
-//   render() {
-//     var settings = {
-//       dots: true,
-//       infinite: true,
-//       speed: 500,
-//       slidesToShow: 1,
-//       slidesToScroll: 1
-//     };
-    
-//     console.log(this.props.gameObject)
-//     console.log(this.props.gamePin);
+
 
   avatarSet = avatars => {
     this.setState({
@@ -190,7 +179,6 @@ class CreateUser extends Component {
   joinRoomAsCreator = () => {
     console.log("HIT JOIN ROOM");
     const { username, socket } = this.state;
-
     const { gamePin } = this.props.gamePin;
     socket.emit("Join Room", {
       username: username,

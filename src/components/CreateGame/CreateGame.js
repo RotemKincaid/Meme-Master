@@ -2,7 +2,10 @@ import React, { Component } from "react";
 import "./CreateGame.scss";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { setGamePin, setGameObject , setSocket} from "../../dux/reducer";
+
+import { setGamePin, setGameObject } from "../../dux/reducer";
+import logo from "../../components/logo.png";
+
 
 import io from "socket.io-client";
 // const socket = io.connect("http://localhost:4052");
@@ -64,9 +67,13 @@ class CreateGame extends Component {
     return (
       <div className="creategame">
         <div>
-          <h3>This is your game pin </h3> <h3>{gamePin}</h3>
-                           <h3>Share Game PIN with other players</h3>
-                         
+
+          <img src={logo} />
+          <h3>Here is your game pin:</h3> <h3>{gamePin}</h3>
+                            
+          <h3>Share Game PIN with other players so they can join the game!</h3>
+                         
+
         </div>
 
         <Link className="link" to="/createuser">

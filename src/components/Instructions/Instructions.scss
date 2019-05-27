@@ -1,0 +1,38 @@
+.instructions-main {
+  background: linear-gradient(
+    0.4turn,
+    rgb(247, 130, 75),
+    rgb(222, 152, 243),
+    white,
+    rgb(35, 222, 247)
+  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+
+  .instructions-inner {
+    background-color: white;
+    width: 300px;
+    padding: 20px;
+    box-shadow: 2px 2px 3px #000000;
+    border: 2px solid black;
+    border-radius: 10px;
+    img {
+      height: 170px;
+      border: 3px solid black;
+    }
+    h1 {
+      font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+      letter-spacing: 0.4px;
+      font-size: 32px;
+    }
+    p {
+      // font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+      letter-spacing: 0.4px;
+      font-size: 20px;
+    }
+  }
+}
