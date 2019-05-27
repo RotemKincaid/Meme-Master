@@ -18,7 +18,7 @@ io.on("connection", function(socket) {
   socket.emit("news", " hello world");
   
   socket.on("name", function(data) {
-    console.log(data);
+    console.log(data, "AHHHH MONSTERS");
     socket.emit("welcome", data.playerName);
   });
 
