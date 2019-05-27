@@ -5,6 +5,8 @@ import "./PlayerView.scss";
 import { connect } from "react-redux";
 import { setGameObject, setSocket } from "../../dux/reducer";
 
+import io from "socket.io-client";
+
 class PlayerView extends Component {
   constructor() {
     super();
@@ -12,7 +14,8 @@ class PlayerView extends Component {
     this.state = {
       cards: [],
       image: "",
-      socket: ""
+      socket: "",
+      game: {}
     };
   }
 
@@ -21,24 +24,99 @@ class PlayerView extends Component {
     this.setState({
       socket: this.props.socket.socket
     });
+
+    console.log('socket at component did mount player view',this.props.socket.socket)
+
+    this.joinRoom(this.props.socket.socket);
+
+
+
+
+  }
+
+  joinRoom = (socket) => {
+    // const {socket} = this.state
+    console.log('SOCKET AT JOIN ROOM', socket)
+    // const {socket} = this.props.socket.socket
+    const {gamePin} = this.props.gamePin
+
+    socket.emit('join room at player view', {gamePin})
+
+    
+
+    socket.on("get game after join room", game => {
+      console.log("game sent from server", game);
+      this.setState({
+        game: game
+      });
+      this.props.setGameObject(game);
+    });
+
+
   }
 
   getCards = () => {
     // axios.get("/api/cards2").then(cards => {
     //   console.log(cards);
+
+    const {username} = this.props
     const { gameObject } = this.props.gameObject;
-    this.setState({
-      cards: gameObject.players[0].hand
-    });
+    const {players} = gameObject
+    let playerIndex = players.findIndex(player => player.username === username)
+    console.log(playerIndex)
+    
+    // const { gameObject } = this.props.gameObject;
+    
+    // this.setState({
+    //   cards: gameObject.players[playerIndex].hand
+    // });
   };
 
+  chooseCard = (card) => {
+
+    const {username} = this.props.gameObject
+    const { gameObject } = this.props.gameObject;
+    const {players} = gameObject
+    let playerIndex = players.findIndex(player => player.username === username)
+
+
+
+
+    const {gamePin} = this.props.gamePin
+    console.log('card at choosecard', card)
+    console.log('this.props at chooseCard', this.props)
+    const {socket}= this.state
+    console.log('socket at choose card', socket)
+
+    this.setState({
+      chosen_card: card
+    })
+
+    socket.emit("choose card", {
+      gamePin: gamePin,
+      // username: this.props.username.username
+    });
+
+    socket.on("get chosen card", game => {
+      console.log("game sent from server after a card was choosen", game);
+      this.setState({
+        game: game
+      });
+      this.props.setGameObject(game);
+    });
+
+
+
+  }
+
   render() {
+    console.log(this.props)
     console.log(this.state.cards, "CARDS FROM PLAYERVIEW");
     const { cards } = this.state;
     const mappedCards = this.state.cards.map(card => {
       return (
         <div>
-          <Card cards={cards} content={card.content} />
+          <Card card={card} chooseCard={this.chooseCard} content={card.content} />
         </div>
       );
     });
@@ -58,7 +136,12 @@ class PlayerView extends Component {
 }
 
 function mapStateToProps(state) {
-  return state;
+  return {
+    gamePin: state.gamePin,
+    gameObject: state.gameObject,
+    socket: state.socket,
+    username: state.username
+  };
 }
 
 const mapDispatchToProps = {

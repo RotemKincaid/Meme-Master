@@ -176,6 +176,40 @@ module.exports = {
     
     const fileteredCards = players.hand.filter(card => card.card_id  === card.id)
 
+    chosenCardGame = games[gamePin]
+
+    io.in(gamePin).emit("get chosen card", chosenCardGame)
+
+
+  },
+
+  changeScore: (data, socket, io) => {
+    console.log('hit change score', data)
+
+    let gamePin = data.gamePin
+
+    let players = games[gamePin].players
+
+    //need to find which player needs to be updated
+
+    currentGameAfterScoreChange = games[gamePin]
+
+    players.score = players.score + 1
+
+
+    io.in(gamePin).emit("change player score", currentGameAfterScoreChange)
+
+
+  },
+
+  joinRoomAtPlayerView: (data, socket, io) => {
+    console.log('hitjoinroom at player view')
+    let gamePin = data.gamePin
+    let game = games[gamePin]
+    socket.join(data.gamePin);
+    io.in(gamePin).emit("get game after join room", game)
+
+
 
 
   }
