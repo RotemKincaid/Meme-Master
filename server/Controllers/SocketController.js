@@ -91,55 +91,77 @@ module.exports = {
   prepareGame: (data, socket, io) => {
 
     console.log('hit prepare game!')
-    // console.log('cards from db index 0',cardsFromDb[0])
-    
-    
+  
     let gamePin = data.gamePin
     console.log('GAME PIN AT PREPARE GAME', gamePin)
-    // console.log('game before changes', games[gamePin])
-
-    // console.log('cards before adding to hand', games[gamePin].cards.length)
 
     let cards = games[gamePin].cards
     let players = games[gamePin].players
-    // console.log('PLAYERS', players)
+
 
     for (var i = 0; i < players.length; i++){
       games[gamePin].players[i].hand = games[gamePin].cards.splice(0, 7)
     }
-
     //chose a judge
 
     players[0].judge = true 
 
-    // games[gamePin].images.splice(0,1) 
-
     games[gamePin].current_image = games[gamePin].images.splice(0,1)
 
-
-
-
-    // console.log('cards after adding to hand', games[gamePin].cards.length)
-
-  
-
-    // console.log('PLAYERS after card shuffle', players)
-
-    
-
-   
-
-
-
-
-
-    //  console.log('game after changes', games[gamePin])
-    //  console.log('card deck length after changes', games[gamePin].cards.length)
-
      let preparedGame = games[gamePin]
-    //  console.log(preparedGame)
+
       socket.join(data.gamePin);
      io.in(gamePin).emit("get prepared game",preparedGame )
+
+  },
+
+  changeTurn: (data, socket, io) => {
+    console.log('HIT CHANGE TURN', data)
+
+    //this will add a card to each player, pick a new judge
+
+    let gamePin = data.gamePin
+    let players = games[gamePin].players
+    let cards = games[gamePin].cards
+
+    for (var i = 0; i < players.length; i++){
+      games[gamePin].players[i].hand.push(games[gamePin].cards.splice(0, 1)[0])
+    }
+
+    changedTurnGame = games[gamePin]
+
+    games[gamePin].current_image = games[gamePin].images.splice(0,1)
+    socket.join(data.gamePin);
+
+
+    for (var i = 0; i < players.length; i++){
+      for (var j = i + 1; j < players.length; j++){
+      //change the players judge
+        if (players[i].judge === true) {
+          players[j].judge = true
+          players[i].judge = false
+        }
+      }
+    }
+      // }
+      // else if (players[1].judge === true) {
+      //   players[1].judge = false
+      //   players[2].judge = true
+      // }
+      // else if (players[2].judge === true) {
+      //   players[2].judge = false
+      //   players[3].judge = true
+      // }
+    
+     
+
+    console.log(changedTurnGame)
+    io.in(gamePin).emit("get changed turn", changedTurnGame)
+
+
+
+
+
 
   }
 };

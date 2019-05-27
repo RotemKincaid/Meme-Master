@@ -45,6 +45,26 @@ class Lobby extends Component {
     });
     
   }
+  changeTurn = () =>{
+    console.log('changeTurn hit!')
+    const {socket} = this.state
+    const { gamePin } = this.props.gamePin;
+    console.log('gamepin at change turn game', gamePin)
+
+    socket.emit("change turn", { gamePin });
+
+    socket.on("get changed turn", game => {
+      console.log("game sent from server after turned has changed", game);
+      console.log('changed turned game', game)
+      
+      this.setState({
+        game: game
+      });
+
+      this.props.setGameObject(game);
+    });
+    
+  }
 
   render() {
     const { gameObject } = this.props.gameObject;
@@ -67,17 +87,21 @@ class Lobby extends Component {
         <h1>PLAYERS</h1>
         <div>'this will display the players list as they join'</div>
         <h2>{mappedPlayers}</h2>
-        <button>
+        {/* <button>
           <Link className="link" to="/playerview">
             CLICK WHEN YOU ARE READY! -playerview-
           </Link>
-        </button>
+        </button> */}
         <button onClick={this.startGame}>START GAME</button>
-        <button>
+
+        THIS WILL GO ON PLAYERS VIEW BUT WORKING ON HERE FOR NOW
+
+        <button onClick={this.changeTurn}>CHANGE TURN</button>
+        {/* <button>
           <Link className="link" to="/judgeview">
             CLICK WHEN YOU ARE READY! -judgeview-
           </Link>
-        </button>
+        </button> */}
       </div>
     );
   }
