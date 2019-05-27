@@ -31,6 +31,14 @@ io.on("connection", function(socket) {
   socket.on("prepare game", data =>
     SocketController.prepareGame(data, socket, io)
   );
+
+  socket.on("change turn", data =>
+    SocketController.changeTurn(data, socket, io)
+  );
+
+  
+
+
 });
 // getting cards into the game object
 app.get("/api/cards1", SocketController.getCardsToObject);
