@@ -158,10 +158,11 @@ class CreateUser extends Component {
 
   joinRoom = () => {
     console.log("HIT JOIN ROOM");
-    const { username, socket, gamePin } = this.state;
+    const { username, socket, gamePin, avatar } = this.state;
     // const {gamePin} = this.props.gamePin
     socket.emit("Join Room", {
       username: username,
+      avatar: avatar,
       // players: players.push(username),
       gamePin: gamePin
     });
@@ -175,10 +176,11 @@ class CreateUser extends Component {
   };
   joinRoomAsCreator = () => {
     console.log("HIT JOIN ROOM");
-    const { username, socket } = this.state;
+    const { username, socket, avatar } = this.state;
     const { gamePin } = this.props.gamePin;
     socket.emit("Join Room", {
       username: username,
+      avatar: avatar,
       // players: players.push(username),
       gamePin: gamePin
     });

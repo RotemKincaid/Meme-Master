@@ -3,7 +3,7 @@ import "./CreateGame.scss";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { setGamePin, setGameObject } from "../../dux/reducer";
+import { setGamePin, setGameObject, setSocket } from "../../dux/reducer";
 import logo from "../../components/logo.png";
 
 

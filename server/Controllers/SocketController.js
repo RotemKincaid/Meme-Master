@@ -11,6 +11,7 @@ module.exports = {
     // console.log('games before user joins' , games)
 
     console.log(data, "---> data at JOIN ROOM");
+    console.log(data.avatar.url)
     socket.join(data.gamePin);
     players.push(data.username);
     // console.log(players, data.gamePin, "players");
@@ -19,7 +20,7 @@ module.exports = {
     let newPlayer = {
           username: data.username,
           hand: [],
-          avatar: '',
+          avatar: data.avatar.url,
           judge: false,
           score: 0,
           chosen_card: {}
@@ -106,6 +107,16 @@ module.exports = {
     for (var i = 0; i < players.length; i++){
       games[gamePin].players[i].hand = games[gamePin].cards.splice(0, 7)
     }
+
+    //chose a judge
+
+    players[0].judge = true 
+
+    // games[gamePin].images.splice(0,1) 
+
+    games[gamePin].current_image = games[gamePin].images.splice(0,1)
+
+
 
 
     // console.log('cards after adding to hand', games[gamePin].cards.length)

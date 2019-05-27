@@ -6,7 +6,6 @@ import reducer from './reducer'
 const rootReducer = combineReducers({
     gamePin:  reducer,
     username: reducer,
-    avatar_url: reducer,
     gameObject: reducer,
     socket: reducer
 })
