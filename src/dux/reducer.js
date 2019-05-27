@@ -1,7 +1,6 @@
 const initialState = {
   gamePin: "",
   username: "",
-  avatar_url: "",
   gameObject: {},
   socket: ""
   // players: '',
@@ -9,7 +8,7 @@ const initialState = {
 
 const SET_GAME_PIN = "SET_GAME_PIN";
 const SET_PLAYER_USERNAME = "SET_PLAYER_USERNAME";
-const SET_AVATAR_URL = "SET_AVATAR_URL";
+
 const SET_GAME_OBJECT = "SET_GAME_OBJECT";
 const SET_SOCKET = "SET_SOCKET";
 
@@ -22,9 +21,7 @@ export default function reducer(state = initialState, action) {
       // const newPlayersList = state.players.push(action.payload)
       return { ...state, username: action.payload };
 
-    case SET_AVATAR_URL:
-      // const newPlayersList = state.players.push(action.payload)
-      return { ...state, avatar_url: action.payload };
+    
     case SET_GAME_OBJECT:
       // const newPlayersList = state.players.push(action.payload)
       return { ...state, gameObject: action.payload };
@@ -51,12 +48,7 @@ export function setPlayerUsername(username) {
   };
 }
 
-export function setAvatarUrl(avatar_url) {
-  return {
-    type: SET_AVATAR_URL,
-    payload: avatar_url
-  };
-}
+
 
 export function setGameObject(gameObject) {
   return {
