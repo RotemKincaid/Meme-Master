@@ -15,7 +15,8 @@ class PlayerView extends Component {
       cards: [],
       image: "",
       socket: "",
-      game: {}
+      game: {},
+      chosen_card: {}
     };
   }
 
@@ -107,6 +108,7 @@ class PlayerView extends Component {
       });
       this.props.setGameObject(game);
     });
+    this.getCards()
 
 
 
@@ -132,6 +134,7 @@ class PlayerView extends Component {
         />
 
         <h4>Choose the funniest card that matches the picture....</h4>
+        
         <div className="card-container">{mappedCards}</div>
       </div>
     );

@@ -181,35 +181,15 @@ module.exports = {
 
     players[playerIndex].chosen_card = chosenCard
 
-    // handOfPlayer.splice(cardIndex, 1)
-
     console.log(cardIndex, 'cardindex')
 
     console.log('player index at choosechard', playerIndex)
-
-    // console.log('players hand before change', players[playerIndex].hand)
-
-
-
-    
-
-
-    
-    // const filteredCards = players[playerIndex].hand.filter(card => card.card_id  !== data.card_id)
-    
-    // console.log('hand of player before changes', handOfPlayer)
-    
-    // let newHandOfPlayer = handOfPlayer.filter(card => card.card_id !== data.card.card_id)
     
     handOfPlayer = handOfPlayer.splice(cardIndex, 1)
 
     console.log('chosen card in player', players[playerIndex].chosen_card)
     
-    // console.log(players[playerIndex].hand, 'filtered cards of player by player index')
-    
     let chosenCardGame = games[gamePin]
-
-    // console.log('chosenCardGame after changes', chosenCardGame)
     
     console.log('players hand after change',players[playerIndex].hand)
     
@@ -231,9 +211,7 @@ module.exports = {
 
     players.score = players.score + 1
 
-
     io.in(gamePin).emit("change player score", currentGameAfterScoreChange)
-
 
   },
 
@@ -244,10 +222,13 @@ module.exports = {
     socket.join(data.gamePin);
     io.in(gamePin).emit("get game after join room", game)
 
+  },
 
+  // getAllChosenCardsFromPlayers: (data, socket, io) => {
 
+  // }
 
-  }
+  
 
 
 
