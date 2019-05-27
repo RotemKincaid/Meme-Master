@@ -12,7 +12,12 @@ class JudgeView extends Component {
           className="meme-image-judgeview"
           src="https://imgflip.com/s/meme/Two-Buttons.jpg"
         />
-        <Card />
+        <h5>judge will select a card out of the ones diplayed below...</h5>
+        <div className="card-container-judgeview">
+          <Card />
+          <Card />
+          <Card />
+        </div>
       </div>
     );
   }

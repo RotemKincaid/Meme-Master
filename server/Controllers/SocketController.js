@@ -10,7 +10,7 @@ module.exports = {
   joinRoom: (data, socket, io) => {
     // console.log('games before user joins' , games)
 
-    // console.log(data, "---> data");
+    console.log(data, "---> data at JOIN ROOM");
     socket.join(data.gamePin);
     players.push(data.username);
     // console.log(players, data.gamePin, "players");
@@ -57,11 +57,13 @@ module.exports = {
   },
 
   gameObjectCreator: (data, socket, io) => {
+    console.log('hit gameobject creator')
     socket.join(data.gamePin);
-    io.to(data.gamePin).emit("welcome to");
+
+    io.in(data.gamePin).emit("welcome to");
 
     var shuffledCards = cardsFromDb[0].sort(function (a, b) {return Math.random() - 0.5;});
-    console.log(shuffledCards)
+    // console.log(shuffledCards)
 
     var shuffledMedia = mediaFromDb[0].sort(function (a, b) {return Math.random() - 0.5;});
     // console.log('shuffledCards', shuffledCards)
@@ -80,36 +82,37 @@ module.exports = {
     games[theGame] = newGame;
     // console.log(data, "am I getting the data from the frontend?");
 
-    io.to(theGame).emit("send new game", newGame);
-    console.log(newGame);
+    io.in(theGame).emit("send new game", newGame);
+    // console.log(newGame);
   },
 
 
   prepareGame: (data, socket, io) => {
 
     console.log('hit prepare game!')
-    console.log('cards from db index 0',cardsFromDb[0])
+    // console.log('cards from db index 0',cardsFromDb[0])
     
     
     let gamePin = data.gamePin
-    console.log('game before changes', games[gamePin])
+    console.log('GAME PIN AT PREPARE GAME', gamePin)
+    // console.log('game before changes', games[gamePin])
 
-    console.log('cards before adding to hand', games[gamePin].cards.length)
+    // console.log('cards before adding to hand', games[gamePin].cards.length)
 
     let cards = games[gamePin].cards
     let players = games[gamePin].players
-    console.log('PLAYERS', players)
+    // console.log('PLAYERS', players)
 
     for (var i = 0; i < players.length; i++){
       games[gamePin].players[i].hand = games[gamePin].cards.splice(0, 7)
     }
 
 
-    console.log('cards after adding to hand', games[gamePin].cards.length)
+    // console.log('cards after adding to hand', games[gamePin].cards.length)
 
   
 
-    console.log('PLAYERS after card shuffle', players)
+    // console.log('PLAYERS after card shuffle', players)
 
     
 
@@ -119,12 +122,13 @@ module.exports = {
 
 
 
-     console.log('game after changes', games[gamePin])
-     console.log('card deck length after changes', games[gamePin].cards.length)
+    //  console.log('game after changes', games[gamePin])
+    //  console.log('card deck length after changes', games[gamePin].cards.length)
 
      let preparedGame = games[gamePin]
-     console.log(preparedGame)
-     io.to(gamePin).emit("get prepared game",preparedGame )
+    //  console.log(preparedGame)
+      socket.join(data.gamePin);
+     io.in(gamePin).emit("get prepared game",preparedGame )
 
   }
 };

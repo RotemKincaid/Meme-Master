@@ -1,15 +1,39 @@
-.createuser{
-    background: blue;
-    color: white;
+.createuser {
+  background: blue;
+  color: white;
 
-    button {
-        border: 1px solid black;
-        margin-bottom: 20px;
-        font-size: 15px;
-       
-        
+  button {
+    border: 1px solid black;
+    margin-bottom: 20px;
+    font-size: 15px;
+  }
+  .link {
+    text-decoration: none;
+  }
+
+  .avatar-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .avatar-images {
+    height: 300px;
+    width: 100%;
+    // border-style: solid 2px black;
+    // background-color: rgba(160, 155, 155, 0.541);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: scroll;
+    overflow-x: scroll;
+    white-space: nowrap;
+
+    img{
+        border-radius: 50%;
+        height: 100px;
+        margin-left: 5px
     }
-    .link {
-        text-decoration: none;
-    }
+  }
 }
