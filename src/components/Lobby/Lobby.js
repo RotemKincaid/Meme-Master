@@ -8,63 +8,59 @@ import io from "socket.io-client";
 // const socket = io("http://localhost:4052");
 
 class Lobby extends Component {
-  constructor(){
-    super()
+  constructor() {
+    super();
 
-    this.state ={
+    this.state = {
       game: {},
-      socket: ''
-    }
-
-    
+      socket: ""
+    };
   }
-  componentDidMount(){
+  componentDidMount() {
     this.setState({
       game: this.props.gameObject.gameObject,
       socket: this.props.socket.socket
-    })
+    });
   }
 
-  startGame =() =>{
-    console.log('startGame hit!')
-    const {socket} = this.state
+  startGame = () => {
+    console.log("startGame hit!");
+    const { socket } = this.state;
     const { gamePin } = this.props.gamePin;
-    console.log('gamepin at start game', gamePin)
+    console.log("gamepin at start game", gamePin);
 
     socket.emit("prepare game", { gamePin });
 
     socket.on("get prepared game", game => {
       console.log("game sent from server after being prepared", game);
-      console.log('prepared game', game)
-      
+      console.log("prepared game", game);
+
       this.setState({
         game: game
       });
 
       this.props.setGameObject(game);
     });
-    
-  }
-  changeTurn = () =>{
-    console.log('changeTurn hit!')
-    const {socket} = this.state
+  };
+  changeTurn = () => {
+    console.log("changeTurn hit!");
+    const { socket } = this.state;
     const { gamePin } = this.props.gamePin;
-    console.log('gamepin at change turn game', gamePin)
+    console.log("gamepin at change turn game", gamePin);
 
     socket.emit("change turn", { gamePin });
 
     socket.on("get changed turn", game => {
       console.log("game sent from server after turned has changed", game);
-      console.log('changed turned game', game)
-      
+      console.log("changed turned game", game);
+
       this.setState({
         game: game
       });
 
       this.props.setGameObject(game);
     });
-    
-  }
+  };
 
   render() {
     const { gameObject } = this.props.gameObject;
@@ -93,9 +89,7 @@ class Lobby extends Component {
           </Link>
         </button>
         <button onClick={this.startGame}>START GAME</button>
-
         THIS WILL GO ON PLAYERS VIEW BUT WORKING ON HERE FOR NOW
-
         <button onClick={this.changeTurn}>CHANGE TURN</button>
         {/* <button>
           <Link className="link" to="/judgeview">
