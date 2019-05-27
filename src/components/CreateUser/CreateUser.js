@@ -138,10 +138,16 @@ class CreateUser extends Component {
     });
   };
 
+  resetAvatar = () => {
+    this.setState({
+      avatar: ""
+    });
+  };
+
   render() {
     const { avatarData } = this.state;
     const mappedAvatars = avatarData.map(avatars => {
-      console.log(avatars);
+      // console.log(avatars);
       return (
         <div className="avatar-display">
           <img
@@ -160,6 +166,7 @@ class CreateUser extends Component {
     // console.log(this.props.gamePin);
     const { gamePin } = this.props.gamePin;
     const { username, players, socket } = this.state;
+    const { avatar } = this.state;
     // const mappedNames = players.map(name => {
     //   return <div key={name.id}>{name} Joined</div>;
     // });
@@ -188,22 +195,31 @@ class CreateUser extends Component {
           </div>
 
           <div className="avatar-container">
-            <h2>Tap Image To Select Avatar:</h2>
-            <div className="avatar-images">{mappedAvatars}</div>
+            {avatar.url ? (
+              <div>
+                <h2>Your Selected Avatar:</h2>
+                <img className="selected-avatar" src={avatar.url} />
+                <button className="reset-avatar" onClick={this.resetAvatar}>
+                  NOT SURE?
+                </button>
+              </div>
+            ) : (
+              <div>
+                <h2>Tap Image To Select Avatar:</h2>
+                <div className="avatar-images">{mappedAvatars}</div>
+              </div>
+            )}
+
+            {this.props.gamePin.gamePin ? (
+              <button className="join-btn" onClick={this.joinRoomAsCreator}>
+                <Link to="/lobby">JOIN GAME</Link>
+              </button>
+            ) : (
+              <button className="join-btn" onClick={this.joinRoom}>
+                <Link to="/lobby">JOIN GAME</Link>
+              </button>
+            )}
           </div>
-          {this.props.gamePin.gamePin ? (
-            <button onClick={this.joinRoomAsCreator}>
-              <Link className="link" to="/lobby">
-                JOIN GAME
-              </Link>
-            </button>
-          ) : (
-            <button onClick={this.joinRoom}>
-              <Link className="link" to="/lobby">
-                JOIN GAME
-              </Link>
-            </button>
-          )}
         </div>
       </div>
     );

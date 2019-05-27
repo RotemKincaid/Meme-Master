@@ -62,7 +62,7 @@ class CreateGame extends Component {
       <div className="creategame">
         <div>
           <img src={logo} />
-          <h3>Here is your game pin:</h3> <h3>{gamePin}</h3>
+          <h3>Here is your game pin:</h3> <h1>{gamePin}</h1>
                             
           <h3>Share Game PIN with other players so they can join the game!</h3>
                          
