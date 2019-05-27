@@ -16,8 +16,13 @@ class PlayerView extends Component {
       cards: [],
       image: "",
       socket: "",
+<<<<<<< HEAD
+      game: {},
+      chosen_card: {}
+=======
       chosenCard: "",
       game: {}
+>>>>>>> 9e01c6405af840832798d024cb186bd95264428c
     };
   }
 
@@ -56,13 +61,19 @@ class PlayerView extends Component {
     // axios.get("/api/cards2").then(cards => {
     //   console.log(cards);
 
-    const { username } = this.props.gameObject;
+    const {username} = this.props.gameObject
+    console.log(username)
     const { gameObject } = this.props.gameObject;
-    const { players } = gameObject;
-    let playerIndex = players.findIndex(player => player.username === username);
-    console.log(playerIndex);
-
+    const {players} = gameObject
+    let playerIndex = players.findIndex(player => player.username === username)
+    console.log('PLAYER INDEX AT GET CARDS', playerIndex)
+    
     // const { gameObject } = this.props.gameObject;
+    
+    this.setState({
+      cards: gameObject.players[playerIndex].hand
+    });
+  };
 
     this.setState({
       cards: gameObject.players[playerIndex].hand
@@ -86,18 +97,20 @@ class PlayerView extends Component {
     });
 
     socket.emit("choose card", {
-      gamePin: gamePin
+      gamePin: gamePin,
+      username: username,
+      card: card
       // username: this.props.username.username
     });
 
-    socket.on("get chosen card", game => {
+    socket.on("get update game with chosen card", game => {
       console.log("game sent from server after a card was choosen", game);
       this.setState({
         game: game
       });
       this.props.setGameObject(game);
     });
-  };
+    this.getCards()
 
   chooseCard = card => {
     // const { cards } = this.state
@@ -132,6 +145,7 @@ class PlayerView extends Component {
         />
 
         <h4>Choose the funniest card that matches the picture....</h4>
+        
         <div className="card-container">{mappedCards}</div>
         <button>
           <Link to="judgeview">NEXT</Link>

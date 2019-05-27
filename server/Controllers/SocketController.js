@@ -167,18 +167,33 @@ module.exports = {
 
   chooseCard: (data, socket, io) => {
     console.log('hit choose card', data)
-
     let gamePin = data.gamePin
-
     let players = games[gamePin].players
 
-    players.chosen_card = data.card
     
-    const fileteredCards = players.hand.filter(card => card.card_id  === card.id)
+    let playerIndex = players.findIndex(player => player.username === data.username)
 
-    chosenCardGame = games[gamePin]
+    let handOfPlayer = players[playerIndex].hand
 
-    io.in(gamePin).emit("get chosen card", chosenCardGame)
+    let cardIndex = handOfPlayer.findIndex(card => card.card_id === data.card.card_id)
+
+    let chosenCard = handOfPlayer[cardIndex]
+
+    players[playerIndex].chosen_card = chosenCard
+
+    console.log(cardIndex, 'cardindex')
+
+    console.log('player index at choosechard', playerIndex)
+    
+    handOfPlayer = handOfPlayer.splice(cardIndex, 1)
+
+    console.log('chosen card in player', players[playerIndex].chosen_card)
+    
+    let chosenCardGame = games[gamePin]
+    
+    console.log('players hand after change',players[playerIndex].hand)
+    
+    io.in(gamePin).emit("get update game with chosen card", chosenCardGame)
 
 
   },
@@ -196,9 +211,7 @@ module.exports = {
 
     players.score = players.score + 1
 
-
     io.in(gamePin).emit("change player score", currentGameAfterScoreChange)
-
 
   },
 
@@ -209,10 +222,13 @@ module.exports = {
     socket.join(data.gamePin);
     io.in(gamePin).emit("get game after join room", game)
 
+  },
 
+  // getAllChosenCardsFromPlayers: (data, socket, io) => {
 
+  // }
 
-  }
+  
 
 
 
