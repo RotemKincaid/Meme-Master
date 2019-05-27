@@ -2,20 +2,54 @@ import React, { Component } from "react";
 import "./CreateGame.scss";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+
 import { setGamePin, setGameObject } from "../../dux/reducer";
 import logo from "../../components/logo.png";
 
+
 import io from "socket.io-client";
-const socket = io.connect("http://localhost:4052");
+// const socket = io.connect("http://localhost:4052");
+// console.log(socket)
 
 class CreateGame extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       gamePin: 0,
-      game: {}
+      game: {},
+      socket: ''
     };
+
+    
+  }
+
+  componentDidMount() {
+    const { gamePin } = this.state;
+    this.generateRandom();
+    this.setState({
+      // game: gameObject,
+      
+      socket: this.props.socket.socket
+      
+    })
+    // console.log('socket at component did mount',socket)
+    // this.props.setSocket(socket)
+
+    this.props.setGamePin(gamePin);
+  }
+  generateRandom() {
+    this.setState({
+      gamePin: Math.floor(100000 + Math.random() * 900000)
+    });
+  }
+
+  sendGame =() =>{
+    const { gamePin , socket} = this.state;
+     
+
+    socket.emit("create game", { gamePin });
+    this.props.setGamePin(this.state.gamePin);
 
     socket.on("send new game", newGame => {
       console.log("game sent from server:", newGame);
@@ -26,24 +60,6 @@ class CreateGame extends Component {
     });
   }
 
-  componentDidMount() {
-    const { gamePin } = this.state;
-    this.generateRandom();
-    // this.props.setGamePin(gameNumber.gamePin);
-  }
-  generateRandom() {
-    this.setState({
-      gamePin: Math.floor(100000 + Math.random() * 900000)
-    });
-  }
-
-  sendGame() {
-    const { gamePin } = this.state;
-
-    socket.emit("create game", { gamePin });
-    this.props.setGamePin(this.state.gamePin);
-  }
-
   render() {
     const { gamePin } = this.state;
     console.log(this.props.gamePin);
@@ -51,15 +67,17 @@ class CreateGame extends Component {
     return (
       <div className="creategame">
         <div>
+
           <img src={logo} />
           <h3>Here is your game pin:</h3> <h3>{gamePin}</h3>
                             
           <h3>Share Game PIN with other players so they can join the game!</h3>
                          
+
         </div>
 
         <Link className="link" to="/createuser">
-          <button onClick={() => this.sendGame()}>Next</button>
+          <button onClick={this.sendGame}>Next</button>
         </Link>
       </div>
     );
@@ -69,13 +87,15 @@ class CreateGame extends Component {
 function mapStateToProps(state) {
   return {
     gamePin: state.gamePin,
-    gameObject: state.gameObject
+    gameObject: state.gameObject,
+    socket: state.socket
   };
 }
 
 const mapDispatchToProps = {
   setGamePin: setGamePin,
-  setGameObject: setGameObject
+  setGameObject: setGameObject,
+  setSocket: setSocket
 };
 
 export default connect(
