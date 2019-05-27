@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+
+import logo from "../../../src/components/logo.png";
+
 import './Landing.scss'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
@@ -8,6 +11,7 @@ import { connect } from "react-redux";
 import io from "socket.io-client";
 const socket = io("http://localhost:4052");
 console.log('new socket connection', socket)
+
 
 class Landing extends Component {
   
@@ -23,18 +27,26 @@ class Landing extends Component {
   }
 
   render() {
-    console.log(this.props.socket.socket)
-    
-    return (
-    <div className='landing'>
-        This is Landing Component!
-        <h1>MEME MASTER</h1>
-        <button><Link className='link' to='/creategame'>CREATE GAME</Link></button><br/>
-        <button><Link className='link' to='/createuser'>JOIN GAME</Link></button>
-    
-        
 
-    </div>
+    console.log(this.props.socket.socket)
+
+    return (
+      <div className="landing">
+        <img src={logo} />
+        <div className="landing-btns">
+          <button>
+            <Link className="create-btn" to="/creategame">
+              CREATE GAME
+            </Link>
+          </button>
+          <br />
+          <button>
+            <Link className="join-btn" to="/createuser">
+              JOIN GAME
+            </Link>
+          </button>
+        </div>
+      </div>
     );
   }
 }
