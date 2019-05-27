@@ -21,10 +21,11 @@
     // background-color: rgba(160, 155, 155, 0.541);
     border-radius: 10px;
     display: flex;
-    justify-content: center;
+    // justify-content:
     align-items: center;
     overflow: scroll;
-    white-space: nowrap;
-    
+    // white-space: nowrap;
+    @media (max-width: 700px) {
+    }
   }
 }

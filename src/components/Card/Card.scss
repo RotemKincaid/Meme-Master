@@ -9,11 +9,16 @@
   align-items: center;
   overflow: scroll;
   margin: 2px;
+  font-family: "Roboto", sans-serif;
+  padding: 10px;
+  overflow: wrap;
+
   //   display: inline-block;
 
   &:hover {
     height: 250px;
     width: 180px;
     font-size: 25px;
+    overflow: wrap;
   }
 }

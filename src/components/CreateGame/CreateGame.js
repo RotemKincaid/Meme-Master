@@ -2,10 +2,8 @@ import React, { Component } from "react";
 import "./CreateGame.scss";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-
 import { setGamePin, setGameObject, setSocket } from "../../dux/reducer";
 import logo from "../../components/logo.png";
-
 
 import io from "socket.io-client";
 // const socket = io.connect("http://localhost:4052");
@@ -18,10 +16,8 @@ class CreateGame extends Component {
     this.state = {
       gamePin: 0,
       game: {},
-      socket: ''
+      socket: ""
     };
-
-    
   }
 
   componentDidMount() {
@@ -29,10 +25,9 @@ class CreateGame extends Component {
     this.generateRandom();
     this.setState({
       // game: gameObject,
-      
+
       socket: this.props.socket.socket
-      
-    })
+    });
     // console.log('socket at component did mount',socket)
     // this.props.setSocket(socket)
 
@@ -44,9 +39,8 @@ class CreateGame extends Component {
     });
   }
 
-  sendGame =() =>{
-    const { gamePin , socket} = this.state;
-     
+  sendGame = () => {
+    const { gamePin, socket } = this.state;
 
     socket.emit("create game", { gamePin });
     this.props.setGamePin(this.state.gamePin);
@@ -58,7 +52,7 @@ class CreateGame extends Component {
       });
       this.props.setGameObject(newGame);
     });
-  }
+  };
 
   render() {
     const { gamePin } = this.state;
@@ -67,13 +61,11 @@ class CreateGame extends Component {
     return (
       <div className="creategame">
         <div>
-
           <img src={logo} />
           <h3>Here is your game pin:</h3> <h3>{gamePin}</h3>
                             
           <h3>Share Game PIN with other players so they can join the game!</h3>
                          
-
         </div>
 
         <Link className="link" to="/createuser">
