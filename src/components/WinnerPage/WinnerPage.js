@@ -29,14 +29,14 @@ class WinnerPage extends Component {
           <div onClick={this.closeScores} className="backdrop" />
         ) : null}
 
-        <h1>WINNER WINNER CHICKEN DINNER</h1>
         <Scores
           className="scores-modal"
           openScores={this.state.isOpen}
           close={this.closeScores}
         >
-          <div>Content</div>
+          {" "}
         </Scores>
+        <div>WINNER WINNER CHICKEN DINNER</div>
         <button className="open-scores-btn" onClick={this.openScores}>
           View Scores
         </button>
