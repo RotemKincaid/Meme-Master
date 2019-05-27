@@ -5,9 +5,9 @@ import React, { Component } from "react";
 import "./CreateUser.scss";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { setGamePin, setGameObject, setSocket } from "../../dux/reducer";
+import { setGamePin, setGameObject, setSocket, setPlayerUsername } from "../../dux/reducer";
 
-import io from "socket.io-client";
+
 // const {socket} = this.props.socket
 // var socket = ""
 
@@ -133,6 +133,7 @@ class CreateUser extends Component {
     this.setState({
       username: e.target.value
     });
+    this.props.setPlayerUsername(e.target.value)
   };
 
   handlePin = e => {
@@ -277,7 +278,8 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   setGamePin: setGamePin,
-  setGameObject: setGameObject
+  setGameObject: setGameObject,
+  setPlayerUsername: setPlayerUsername
 };
 
 export default connect(
