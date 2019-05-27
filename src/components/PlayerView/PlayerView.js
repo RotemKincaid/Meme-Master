@@ -59,17 +59,18 @@ class PlayerView extends Component {
     // axios.get("/api/cards2").then(cards => {
     //   console.log(cards);
 
-    const {username} = this.props
+    const {username} = this.props.gameObject
+    console.log(username)
     const { gameObject } = this.props.gameObject;
     const {players} = gameObject
     let playerIndex = players.findIndex(player => player.username === username)
-    console.log(playerIndex)
+    console.log('PLAYER INDEX AT GET CARDS', playerIndex)
     
     // const { gameObject } = this.props.gameObject;
     
-    // this.setState({
-    //   cards: gameObject.players[playerIndex].hand
-    // });
+    this.setState({
+      cards: gameObject.players[playerIndex].hand
+    });
   };
 
   chooseCard = (card) => {
@@ -94,10 +95,12 @@ class PlayerView extends Component {
 
     socket.emit("choose card", {
       gamePin: gamePin,
+      username: username,
+      card: card
       // username: this.props.username.username
     });
 
-    socket.on("get chosen card", game => {
+    socket.on("get update game with chosen card", game => {
       console.log("game sent from server after a card was choosen", game);
       this.setState({
         game: game
