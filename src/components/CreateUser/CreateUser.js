@@ -5,11 +5,11 @@ import React, { Component } from "react";
 import "./CreateUser.scss";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { setGamePin, setGameObject } from "../../dux/reducer";
+import { setGamePin, setGameObject, setSocket } from "../../dux/reducer";
 
 import io from "socket.io-client";
-const socket = io.connect("http://localhost:4052");
-
+// const {socket} = this.props.socket
+// var socket = ""
 
 // const Images = [
 //   { image: require("./media/bigmouth.jpeg"), title: "Bigmouth" },
@@ -28,38 +28,104 @@ class CreateUser extends Component {
       gamePin: null,
       game: {},
       avatarData: [
-        "https://s3-us-west-1.amazonaws.com/memes-project/avatars/commander.jpeg",
-        "https://s3-us-west-1.amazonaws.com/memes-project/avatars/bigmouth.jpeg",
-        "https://s3-us-west-1.amazonaws.com/memes-project/avatars/chinaman.jpeg",
-        "https://s3-us-west-1.amazonaws.com/memes-project/avatars/copsmoking.png",
-        "https://s3-us-west-1.amazonaws.com/memes-project/avatars/flattop.jpeg"
-      ]
+        {
+          url:
+            "https://s3-us-west-1.amazonaws.com/memes-project/avatars/bigmouth.jpeg"
+        },
+        {
+          url:
+            "https://s3-us-west-1.amazonaws.com/memes-project/avatars/commander.jpeg"
+        },
+        {
+          url:
+            "https://s3-us-west-1.amazonaws.com/memes-project/avatars/chinaman.jpeg"
+        },
+        {
+          url:
+            "https://s3-us-west-1.amazonaws.com/memes-project/avatars/copsmoking.png"
+        },
+        {
+          url:
+            "https://s3-us-west-1.amazonaws.com/memes-project/avatars/flattop.jpeg"
+        },
+        {
+          url:
+            "https://s3-us-west-1.amazonaws.com/memes-project/avatars/fuckyourick.jpg"
+        },
+        {
+          url:
+            "https://s3-us-west-1.amazonaws.com/memes-project/avatars/gaymorty.jpeg"
+        },
+        {
+          url:
+            "https://s3-us-west-1.amazonaws.com/memes-project/avatars/girlshrug.jpeg"
+        },
+        {
+          url:
+            "https://s3-us-west-1.amazonaws.com/memes-project/avatars/hornycowboy.jpeg"
+        },
+        {
+          url:
+            "https://s3-us-west-1.amazonaws.com/memes-project/avatars/images.png"
+        },
+        {
+          url:
+            "https://s3-us-west-1.amazonaws.com/memes-project/avatars/momo.jpeg"
+        },
+        {
+          url:
+            "https://s3-us-west-1.amazonaws.com/memes-project/avatars/monkey.jpeg"
+        },
+        {
+          url:
+            "https://s3-us-west-1.amazonaws.com/memes-project/avatars/picka.png"
+        },
+        {
+          url:
+            "https://s3-us-west-1.amazonaws.com/memes-project/avatars/psycho.jpeg"
+        },
+        {
+          url:
+            "https://s3-us-west-1.amazonaws.com/memes-project/avatars/trump+.jpeg"
+        }
+      ],
+      socket: ""
     };
 
-    socket.on("send game after player joined", game => {
-      this.setState({
-        game: game
-      });
+    // const {socket} = this.props.socket
+    // socket = this.props.socket
 
-      this.props.setGameObject(game);
-    });
+    console.log("socket at create user constructor", this.state.socket);
 
-    socket.on("welcome to", data => {
-      console.log("Welcome, ", data);
-      const { gamePin } = this.props.gamePin;
-      this.setState({
-        username: data,
-        players: data,
-        gamePin
-      });
-    });
+    // socket.on("send game after player joined", game => {
+    //   this.setState({
+    //     game: game
+    //   });
 
-    socket.on("send updated game", game => {
-      console.log("game sent from server:", game);
-      this.setState({
-        game: game
-      });
-      this.props.setGameObject(game);
+    //   this.props.setGameObject(game);
+    // });
+
+    // socket.on("welcome to", data => {
+    //   console.log("Welcome, ", data);
+    //   const { gamePin } = this.props.gamePin;
+    //   this.setState({
+    //     username: data,
+    //     players: data,
+    //     gamePin
+    //   });
+    // });
+  }
+
+  componentDidMount() {
+    // console.log('this.props. at component did moutn set user',this.props)
+    const { gameObject, gamePin } = this.props;
+    console.log(gameObject.players);
+    console.log(this.state.avatar);
+
+    this.setState({
+      // game: gameObject,
+      // gamePin: gamePin,
+      socket: this.props.socket.socket
     });
   }
 
@@ -73,6 +139,7 @@ class CreateUser extends Component {
     this.setState({
       gamePin: e.target.value
     });
+    this.props.setGamePin(e.target.value);
   };
 
   pinMatch = () => {
@@ -83,23 +150,72 @@ class CreateUser extends Component {
     }
   };
 
+  avatarSet = avatars => {
+    this.setState({
+      avatar: avatars
+    });
+  };
+
+  joinRoom = () => {
+    console.log("HIT JOIN ROOM");
+    const { username, socket, gamePin } = this.state;
+    // const {gamePin} = this.props.gamePin
+    socket.emit("Join Room", {
+      username: username,
+      // players: players.push(username),
+      gamePin: gamePin
+    });
+    socket.on("send updated game", game => {
+      console.log("game sent from server:", game);
+      this.setState({
+        game: game
+      });
+      this.props.setGameObject(game);
+    });
+  };
+  joinRoomAsCreator = () => {
+    console.log("HIT JOIN ROOM");
+    const { username, socket } = this.state;
+    const { gamePin } = this.props.gamePin;
+    socket.emit("Join Room", {
+      username: username,
+      // players: players.push(username),
+      gamePin: gamePin
+    });
+    socket.on("send updated game", game => {
+      console.log("game sent from server:", game);
+      this.setState({
+        game: game
+      });
+      this.props.setGameObject(game);
+    });
+  };
+
   render() {
-    const mappedAvatars = this.state.avatarData.map(avatars => {
+    const { avatarData } = this.state;
+    const mappedAvatars = avatarData.map(avatars => {
+      console.log(avatars);
       return (
-        console.log()
-        
-          // <img src={avatars.avatarData} />
+        <div className="avatar-display">
+          <img
+            // value={avatars.url}
+            src={avatars.url}
+            onClick={() => this.avatarSet(avatars)}
+          />
+          {/* <button onClick={() => this.avatarSet(avatars)}>Choose</button> */}
+        </div>
       );
     });
+    console.log("PROPS FROM REDUX AT CREATE USER", this.props);
+    console.log("state at create user", this.state);
 
-    console.log(this.props.gameObject);
-    console.log(this.props.gameObject);
-    console.log(this.props.gamePin);
+    // const {socket} = this.props.socket
+    // console.log(this.props.gamePin);
     const { gamePin } = this.props.gamePin;
-    const { username, players } = this.state;
-    const mappedNames = players.map(name => {
-      return <div key={name.id}>{name} Joined</div>;
-    });
+    const { username, players, socket } = this.state;
+    // const mappedNames = players.map(name => {
+    //   return <div key={name.id}>{name} Joined</div>;
+    // });
 
     return (
       <div className="createuser">
@@ -116,31 +232,34 @@ class CreateUser extends Component {
         )}
         <h2>Enter Username</h2>
         <input type="text" placeholder="nickname" onChange={this.nameHandler} />
-        <h2>Select Avatar:</h2>
-        <div className="avatarcontainer">{mappedAvatars}</div>
+        <h2>Tap Image To Select Avatar:</h2>
+        <div className="avatar-container">
+          <div className="avatar-images">{mappedAvatars}</div>
+        </div>
         <br />
         <br />
-        <button
-          onClick={() =>
-            socket.emit("Join Room", {
-              username: username,
-              players: players.push(username),
-              gamePin: this.state.gamePin
-                ? this.state.gamePin
-                : this.props.gamePin.gamePin
-            })
-          }
-        >
+        {this.props.gamePin.gamePin ? (
+          <button onClick={this.joinRoomAsCreator}>JOIN GAME</button>
+        ) : (
+          <button onClick={this.joinRoom}>JOIN GAME</button>
+        )}
+        {/* <button
+          onClick={() => this.joinRoom}>
           Join Room- click here first!
-        </button>
-        <button>
+        </button> */}
+        <button
+        // onClick={() =>
+        //   socket.emit("Join Room", {
+        //     username: username,
+        //     gamePin: 12345
+        //   })
+        // }
+        >
           <Link className="link" to="/lobby">
             NEXT
           </Link>
         </button>
-        <h2>
-          Joined Room:<div>{mappedNames}</div>
-        </h2>
+        <h2>{/* Joined Room:<div>{mappedNames}</div> */}</h2>
       </div>
     );
   }
@@ -149,7 +268,8 @@ class CreateUser extends Component {
 function mapStateToProps(state) {
   return {
     gamePin: state.gamePin,
-    gameObject: state.gameObject
+    gameObject: state.gameObject,
+    socket: state.socket
   };
 }
 
