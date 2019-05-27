@@ -12,7 +12,8 @@ class PlayerView extends Component {
     this.state = {
       cards: [],
       image: "",
-      socket: ""
+      socket: "",
+      chosenCard: ""
     };
   }
 
@@ -32,13 +33,26 @@ class PlayerView extends Component {
     });
   };
 
+  chooseCard = card => {
+    // const { cards } = this.state
+    console.log(card, "Looking for me?");
+    this.setState({
+      chosenCard: card
+    });
+  };
+
   render() {
     console.log(this.state.cards, "CARDS FROM PLAYERVIEW");
+    console.log("the chosen card", this.state.chosenCard);
     const { cards } = this.state;
     const mappedCards = this.state.cards.map(card => {
       return (
-        <div>
-          <Card cards={cards} content={card.content} />
+        <div key={card.card_id}>
+          <Card
+            card={card}
+            content={card.content}
+            chooseCard={this.chooseCard}
+          />
         </div>
       );
     });
