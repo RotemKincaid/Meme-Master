@@ -1,17 +1,13 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "./Lobby.scss";
-
 import { connect } from "react-redux";
 import { setGameObject } from "../../dux/reducer";
-
 import io from "socket.io-client";
 // const socket = io("http://localhost:4052");
-
 class Lobby extends Component {
   constructor() {
     super();
-
     this.state = {
       game: {},
       socket: ""
@@ -25,15 +21,12 @@ class Lobby extends Component {
     this.joinRoom(this.props.socket.socket);
     // this.joinRoomOnly(this.props.socket.socket)
   }
-
   joinRoom = socket => {
     // const {socket} = this.state
     console.log("SOCKET AT JOIN ROOM on lobby", socket);
     // const {socket} = this.props.socket.socket
     const { gamePin } = this.props.gamePin;
-
     socket.emit("join room at player view", { gamePin });
-
     socket.on("get game after join room", game => {
       console.log("game sent from server", game);
       this.setState({
@@ -43,7 +36,6 @@ class Lobby extends Component {
       // this.getChosenCards(gamePin);
     });
   };
-
   // joinRoomOnly = (socket) => {
   //   console.log("HIT JOIN ROOM at lobby");
   //   const { username, gamePin, avatar } = this.state;
@@ -59,7 +51,6 @@ class Lobby extends Component {
   //     this.props.setGameObject(game);
   //   });
   // }
-
   startGame = () => {
     console.log("startGame hit!");
     // const { socket } = this.state;
@@ -67,18 +58,14 @@ class Lobby extends Component {
     console.log(socket);
     const { gamePin } = this.props.gamePin;
     console.log("gamepin at start game", gamePin);
-
     socket.emit("prepare game", { gamePin });
-
     socket.on("get prepared game", game => {
       console.log("game sent from server after being prepared", game);
       console.log("prepared game", game);
-
       this.setState({
         game: game,
         gameReady: true
       });
-
       this.props.setGameObject(game);
     });
   };
@@ -87,28 +74,21 @@ class Lobby extends Component {
     const { socket } = this.state;
     const { gamePin } = this.props.gamePin;
     console.log("gamepin at change turn game", gamePin);
-
     socket.emit("change turn", { gamePin });
-
     socket.on("get changed turn", game => {
       console.log("game sent from server after turned has changed", game);
       console.log("changed turned game", game);
-
       this.setState({
         game: game
       });
-
       this.props.setGameObject(game);
     });
   };
-
   render() {
     const { gameObject } = this.props.gameObject;
     console.log("gameObject from redux", this.props.gameObject);
-
     const { players } = gameObject;
     console.log("players at lobby", players);
-
     // const mappedPlayers = players.map((player, index) => {
     //   return (
     //     <div key={index} style={{ display: "flex" }}>
@@ -118,7 +98,6 @@ class Lobby extends Component {
     //   );
     // });
     console.log(players);
-
     // const mappedPlayers = players.map(player => {
     //   return (
     //     <div className="mapped-players">
@@ -132,7 +111,6 @@ class Lobby extends Component {
         {/* This is Lobby Component!
         <h1>PLAYERS</h1>
         <div>'this will display the players list as they join'</div> */}
-
         {/* <button>
           <Link className="link" to="/playerview">
             PLAYER VIEW
@@ -188,7 +166,6 @@ class Lobby extends Component {
     );
   }
 }
-
 function mapStateToProps(state) {
   return {
     gamePin: state.gamePin,
@@ -196,11 +173,9 @@ function mapStateToProps(state) {
     socket: state.socket
   };
 }
-
 const mapDispatchToProps = {
   setGameObject: setGameObject
 };
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps
