@@ -1,15 +1,136 @@
-.createuser{
-    background: blue;
-    color: white;
+.createuser {
+  background: linear-gradient(
+    0.4turn,
+    rgb(247, 130, 75),
+    rgb(222, 152, 243),
+    // white,
+    rgb(35, 222, 247)
+  );
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  // margin: 0;
 
-    button {
+  .createuser-inner {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 80%;
+    padding: 20px;
+    h2 {
+      font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+      letter-spacing: 0.4px;
+      text-shadow: 2px 2px 3px black;
+      font-size: 30px;
+    }
+
+    .pin-username {
+      margin: 30px;
+      h2 {
+        font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+        letter-spacing: 0.4px;
+        text-shadow: 2px 2px 3px black;
+        font-size: 30px;
+        margin: 18px;
+      }
+
+      input {
+        height: 35px;
+        width: 170px;
+        font-size: 17px;
+      }
+    }
+
+    .avatar-container {
+      display: flex;
+      align-items: center;
+      // justify-content: center;
+      flex-direction: column;
+      width: 350px;
+      height: 250px;
+      // margin-bottom: 20px;
+      h2 {
+        font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+        letter-spacing: 0.4px;
+        text-shadow: 2px 2px 3px black;
+        font-size: 30px;
+      }
+      .selected-avatar {
+        height: 200px;
+        width: 200px;
+        border-radius: 50%;
+      }
+      .reset-avatar {
+        height: 30px;
+        width: 145px;
         border: 1px solid black;
-        margin-bottom: 20px;
+        margin: 3px;
         font-size: 15px;
-       
-        
+        font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+        background-color: rgb(55, 17, 190);
+        border-radius: 5px;
+        color: white;
+        word-spacing: 1px;
+        text-shadow: 2px 2px 3px black;
+      }
     }
-    .link {
+
+    .avatar-images {
+      height: 300px;
+      width: 300px;
+      // border-style: solid 2px black;
+      // background-color: rgba(160, 155, 155, 0.541);
+      border-radius: 10px;
+      display: flex;
+      // justify-content: center;
+      align-items: center;
+      overflow: scroll;
+      // overflow-x: scroll;
+      white-space: nowrap;
+
+      img {
+        border-radius: 50%;
+        height: 80px;
+        width: 80px;
+        margin: 5px;
+      }
+    }
+    .join-btnsss {
+      height: 200px;
+      .join-btn {
+        height: 50px;
+        width: 145px;
+        border: 1px solid black;
+        margin: 3px;
+        font-size: 20px;
+        // margin-bottom: 0px;
+        font-size: 15px;
+        padding: 0;
+        margin-bottom: 20px;
+
+        background-color: rgb(55, 17, 190);
+        border-radius: 5px;
+        color: white;
         text-decoration: none;
+        word-spacing: 1px;
+        text-shadow: 2px 2px 3px black;
+        font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+        // margin-top: 35px;
+
+        a {
+          text-decoration: none;
+          color: white;
+          word-spacing: 1px;
+          text-shadow: 2px 2px 3px black;
+          font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+        }
+      }
     }
+  }
 }

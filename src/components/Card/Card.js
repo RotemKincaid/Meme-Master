@@ -1,15 +1,18 @@
-import React, { Component } from "react";
+import React from "react";
 
 import "./Card.scss";
 
-class Card extends Component {
-  render() {
-    return (
-      <div className="card">
-        <p>Card Content</p>
-      </div>
-    );
-  }
+function Card(props) {
+  return (
+    <div
+      
+      onClick={()=>props.chooseCard(props.card)}
+      className="card"
+    >
+      <p>{props.content}</p>
+      
+    </div>
+  );
 }
 
 export default Card;
