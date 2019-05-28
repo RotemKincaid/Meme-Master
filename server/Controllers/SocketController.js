@@ -93,7 +93,8 @@ module.exports = {
       current_image: "",
       players: [],
       active: true,
-      chosenCards: []
+      chosenCards: [],
+      winnerCard: []
     };
 
     let theGame = data.gamePin;
@@ -194,9 +195,15 @@ module.exports = {
 
     let cardIndex = handOfPlayer.findIndex(card => card.card_id === data.card.card_id)
 
+    let playerUsername = players[playerIndex].username
+
     let chosenCard = handOfPlayer[cardIndex]
 
-    games[gamePin].chosenCards.push(chosenCard)
+    let chosenCardAndPlayer = {...chosenCard, playerUsername}
+    console.log('chosen card and player', chosenCardAndPlayer)
+
+    games[gamePin].chosenCards.push(chosenCardAndPlayer)
+    
 
     players[playerIndex].chosen_card = chosenCard
 
@@ -215,6 +222,29 @@ module.exports = {
     io.in(gamePin).emit("get update game with chosen card", chosenCardGame)
 
 
+  },
+
+  chooseWinnerCard: (data, socket, io) => {
+    // console.log('hit winner choose card', data)
+    let gamePin = data.gamePin
+
+    games[gamePin].winnerCard.push(data.card)
+
+    let playerUsername = data.card.playerUsername
+
+    let players = games[gamePin].players
+
+    let playerIndex = players.findIndex(player => player.username === playerUsername)
+
+    let playerScore = players[playerIndex].score
+
+    players[playerIndex].score = playerScore + 1
+
+    let chosenWinnerCardGame = games[gamePin]
+    
+    // console.log('players hand after change',players[playerIndex].hand)
+    
+    io.in(gamePin).emit("get update game with winner card", chosenWinnerCardGame)
   },
 
   changeScore: (data, socket, io) => {
