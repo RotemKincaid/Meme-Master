@@ -67,6 +67,7 @@ class WinnerPage extends Component {
         game: game
       });
       this.props.setGameObject(game);
+      this.props.history.push('/playerview')
     });
   };
 
@@ -116,6 +117,8 @@ class WinnerPage extends Component {
         >
           {" "}
         </Scores>
+
+        <Link to='/playerview'><button onClick={this.changeTurn}>READY TO MEME SOME MORE!</button></Link>
 
       </div>
     );

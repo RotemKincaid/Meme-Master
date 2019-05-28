@@ -1,6 +1,3 @@
-
-
-
 const players = [];
 const games = {};
 const cardsFromDb = [];
@@ -178,7 +175,7 @@ module.exports = {
 
 
 
-    changedTurnGame = games[gamePin]
+    let changedTurnGame = games[gamePin]
 
     games[gamePin].current_image = games[gamePin].images.splice(0,1)
     socket.join(data.gamePin);
