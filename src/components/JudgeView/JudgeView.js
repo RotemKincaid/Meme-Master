@@ -116,7 +116,7 @@ class JudgeView extends Component {
           <Card />
           <Card />
         </div> */}
-        <div>
+        <div className="card-container-judgeview">
           {mappedChosenCards}
         </div>
       </div>
