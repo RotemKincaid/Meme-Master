@@ -86,6 +86,8 @@ class WinnerPage extends Component {
     console.log('props at winner page',this.props)
 
     const {gameObject} = this.props.gameObject
+    let winner = gameObject.winnerCard[0].playerUsername
+    console.log('WINNER!', winner)
 
     // gameObject
 
@@ -106,6 +108,7 @@ class WinnerPage extends Component {
           {" "}
         </Scores>
         <div>WINNER WINNER CHICKEN DINNER</div>
+        <h1>{winner} IS THE WINNER!</h1>
         <img alt = 'winner' src={gameObject.current_image[0].media_url}/>
         <button className="open-scores-btn" onClick={this.openScores}>
           View Scores

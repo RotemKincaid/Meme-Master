@@ -6,6 +6,10 @@
     // white,
     rgb(35, 222, 247)
   );
+  // background-image: url("../Lobby/cool\ background.jpg");
+  // background-image: url("./color\ background.jpg");
+  // background-size: cover;
+
   color: white;
   display: flex;
   justify-content: center;
@@ -17,7 +21,7 @@
   img {
     height: 310px;
     margin: 25px;
-    border: 8px solid white;
+    // border: 8px solid white;
   }
 
   .landing-btns {
@@ -30,8 +34,12 @@
       width: 195px;
       border: 1px solid black;
       margin: 3px;
-      font-size: 15px;
+
+      text-shadow: 2px 2px 3px black;
+      color: white;
+      font-size: 22px;
       font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+
       background-color: rgb(55, 17, 190);
       border-radius: 5px;
       animation: fun1 1s ease-in-out 0.3s 1 forwards;

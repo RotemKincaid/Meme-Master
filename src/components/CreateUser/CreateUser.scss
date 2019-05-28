@@ -17,12 +17,18 @@
 
   .createuser-inner {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     flex-direction: column;
     width: 100%;
-    height: 350px;
-    // padding: 20px;
+    height: 80%;
+    padding: 20px;
+    h2 {
+      font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+      letter-spacing: 0.4px;
+      text-shadow: 2px 2px 3px black;
+      font-size: 30px;
+    }
 
     .pin-username {
       margin: 30px;
@@ -31,6 +37,7 @@
         letter-spacing: 0.4px;
         text-shadow: 2px 2px 3px black;
         font-size: 30px;
+        margin: 18px;
       }
 
       input {
@@ -46,8 +53,8 @@
       // justify-content: center;
       flex-direction: column;
       width: 350px;
-      height: 100%;
-      margin-bottom: 20px;
+      height: 250px;
+      // margin-bottom: 20px;
       h2 {
         font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
         letter-spacing: 0.4px;
@@ -104,6 +111,8 @@
         font-size: 20px;
         // margin-bottom: 0px;
         font-size: 15px;
+        padding: 0;
+        margin-bottom: 20px;
 
         background-color: rgb(55, 17, 190);
         border-radius: 5px;
@@ -112,7 +121,7 @@
         word-spacing: 1px;
         text-shadow: 2px 2px 3px black;
         font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-        margin-top: 35px;
+        // margin-top: 35px;
 
         a {
           text-decoration: none;

@@ -3,6 +3,7 @@ import React from "react";
 import "./Scores.scss";
 
 const Scores = props => {
+  console.log('props at scores component',props)
   return (
     <div
       className="scores-wrapper"
