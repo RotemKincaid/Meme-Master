@@ -1,0 +1,19 @@
+.winnerpage-main {
+    background: linear-gradient(
+    0.4turn,
+    rgb(247, 130, 75),
+    rgb(222, 152, 243),
+    // white,
+    rgb(35, 222, 247)
+  );
+  color: white;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  text-shadow: 3px 3px 4px black;
+  font-size: 36px;
+}

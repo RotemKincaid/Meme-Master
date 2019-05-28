@@ -100,6 +100,14 @@ class WinnerPage extends Component {
           <div onClick={this.closeScores} className="backdrop" />
         ) : null}
 
+        
+        <div>WINNER WINNER CHICKEN DINNER</div>
+        <h1>{winner} IS THE WINNER!</h1>
+        <img alt = 'winner' src={gameObject.current_image[0].media_url}/>
+        <button className="open-scores-btn" onClick={this.openScores}>
+          View Scores
+        </button>
+
         <Scores
           scores={gameObject.scores}
           className="scores-modal"
@@ -108,12 +116,7 @@ class WinnerPage extends Component {
         >
           {" "}
         </Scores>
-        <div>WINNER WINNER CHICKEN DINNER</div>
-        <h1>{winner} IS THE WINNER!</h1>
-        <img alt = 'winner' src={gameObject.current_image[0].media_url}/>
-        <button className="open-scores-btn" onClick={this.openScores}>
-          View Scores
-        </button>
+
       </div>
     );
   }

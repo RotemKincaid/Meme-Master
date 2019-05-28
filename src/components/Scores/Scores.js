@@ -7,9 +7,10 @@ const Scores = props => {
 
   const {scores} = props
 
-  let mappedScores = scores.map(player => {
-    return <div>
-      <h1></h1>
+  let mappedScores = scores.map((player, index) => {
+    return <div key = {index}>
+      <h1>{player.playerUsername}</h1>
+      <h1>{player.score}</h1>
     </div>
 
   })
@@ -17,7 +18,7 @@ const Scores = props => {
     <div
       className="scores-wrapper"
       style={{
-        transform: props.openScores ? "translateY(0vh" : "translateY(-100vh)",
+        transform: props.openScores ? "translateY(0vh" : "translateY(-50vh)",
         opacity: props.openScores ? "1" : "0"
       }}
     >
@@ -28,7 +29,7 @@ const Scores = props => {
         </span>
       </div>
       <div className="scores-body">
-        <p>Scores content</p>
+        <p>Scores content: {mappedScores}</p>
       </div>
       <div className="scores-footer">
         <button className="cancel-btn" onClick={props.close}>
