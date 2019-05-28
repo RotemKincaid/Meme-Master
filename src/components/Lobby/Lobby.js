@@ -71,31 +71,35 @@ class Lobby extends Component {
 
     const mappedPlayers = players.map(player => {
       return (
-        <div style={{ display: "flex" }}>
+        <div className="mapped-players">
           <h6>{player.username}</h6>
-          <img height={"50px"} width={"auto"} src={player.avatar} />
+          <img className="lobby-avatar" src={player.avatar} />
         </div>
       );
     });
     return (
       <div className="lobby">
-        This is Lobby Component!
-        <h1>PLAYERS</h1>
-        <div>'this will display the players list as they join'</div>
-        <h2>{mappedPlayers}</h2>
-        <button>
-          <Link className="link" to="/playerview">
+        {/* This is Lobby Component! */}
+        <h1>GAME LOBBY</h1>
+        <div className="lobby-inner">
+          {/* <div>'this will display the players list as they join'</div> */}
+          <h2>{mappedPlayers}</h2>
+          <button>
+            <Link className="link" to="/playerview">
               PLAYER VIEW
-          </Link>
-        </button>
-        <button onClick={this.startGame}>START GAME</button>
-        THIS WILL GO ON PLAYERS VIEW BUT WORKING ON HERE FOR NOW
-        <button onClick={this.changeTurn}>CHANGE TURN</button>
-        {/* <button>
+            </Link>
+          </button>
+          <button className="start-game" onClick={this.startGame}>
+            START GAME
+          </button>
+          {/* THIS WILL GO ON PLAYERS VIEW BUT WORKING ON HERE FOR NOW
+          <button onClick={this.changeTurn}>CHANGE TURN</button> */}
+          {/* <button>
           <Link className="link" to="/judgeview">
             CLICK WHEN YOU ARE READY! -judgeview-
           </Link>
         </button> */}
+        </div>
       </div>
     );
   }
