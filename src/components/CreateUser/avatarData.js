@@ -64,12 +64,10 @@ module.exports = [
     url:
       "https://s3-us-west-1.amazonaws.com/memes-project/avatars/grungeyJOsh.png"
   },
-
   {
     url:
       "https://s3-us-west-1.amazonaws.com/memes-project/avatars/harrykeith.png"
   },
-
   {
     url: "https://s3-us-west-1.amazonaws.com/memes-project/avatars/Faceaf.png"
   },
@@ -77,8 +75,12 @@ module.exports = [
     url:
       "https://s3-us-west-1.amazonaws.com/memes-project/avatars/donuttrav.png"
   },
-
   {
     url: "https://s3-us-west-1.amazonaws.com/memes-project/avatars/Daniel.png"
   }
+
+
+
+
+
 ];
