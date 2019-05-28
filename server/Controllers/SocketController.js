@@ -52,7 +52,7 @@ module.exports = {
     // var newCards = [];
     const db = req.app.get("db");
     db.get_cards().then(cardsdb => {
-      cardsFromDb.push(cardsdb);
+      cardsFromDb = cardsdb;
     });
   },
   getCardsToFront: (req, res) => {
@@ -74,12 +74,12 @@ module.exports = {
 
     io.in(data.gamePin).emit("welcome to");
 
-    var shuffledCards = cardsFromDb[0].sort(function(a, b) {
+    var shuffledCards = cardsFromDb.sort(function(a, b) {
       return Math.random() - 0.5;
     });
     // console.log(shuffledCards)
 
-    var shuffledMedia = mediaFromDb[0].sort(function(a, b) {
+    var shuffledMedia = mediaFromDb.sort(function(a, b) {
       return Math.random() - 0.5;
     });
     // console.log('shuffledCards', shuffledCards)
