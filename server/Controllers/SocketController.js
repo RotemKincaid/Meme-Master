@@ -115,7 +115,8 @@ module.exports = {
       active: true,
       chosenCards: [],
       winnerCard: [],
-      scores: []
+      scores: [],
+      judge: []
     };
 
     let theGame = data.gamePin;
@@ -142,6 +143,8 @@ module.exports = {
       games[gamePin].players[i].hand = games[gamePin].cards.splice(0, 7)
     }
     //chose a judge
+
+    games[gamePin].judge = players[0]
 
     players[0].judge = true 
 
