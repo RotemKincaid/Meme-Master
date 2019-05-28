@@ -23,24 +23,47 @@ class Lobby extends Component {
       game: this.props.gameObject.gameObject,
       socket: this.props.socket.socket
     });
+    // this.joinRoom(this.props.socket.socket);
     // this.joinRoomOnly(this.props.socket.socket)
   }
 
-  joinRoomOnly = (socket) => {
-    console.log("HIT JOIN ROOM at lobby");
-    const { username, gamePin, avatar } = this.state;
-    // const {gamePin} = this.props.gamePin
-    socket.emit("join room only", {
-      gamePin: gamePin
-    });
-    socket.on("send game", game => {
-      console.log("game sent from server after join room only", game);
-      this.setState({
-        game: game
-      });
-      this.props.setGameObject(game);
-    });
-  }
+  // joinRoom = socket => {
+  //   // const {socket} = this.state
+  //   console.log("SOCKET AT JOIN ROOM on judge", socket);
+  //   // const {socket} = this.props.socket.socket
+  //   const { gamePin } = this.props.gamePin;
+
+  //   socket.emit("join room at player view", { gamePin });
+
+  //   socket.on("get game after join room", game => {
+  //     console.log("game sent from server", game);
+  //     this.setState({
+  //       game: game,
+  //       image: game.current_image[0].media_url,
+  //       chosenCards: game.chosenCards
+  //     });
+  //     this.props.setGameObject(game);
+  //     // this.getChosenCards(gamePin);
+      
+  //   });
+
+  // };
+
+  // joinRoomOnly = (socket) => {
+  //   console.log("HIT JOIN ROOM at lobby");
+  //   const { username, gamePin, avatar } = this.state;
+  //   // const {gamePin} = this.props.gamePin
+  //   socket.emit("join room only", {
+  //     gamePin: gamePin
+  //   });
+  //   socket.on("send game", game => {
+  //     console.log("game sent from server after join room only", game);
+  //     this.setState({
+  //       game: game
+  //     });
+  //     this.props.setGameObject(game);
+  //   });
+  // }
 
   startGame = () => {
     console.log("startGame hit!");

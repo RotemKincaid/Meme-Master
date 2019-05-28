@@ -232,9 +232,12 @@ class CreateUser extends Component {
                 JOIN GAME
               </button></Link>
             ) : (
-              <Link to="/lobby"><button className="join-btn" onClick={this.joinRoom}>
-                JOIN GAME
-              </button></Link>
+              <div>
+                <button className="join-btn" onClick={this.joinRoom}>
+                  JOIN GAME
+                </button>
+                <Link to="/lobby">GO TO LOBBY</Link>
+              </div>
             )}
           </div>
           

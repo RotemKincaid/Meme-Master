@@ -92,7 +92,8 @@ module.exports = {
       images: shuffledMedia,
       current_image: "",
       players: [],
-      active: true
+      active: true,
+      chosenCards: []
     };
 
     let theGame = data.gamePin;
@@ -195,6 +196,8 @@ module.exports = {
 
     let chosenCard = handOfPlayer[cardIndex]
 
+    games[gamePin].chosenCards.push(chosenCard)
+
     players[playerIndex].chosen_card = chosenCard
 
     console.log(cardIndex, 'cardindex')
@@ -241,9 +244,9 @@ module.exports = {
 
   },
 
-  // getAllChosenCardsFromPlayers: (data, socket, io) => {
+  getAllChosenCardsFromPlayers: (data, socket, io) => {
 
-  // }
+  }
 
   
 

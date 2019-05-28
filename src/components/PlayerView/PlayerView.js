@@ -46,10 +46,12 @@ class PlayerView extends Component {
     socket.on("get game after join room", game => {
       console.log("game sent from server", game);
       this.setState({
-        game: game
+        game: game,
+        image: game.current_image[0].media_url
       });
       this.props.setGameObject(game);
       this.getCards(game);
+      
     });
 
   };
@@ -119,8 +121,9 @@ class PlayerView extends Component {
   // };
 
   render() {
+    console.log('THIS.STATE AT PLAYER VIEW', this.state)
     
-      const {chosenCard} = this.state
+      const {chosenCard, image} = this.state
       const mappedChosenCard = chosenCard.map(card => {
         return <div key ={card.card_id}>
             <Card
@@ -153,7 +156,7 @@ class PlayerView extends Component {
         <h3>User1's turn!</h3>
         <img
           className="meme-image-playerview"
-          src="https://imgflip.com/s/meme/Two-Buttons.jpg"
+          src={image}
         />
 
         <h4>Choose the funniest card that matches the picture....</h4>

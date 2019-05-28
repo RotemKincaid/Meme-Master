@@ -47,6 +47,8 @@ io.on("connection", function(socket) {
     SocketController.joinRoomOnly(data, socket, io)
   );
 
+  socket.on('get chosen cards', data => SocketController.getAllChosenCardsFromPlayers(data, socket, io));
+
   
 
 
