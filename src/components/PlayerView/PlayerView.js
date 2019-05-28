@@ -17,7 +17,7 @@ class PlayerView extends Component {
       image: "",
       socket: "",
       game: {},
-      chosenCard: {}
+      chosenCard: []
     };
   }
 
@@ -89,7 +89,7 @@ class PlayerView extends Component {
     console.log("socket at choose card", socket);
 
     this.setState({
-      chosen_card: card
+      chosenCard: [card]
     });
 
     socket.emit("choose card", {
@@ -118,6 +118,20 @@ class PlayerView extends Component {
   // };
 
   render() {
+    
+      const {chosenCard} = this.state
+      const mappedChosenCard = chosenCard.map(card => {
+        return <div key ={card.card_id}>
+            <Card
+              card={card}
+              content={card.content}
+            />
+          </div>
+      })
+
+    
+
+
     console.log(this.props);
     console.log(this.state.cards, "CARDS FROM PLAYERVIEW");
     console.log("the chosen card", this.state.chosenCard);
@@ -142,11 +156,22 @@ class PlayerView extends Component {
         />
 
         <h4>Choose the funniest card that matches the picture....</h4>
+        {chosenCard.length ? (
+          <div>
+            <div className="card-container">{mappedChosenCard}</div>
+            <button>
+            <Link to="judgeview">NEXT</Link>
+            </button>
+          </div>
+          
+        ):(
+          <div>
+            <div className="card-container">{mappedCards}</div>
+          </div>
+          
+
+        )}
         
-        <div className="card-container">{mappedCards}</div>
-        <button>
-          <Link to="judgeview">NEXT</Link>
-        </button>
       </div>
     );
   }
