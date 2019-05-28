@@ -51,5 +51,36 @@ module.exports = [
   },
   {
     url: "https://s3-us-west-1.amazonaws.com/memes-project/avatars/trump+.jpeg"
+  },
+  {
+    url:
+      "https://s3-us-west-1.amazonaws.com/memes-project/avatars/vapeKingPat.png"
+  },
+  {
+    url:
+      "https://s3-us-west-1.amazonaws.com/memes-project/avatars/bluesteelsean.png"
+  },
+  {
+    url:
+      "https://s3-us-west-1.amazonaws.com/memes-project/avatars/grungeyJOsh.png"
+  },
+  {
+    url:
+      "https://s3-us-west-1.amazonaws.com/memes-project/avatars/harrykeith.png"
+  },
+  {
+    url: "https://s3-us-west-1.amazonaws.com/memes-project/avatars/Faceaf.png"
+  },
+  {
+    url:
+      "https://s3-us-west-1.amazonaws.com/memes-project/avatars/donuttrav.png"
+  },
+  {
+    url: "https://s3-us-west-1.amazonaws.com/memes-project/avatars/Daniel.png"
   }
+
+
+
+
+
 ];
