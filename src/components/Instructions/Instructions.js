@@ -7,7 +7,7 @@ class Instructions extends Component {
     return (
       <div className="instructions-main">
         <div className="instructions-inner">
-          <img src={logo} />
+          <img src={logo} alt = 'logo' />
           <h1>Just some quick instructions:</h1>
           <p>
             Compete to create the funniest meme by pairing caption cards with

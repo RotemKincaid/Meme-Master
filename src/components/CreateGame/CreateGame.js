@@ -5,8 +5,8 @@ import { connect } from "react-redux";
 import { setGamePin, setGameObject, setSocket } from "../../dux/reducer";
 import logo from "../../components/logo.png";
 
-import io from "socket.io-client";
-const socket = io.connect("http://localhost:4052");
+// import io from "socket.io-client";
+// const socket = io.connect("http://localhost:4052");
 // console.log(socket)
 
 class CreateGame extends Component {
@@ -61,7 +61,7 @@ class CreateGame extends Component {
     return (
       <div className="creategame">
         <div>
-          <img src={logo} />
+          <img src={logo} alt='logo' />
           <h3>Here is your game pin:</h3> <h1>{gamePin}</h1>
                             
           <h3>Share Game PIN with other players so they can join the game!</h3>

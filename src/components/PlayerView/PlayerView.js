@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Card from "../Card/Card";
-import axios from "axios";
+// import axios from "axios";
 import "./PlayerView.scss";
 import { connect } from "react-redux";
 import { setGameObject, setSocket } from "../../dux/reducer";
@@ -80,9 +80,9 @@ class PlayerView extends Component {
 
   chooseCard = card => {
     const { username } = this.props.gameObject;
-    const { gameObject } = this.props.gameObject;
-    const { players } = gameObject;
-    let playerIndex = players.findIndex(player => player.username === username);
+    
+   
+    
 
     const { gamePin } = this.props.gamePin;
     console.log("card at choosecard", card);
@@ -139,7 +139,7 @@ class PlayerView extends Component {
     console.log(this.props);
     console.log(this.state.cards, "CARDS FROM PLAYERVIEW");
     console.log("the chosen card", this.state.chosenCard);
-    const { cards } = this.state;
+    
     const mappedCards = this.state.cards.map(card => {
       return (
         <div key ={card.card_id}>
@@ -155,6 +155,7 @@ class PlayerView extends Component {
       <div className="playerview">
         <h3>User1's turn!</h3>
         <img
+          alt='playerview'
           className="meme-image-playerview"
           src={image}
         />

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Scores from "../Scores/Scores";
 import "./WinnerPage.scss";
+import {Link} from 'react-router-dom'
 
 import { connect } from "react-redux";
 import { setGameObject, setSocket } from "../../dux/reducer";
@@ -13,7 +14,8 @@ class WinnerPage extends Component {
       isOpen: false,
       socket: "",
       game: {},
-      winnerCard: []
+      winnerCard: [],
+      scores: []
     };
   }
 
@@ -42,13 +44,30 @@ class WinnerPage extends Component {
       console.log("game sent from server", game);
       this.setState({
         game: game,
-        winnerCard: game.winnerCard
+        winnerCard: game.winnerCard,
+        scores: game.scores
       });
       this.props.setGameObject(game);
       
       
     });
 
+  };
+
+  changeTurn = () => {
+    console.log("changeTurn hit!");
+    const { socket } = this.state;
+    const { gamePin } = this.props.gamePin;
+    console.log("gamepin at change turn game", gamePin);
+    socket.emit("change turn", { gamePin });
+    socket.on("get changed turn", game => {
+      console.log("game sent from server after turned has changed", game);
+      console.log("changed turned game", game);
+      this.setState({
+        game: game
+      });
+      this.props.setGameObject(game);
+    });
   };
 
   openScores = () => {
@@ -64,13 +83,25 @@ class WinnerPage extends Component {
   };
 
   render() {
+
+    console.log('props at winner page',this.props)
+
+    const {gameObject} = this.props.gameObject
+    let winner = gameObject.winnerCard[0].playerUsername
+    console.log('WINNER!', winner)
+
+    // gameObject
+
+    console.log(gameObject.current_image)
     return (
       <div className="winnerpage-main">
+        <Link to ='/playerview' ><button onClick={this.changeTurn}>CHANGE TURN</button> </Link>
         {this.state.isOpen ? (
           <div onClick={this.closeScores} className="backdrop" />
         ) : null}
 
         <Scores
+          scores={gameObject.scores}
           className="scores-modal"
           openScores={this.state.isOpen}
           close={this.closeScores}
@@ -78,6 +109,8 @@ class WinnerPage extends Component {
           {" "}
         </Scores>
         <div>WINNER WINNER CHICKEN DINNER</div>
+        <h1>{winner} IS THE WINNER!</h1>
+        <img alt = 'winner' src={gameObject.current_image[0].media_url}/>
         <button className="open-scores-btn" onClick={this.openScores}>
           View Scores
         </button>
