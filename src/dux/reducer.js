@@ -1,17 +1,18 @@
 const initialState = {
   gamePin: "",
   username: "",
-  avatar_url: "",
   gameObject: {},
-  socket: ""
+  socket: "",
+  creator: "",
   // players: '',
 };
 
 const SET_GAME_PIN = "SET_GAME_PIN";
 const SET_PLAYER_USERNAME = "SET_PLAYER_USERNAME";
-const SET_AVATAR_URL = "SET_AVATAR_URL";
+
 const SET_GAME_OBJECT = "SET_GAME_OBJECT";
 const SET_SOCKET = "SET_SOCKET";
+const SET_CREATOR = "SET_CREATOR";
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
@@ -22,15 +23,16 @@ export default function reducer(state = initialState, action) {
       // const newPlayersList = state.players.push(action.payload)
       return { ...state, username: action.payload };
 
-    case SET_AVATAR_URL:
-      // const newPlayersList = state.players.push(action.payload)
-      return { ...state, avatar_url: action.payload };
+    
     case SET_GAME_OBJECT:
       // const newPlayersList = state.players.push(action.payload)
       return { ...state, gameObject: action.payload };
     case SET_SOCKET:
       // const newPlayersList = state.players.push(action.payload)
       return { ...state, socket: action.payload };
+    case SET_CREATOR:
+      // const newPlayersList = state.players.push(action.payload)
+      return { ...state, creator: action.payload };
 
     default:
       return state;
@@ -51,12 +53,7 @@ export function setPlayerUsername(username) {
   };
 }
 
-export function setAvatarUrl(avatar_url) {
-  return {
-    type: SET_AVATAR_URL,
-    payload: avatar_url
-  };
-}
+
 
 export function setGameObject(gameObject) {
   return {
@@ -69,5 +66,11 @@ export function setSocket(socket) {
   return {
     type: SET_SOCKET,
     payload: socket
+  };
+}
+export function setCreator(boolean) {
+  return {
+    type: SET_CREATOR,
+    payload: boolean
   };
 }

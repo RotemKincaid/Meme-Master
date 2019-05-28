@@ -8,19 +8,20 @@ module.exports = {
     // console.log('games before user joins' , games)
 
     console.log(data, "---> data at JOIN ROOM");
+    console.log(data.avatar.url)
     socket.join(data.gamePin);
     players.push(data.username);
     // console.log(players, data.gamePin, "players");
-    io.in(data.gamePin).emit("welcome to the game", data.username);
+    // io.in(data.gamePin).emit("welcome to the game", data.username);
 
     let newPlayer = {
-      username: data.username,
-      hand: [],
-      avatar: "",
-      judge: false,
-      score: 0,
-      chosen_card: {}
-    };
+          username: data.username,
+          hand: [],
+          avatar: data.avatar.url,
+          judge: false,
+          score: 0,
+          chosen_card: {}
+    }
 
     // newGame.players.push(newPlayer)
 
@@ -29,6 +30,22 @@ module.exports = {
     // console.log('game after player joins', games)
 
     io.in(data.gamePin).emit("send updated game", games[objectKey]);
+  },
+
+  joinRoomOnly: (data, socket, io) => {
+
+    console.log(data, "---> data at JOIN ROOM ONLY");
+    
+    socket.join(data.gamePin)
+
+    let objectKey = data.gamePin
+    
+    // console.log('game after player joins', games)
+
+    // io.in(data.gamePin).emit("send game", games[objectKey]);
+
+
+
   },
 
   getCardsToObject: (req, res) => {
@@ -74,7 +91,8 @@ module.exports = {
       images: shuffledMedia,
       current_image: "",
       players: [],
-      active: true
+      active: true,
+      chosenCards: []
     };
 
     let theGame = data.gamePin;
@@ -86,33 +104,151 @@ module.exports = {
   },
 
   prepareGame: (data, socket, io) => {
-    console.log("hit prepare game!");
-    // console.log('cards from db index 0',cardsFromDb[0])
 
-    let gamePin = data.gamePin;
-    console.log("GAME PIN AT PREPARE GAME", gamePin);
-    // console.log('game before changes', games[gamePin])
+    console.log('hit prepare game!')
+  
+    let gamePin = data.gamePin
+    console.log('GAME PIN AT PREPARE GAME', gamePin)
 
-    // console.log('cards before adding to hand', games[gamePin].cards.length)
+    // let cards = games[gamePin].cards
+    let players = games[gamePin].players
 
-    let cards = games[gamePin].cards;
-    let players = games[gamePin].players;
-    // console.log('PLAYERS', players)
 
     for (var i = 0; i < players.length; i++) {
       games[gamePin].players[i].hand = games[gamePin].cards.splice(0, 7);
     }
+    //chose a judge
 
-    // console.log('cards after adding to hand', games[gamePin].cards.length)
+    players[0].judge = true 
 
-    // console.log('PLAYERS after card shuffle', players)
+    games[gamePin].current_image = games[gamePin].images.splice(0,1)
 
-    //  console.log('game after changes', games[gamePin])
-    //  console.log('card deck length after changes', games[gamePin].cards.length)
+     let preparedGame = games[gamePin]
 
-    let preparedGame = games[gamePin];
-    //  console.log(preparedGame)
+      socket.join(data.gamePin);
+     io.in(gamePin).emit("get prepared game",preparedGame )
+
+  },
+
+  changeTurn: (data, socket, io) => {
+    console.log('HIT CHANGE TURN', data)
+
+    //this will add a card to each player, pick a new judge
+
+    let gamePin = data.gamePin
+    let players = games[gamePin].players
+    let cards = games[gamePin].cards
+
+    for (var i = 0; i < players.length; i++){
+      games[gamePin].players[i].hand.push(games[gamePin].cards.splice(0, 1)[0])
+    }
+
+    changedTurnGame = games[gamePin]
+
+    games[gamePin].current_image = games[gamePin].images.splice(0,1)
     socket.join(data.gamePin);
-    io.in(gamePin).emit("get prepared game", preparedGame);
+
+
+    for (var i = 0; i < players.length; i++){
+      for (var j = i + 1; j < players.length; j++){
+      //change the players judge
+        if (players[i].judge === true) {
+          players[j].judge = true
+          players[i].judge = false
+        }
+      }
+    }
+      // }
+      // else if (players[1].judge === true) {
+      //   players[1].judge = false
+      //   players[2].judge = true
+      // }
+      // else if (players[2].judge === true) {
+      //   players[2].judge = false
+      //   players[3].judge = true
+      // }
+    
+     
+
+    console.log(changedTurnGame)
+    io.in(gamePin).emit("get changed turn", changedTurnGame)
+
+
+
+
+
+
+  },
+
+  chooseCard: (data, socket, io) => {
+    console.log('hit choose card', data)
+    let gamePin = data.gamePin
+    let players = games[gamePin].players
+
+    
+    let playerIndex = players.findIndex(player => player.username === data.username)
+
+    let handOfPlayer = players[playerIndex].hand
+
+    let cardIndex = handOfPlayer.findIndex(card => card.card_id === data.card.card_id)
+
+    let chosenCard = handOfPlayer[cardIndex]
+
+    games[gamePin].chosenCards.push(chosenCard)
+
+    players[playerIndex].chosen_card = chosenCard
+
+    console.log(cardIndex, 'cardindex')
+
+    console.log('player index at choosechard', playerIndex)
+    
+    handOfPlayer = handOfPlayer.splice(cardIndex, 1)
+
+    console.log('chosen card in player', players[playerIndex].chosen_card)
+    
+    let chosenCardGame = games[gamePin]
+    
+    console.log('players hand after change',players[playerIndex].hand)
+    
+    io.in(gamePin).emit("get update game with chosen card", chosenCardGame)
+
+
+  },
+
+  changeScore: (data, socket, io) => {
+    console.log('hit change score', data)
+
+    let gamePin = data.gamePin
+
+    let players = games[gamePin].players
+
+    //need to find which player needs to be updated
+
+    currentGameAfterScoreChange = games[gamePin]
+
+    players.score = players.score + 1
+
+    io.in(gamePin).emit("change player score", currentGameAfterScoreChange)
+
+  },
+
+  joinRoomAtPlayerView: (data, socket, io) => {
+    console.log('data at hitjoinroom at player view', data)
+    let gamePin = parseInt(data.gamePin)
+    console.log('gamepin at join room at player view',gamePin)
+    let game = games[gamePin]
+    socket.join(data.gamePin);
+    io.in(gamePin).emit("get game after join room", game)
+
+  },
+
+  getAllChosenCardsFromPlayers: (data, socket, io) => {
+
   }
+
+  
+
+
+
+
 };

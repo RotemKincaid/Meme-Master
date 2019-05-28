@@ -19,7 +19,7 @@ function App(props) {
       <div></div>
       )} */}
 
-      <Header />
+      {/* <Header /> */}
 
       {routes}
     </div>
