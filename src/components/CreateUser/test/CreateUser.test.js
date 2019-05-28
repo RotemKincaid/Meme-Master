@@ -17,23 +17,16 @@ describe("Create User test Container", () => {
       expect(correct).toEqual(true);
     });
   });
-describe("random number generator",() =>{
-    it('Should check to make sure it is a number', () => {
-        let number = cRFuncs.generateRandom()
-        expect(number).toEqual(expect.any(Number))
-    })
-    it('Should check to make sure it is 6 digits long', () => {
-        var doodle = cRFuncs.generateRandom()
-        
-        console.log(`${doodle}`)
-        expect(`${doodle}`).toHaveLength(6)
-    })
-})
+  describe("random number generator", () => {
+    it("Should check to make sure it is a number", () => {
+      let number = cRFuncs.generateRandom();
+      expect(number).toEqual(expect.any(Number));
+    });
+    it("Should check to make sure it is 6 digits long", () => {
+      var doodle = cRFuncs.generateRandom();
 
-
-
-
-
-
-
+      console.log(`${doodle}`);
+      expect(`${doodle}`).toHaveLength(6);
+    });
+  });
 });

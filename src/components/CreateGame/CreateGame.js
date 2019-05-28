@@ -6,7 +6,7 @@ import { setGamePin, setGameObject, setSocket } from "../../dux/reducer";
 import logo from "../../components/logo.png";
 
 import io from "socket.io-client";
-// const socket = io.connect("http://localhost:4052");
+const socket = io.connect("http://localhost:4052");
 // console.log(socket)
 
 class CreateGame extends Component {

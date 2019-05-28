@@ -1,6 +1,6 @@
 const players = [];
 const games = {};
-const cardsFromDb = [];
+let cardsFromDb = [];
 let mediaFromDb = [];
 
 module.exports = {
@@ -51,14 +51,15 @@ module.exports = {
   getCardsToObject: (req, res) => {
     // var newCards = [];
     const db = req.app.get("db");
-    db.get_cards().then(cardsdb => {
+    return db.get_cards().then(cardsdb => {
       cardsFromDb = cardsdb;
+      res.send(cardsFromDb)
     });
   },
-  getCardsToFront: (req, res) => {
-    const db = req.app.get("db");
-    db.get_cards().then(cards => res.status(200).send(cards));
-  },
+  // getCardsToFront: (req, res) => {
+  //   const db = req.app.get("db");
+  //   db.get_cards().then(cards => res.status(200).send(cards));
+  // },
 
   getMedia: (req, res) => {
     const db = req.app.get("db");
