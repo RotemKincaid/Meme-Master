@@ -15,7 +15,7 @@ module.exports = {
     socket.join(data.gamePin);
     players.push(data.username);
     // console.log(players, data.gamePin, "players");
-    io.in(data.gamePin).emit("welcome to the game", data.username);
+    // io.in(data.gamePin).emit("welcome to the game", data.username);
 
     let newPlayer = {
           username: data.username,
@@ -33,6 +33,22 @@ module.exports = {
     // console.log('game after player joins', games)
 
     io.in(data.gamePin).emit("send updated game", games[objectKey]);
+
+
+
+  },
+
+  joinRoomOnly: (data, socket, io) => {
+
+    console.log(data, "---> data at JOIN ROOM ONLY");
+    
+    socket.join(data.gamePin)
+
+    let objectKey = data.gamePin
+    
+    // console.log('game after player joins', games)
+
+    // io.in(data.gamePin).emit("send game", games[objectKey]);
 
 
 
@@ -95,7 +111,7 @@ module.exports = {
     let gamePin = data.gamePin
     console.log('GAME PIN AT PREPARE GAME', gamePin)
 
-    let cards = games[gamePin].cards
+    // let cards = games[gamePin].cards
     let players = games[gamePin].players
 
 
@@ -216,8 +232,9 @@ module.exports = {
   },
 
   joinRoomAtPlayerView: (data, socket, io) => {
-    console.log('hitjoinroom at player view')
-    let gamePin = data.gamePin
+    console.log('data at hitjoinroom at player view', data)
+    let gamePin = parseInt(data.gamePin)
+    console.log('gamepin at join room at player view',gamePin)
     let game = games[gamePin]
     socket.join(data.gamePin);
     io.in(gamePin).emit("get game after join room", game)

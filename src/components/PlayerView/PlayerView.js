@@ -16,18 +16,13 @@ class PlayerView extends Component {
       cards: [],
       image: "",
       socket: "",
-<<<<<<< HEAD
       game: {},
-      chosen_card: {}
-=======
-      chosenCard: "",
-      game: {}
->>>>>>> 9e01c6405af840832798d024cb186bd95264428c
+      chosenCard: {}
     };
   }
 
   componentDidMount() {
-    this.getCards();
+    // this.getCards();
     this.setState({
       socket: this.props.socket.socket
     });
@@ -42,7 +37,7 @@ class PlayerView extends Component {
 
   joinRoom = socket => {
     // const {socket} = this.state
-    console.log("SOCKET AT JOIN ROOM", socket);
+    console.log("SOCKET AT JOIN ROOM on player view", socket);
     // const {socket} = this.props.socket.socket
     const { gamePin } = this.props.gamePin;
 
@@ -54,15 +49,18 @@ class PlayerView extends Component {
         game: game
       });
       this.props.setGameObject(game);
+      this.getCards(game);
     });
+
   };
 
-  getCards = () => {
+  getCards = (game) => {
+    console.log('game at get cards',game)
     // axios.get("/api/cards2").then(cards => {
-    //   console.log(cards);
+      // console.log(th);
 
     const {username} = this.props.gameObject
-    console.log(username)
+    console.log('USERNAME AT GET CARDS ON PLAYER VIEW',username)
     const { gameObject } = this.props.gameObject;
     const {players} = gameObject
     let playerIndex = players.findIndex(player => player.username === username)
@@ -73,12 +71,10 @@ class PlayerView extends Component {
     this.setState({
       cards: gameObject.players[playerIndex].hand
     });
-  };
+  }
 
-    this.setState({
-      cards: gameObject.players[playerIndex].hand
-    });
-  };
+    
+  
 
   chooseCard = card => {
     const { username } = this.props.gameObject;
@@ -111,14 +107,15 @@ class PlayerView extends Component {
       this.props.setGameObject(game);
     });
     this.getCards()
+  }
 
-  chooseCard = card => {
-    // const { cards } = this.state
-    console.log(card, "Looking for me?");
-    this.setState({
-      chosenCard: card
-    });
-  };
+  // chooseCard = card => {
+  //   // const { cards } = this.state
+  //   console.log(card, "Looking for me?");
+  //   this.setState({
+  //     chosenCard: card
+  //   });
+  // };
 
   render() {
     console.log(this.props);
@@ -127,7 +124,7 @@ class PlayerView extends Component {
     const { cards } = this.state;
     const mappedCards = this.state.cards.map(card => {
       return (
-        <div>
+        <div key ={card.card_id}>
           <Card
             card={card}
             chooseCard={this.chooseCard}
@@ -154,6 +151,7 @@ class PlayerView extends Component {
     );
   }
 }
+
 
 function mapStateToProps(state) {
   return {

@@ -7,7 +7,8 @@ const rootReducer = combineReducers({
     gamePin:  reducer,
     username: reducer,
     gameObject: reducer,
-    socket: reducer
+    socket: reducer,
+    creator: reducer
 })
 
 export default createStore(rootReducer, applyMiddleware(promiseMiddleware));
