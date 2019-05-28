@@ -4,6 +4,15 @@ import "./Scores.scss";
 
 const Scores = props => {
   console.log('props at scores component',props)
+
+  const {scores} = props
+
+  let mappedScores = scores.map(player => {
+    return <div>
+      <h1></h1>
+    </div>
+
+  })
   return (
     <div
       className="scores-wrapper"
