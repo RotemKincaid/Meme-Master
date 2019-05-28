@@ -8,12 +8,12 @@ import { connect } from "react-redux";
 import {
   setGamePin,
   setGameObject,
-  setSocket,
+ 
   setPlayerUsername,
   setCreator
 } from "../../dux/reducer";
 import avatarData from "./avatarData";
-import { numberLiteralTypeAnnotation } from "@babel/types";
+
 
 // const {socket} = this.props.socket
 // var socket = ""
@@ -170,7 +170,7 @@ class CreateUser extends Component {
       // console.log(avatars);
       return (
         <div className="avatar-display">
-          <img
+          <img alt ='avatar-display'
             // value={avatars.url}
             src={avatars.url}
             onClick={() => this.avatarSet(avatars)}
@@ -185,7 +185,7 @@ class CreateUser extends Component {
     // const {socket} = this.props.socket
     // console.log(this.props.gamePin);
     const { gamePin } = this.props.gamePin;
-    const { username, players, socket } = this.state;
+    // const { username, players, socket } = this.state;
     const { avatar } = this.state;
     // const mappedNames = players.map(name => {
     //   return <div key={name.id}>{name} Joined</div>;
@@ -220,7 +220,7 @@ class CreateUser extends Component {
             {avatar.url ? (
               <div>
                 <h2>Your Selected Avatar:</h2>
-                <img className="selected-avatar" src={avatar.url} />
+                <img alt = 'avatar' className="selected-avatar" src={avatar.url} />
                 <button className="reset-avatar" onClick={this.resetAvatar}>
                   NOT SURE?
                 </button>

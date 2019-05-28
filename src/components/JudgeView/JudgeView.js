@@ -56,10 +56,10 @@ class JudgeView extends Component {
   };
 
   chooseCard = (card) => {
-    const { username } = this.props.gameObject;
-    const { gameObject } = this.props.gameObject;
-    const { players } = gameObject;
-    let playerIndex = players.findIndex(player => player.username === username);
+    
+    
+   
+    
 
     const { gamePin } = this.props.gamePin;
     console.log("card at choosecard", card);
@@ -141,6 +141,7 @@ class JudgeView extends Component {
         This is JudgeView Component!
         <h3>Judge is thinking...</h3>
         <img
+        alt='judge'
           className="meme-image-judgeview"
           src={image}
           // src="https://imgflip.com/s/meme/Two-Buttons.jpg"

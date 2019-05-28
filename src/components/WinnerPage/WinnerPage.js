@@ -106,7 +106,7 @@ class WinnerPage extends Component {
           {" "}
         </Scores>
         <div>WINNER WINNER CHICKEN DINNER</div>
-        <img src={gameObject.current_image[0].media_url}/>
+        <img alt = 'winner' src={gameObject.current_image[0].media_url}/>
         <button className="open-scores-btn" onClick={this.openScores}>
           View Scores
         </button>

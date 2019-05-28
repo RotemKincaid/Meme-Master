@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "./Lobby.scss";
 import { connect } from "react-redux";
 import { setGameObject } from "../../dux/reducer";
-import io from "socket.io-client";
+// import io from "socket.io-client";
 // const socket = io("http://localhost:4052");
 class Lobby extends Component {
   constructor() {
@@ -121,7 +121,7 @@ class Lobby extends Component {
                 return (
                   <div className="mapped-players" key={index}>
                     <h6>{player.username}</h6>
-                    <img className="lobby-avatar" src={player.avatar} />
+                    <img alt='lobby-avatar' className="lobby-avatar" src={player.avatar} />
                   </div>
                 );
               })}
