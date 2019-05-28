@@ -166,9 +166,17 @@ module.exports = {
     let players = games[gamePin].players
     let cards = games[gamePin].cards
 
+    let game = games[gamePin]
+
     for (var i = 0; i < players.length; i++){
       games[gamePin].players[i].hand.push(games[gamePin].cards.splice(0, 1)[0])
     }
+
+    game.winnerCard = []
+
+
+
+
 
     changedTurnGame = games[gamePin]
 
@@ -185,6 +193,12 @@ module.exports = {
         }
       }
     }
+
+    let indexOfJudge = players.findIndex(player=>{
+      player.judge === true
+    })
+
+    game.judge = players[indexOfJudge]
       // }
       // else if (players[1].judge === true) {
       //   players[1].judge = false
