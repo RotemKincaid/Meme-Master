@@ -69,21 +69,7 @@ class Lobby extends Component {
       this.props.setGameObject(game);
     });
   };
-  changeTurn = () => {
-    console.log("changeTurn hit!");
-    const { socket } = this.state;
-    const { gamePin } = this.props.gamePin;
-    console.log("gamepin at change turn game", gamePin);
-    socket.emit("change turn", { gamePin });
-    socket.on("get changed turn", game => {
-      console.log("game sent from server after turned has changed", game);
-      console.log("changed turned game", game);
-      this.setState({
-        game: game
-      });
-      this.props.setGameObject(game);
-    });
-  };
+  
   render() {
     const { gameObject } = this.props.gameObject;
     console.log("gameObject from redux", this.props.gameObject);

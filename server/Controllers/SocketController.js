@@ -94,7 +94,8 @@ module.exports = {
       players: [],
       active: true,
       chosenCards: [],
-      winnerCard: []
+      winnerCard: [],
+      scores: []
     };
 
     let theGame = data.gamePin;
@@ -240,7 +241,14 @@ module.exports = {
 
     players[playerIndex].score = playerScore + 1
 
+    let newPlayerScore = players[playerIndex].score
+
     let chosenWinnerCardGame = games[gamePin]
+    
+    let playerScoreObject = {playerUsername, newPlayerScore}
+
+    console.log('playerScoreObject',playerScoreObject)
+    games[gamePin].scores.push(playerScoreObject)
     
     // console.log('players hand after change',players[playerIndex].hand)
     
