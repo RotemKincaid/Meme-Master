@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "./Lobby.scss";
 import { connect } from "react-redux";
 import { setGameObject } from "../../dux/reducer";
-import io from "socket.io-client";
+// import io from "socket.io-client";
 // const socket = io("http://localhost:4052");
 class Lobby extends Component {
   constructor() {
@@ -69,21 +69,7 @@ class Lobby extends Component {
       this.props.setGameObject(game);
     });
   };
-  changeTurn = () => {
-    console.log("changeTurn hit!");
-    const { socket } = this.state;
-    const { gamePin } = this.props.gamePin;
-    console.log("gamepin at change turn game", gamePin);
-    socket.emit("change turn", { gamePin });
-    socket.on("get changed turn", game => {
-      console.log("game sent from server after turned has changed", game);
-      console.log("changed turned game", game);
-      this.setState({
-        game: game
-      });
-      this.props.setGameObject(game);
-    });
-  };
+  
   render() {
     const { gameObject } = this.props.gameObject;
     console.log("gameObject from redux", this.props.gameObject);
@@ -136,7 +122,7 @@ class Lobby extends Component {
                 return (
                   <div className="mapped-players" key={index}>
                     <h6>{player.username}</h6>
-                    <img className="lobby-avatar" src={player.avatar} />
+                    <img alt='lobby-avatar' className="lobby-avatar" src={player.avatar} />
                   </div>
                 );
               })}

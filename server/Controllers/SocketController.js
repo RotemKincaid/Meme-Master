@@ -27,8 +27,28 @@ module.exports = {
     }
 
     // newGame.players.push(newPlayer)
-
+    
+    //add initial score to scores on game object
+    
     let objectKey = data.gamePin
+
+    
+    let playerUsername = data.username
+
+    
+    
+    
+
+    
+    
+    let initialPlayerScore = {playerUsername, score: 0}
+    
+    games[objectKey].scores.push(initialPlayerScore)
+
+
+
+
+
     games[objectKey].players.push(newPlayer)
     // console.log('game after player joins', games)
 
@@ -94,7 +114,8 @@ module.exports = {
       players: [],
       active: true,
       chosenCards: [],
-      winnerCard: []
+      winnerCard: [],
+      scores: []
     };
 
     let theGame = data.gamePin;
@@ -225,22 +246,43 @@ module.exports = {
   },
 
   chooseWinnerCard: (data, socket, io) => {
-    // console.log('hit winner choose card', data)
+    console.log('hit winner choose card', data)
     let gamePin = data.gamePin
 
     games[gamePin].winnerCard.push(data.card)
+
+    //update player object first
 
     let playerUsername = data.card.playerUsername
 
     let players = games[gamePin].players
 
     let playerIndex = players.findIndex(player => player.username === playerUsername)
-
+    
     let playerScore = players[playerIndex].score
-
+  
     players[playerIndex].score = playerScore + 1
 
+    console.log(players[playerIndex].score)
+
+    //update game score object 
+    let playerScores = games[gamePin].scores
+
+    let playerIndexInScores = playerScores.findIndex(player => player.playerUsername === playerUsername)
+    
+    let newPlayerScore = playerScores[playerIndex].score
+    
+    playerScores[playerIndexInScores].score = newPlayerScore + 1
+    
+
+    // players[playerIndex].score = playerScore + 1
+
     let chosenWinnerCardGame = games[gamePin]
+    
+    // let playerScoreObject = {playerUsername, newPlayerScore}
+
+    // console.log('playerScoreObject',playerScoreObject)
+    // games[gamePin].scores.push(playerScoreObject)
     
     // console.log('players hand after change',players[playerIndex].hand)
     
