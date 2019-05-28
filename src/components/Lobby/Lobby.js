@@ -151,6 +151,9 @@ class Lobby extends Component {
           <button className="start-game" onClick={this.startGame}>
             START GAME
           </button>
+          <button>
+            <Link to="/createuser">Back</Link>
+          </button>
           {/* THIS WILL GO ON PLAYERS VIEW BUT WORKING ON HERE FOR NOW
           <button onClick={this.changeTurn}>CHANGE TURN</button> */}
           {/* <button>
