@@ -122,6 +122,16 @@ class Lobby extends Component {
     //     </div>
     //   );
     // });
+    console.log(players);
+
+    const mappedPlayers = players.map(player => {
+      return (
+        <div className="mapped-players">
+          <h6>{player.username}</h6>
+          <img className="lobby-avatar" src={player.avatar} />
+        </div>
+      );
+    });
     return (
       
       
@@ -160,6 +170,27 @@ class Lobby extends Component {
             </Link>
           </button> */}
         
+        {/* This is Lobby Component! */}
+        <h1>GAME LOBBY</h1>
+        <div className="lobby-inner">
+          {/* <div>'this will display the players list as they join'</div> */}
+          <h2>{mappedPlayers}</h2>
+          <button>
+            <Link className="link" to="/playerview">
+              PLAYER VIEW
+            </Link>
+          </button>
+          <button className="start-game" onClick={this.startGame}>
+            START GAME
+          </button>
+          {/* THIS WILL GO ON PLAYERS VIEW BUT WORKING ON HERE FOR NOW
+          <button onClick={this.changeTurn}>CHANGE TURN</button> */}
+          {/* <button>
+          <Link className="link" to="/judgeview">
+            CLICK WHEN YOU ARE READY! -judgeview-
+          </Link>
+        </button> */}
+        </div>
       </div>
     );
   }
