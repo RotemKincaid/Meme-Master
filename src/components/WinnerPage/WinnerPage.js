@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Scores from "../Scores/Scores";
 import "./WinnerPage.scss";
+import {Link} from 'react-router-dom'
 
 import { connect } from "react-redux";
 import { setGameObject, setSocket } from "../../dux/reducer";
@@ -94,10 +95,18 @@ class WinnerPage extends Component {
     console.log(gameObject.current_image)
     return (
       <div className="winnerpage-main">
-        <button onClick={this.changeTurn}>CHANGE TURN</button> 
+        <Link to ='/playerview' ><button onClick={this.changeTurn}>CHANGE TURN</button> </Link>
         {this.state.isOpen ? (
           <div onClick={this.closeScores} className="backdrop" />
         ) : null}
+
+        
+        <div>WINNER WINNER CHICKEN DINNER</div>
+        <h1>{winner} IS THE WINNER!</h1>
+        <img alt = 'winner' src={gameObject.current_image[0].media_url}/>
+        <button className="open-scores-btn" onClick={this.openScores}>
+          View Scores
+        </button>
 
         <Scores
           scores={gameObject.scores}
@@ -107,12 +116,7 @@ class WinnerPage extends Component {
         >
           {" "}
         </Scores>
-        <div>WINNER WINNER CHICKEN DINNER</div>
-        <h1>{winner} IS THE WINNER!</h1>
-        <img alt = 'winner' src={gameObject.current_image[0].media_url}/>
-        <button className="open-scores-btn" onClick={this.openScores}>
-          View Scores
-        </button>
+
       </div>
     );
   }

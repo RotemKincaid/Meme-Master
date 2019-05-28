@@ -71,29 +71,17 @@ class Lobby extends Component {
   };
 
   render() {
-    const { gameObject } = this.props.gameObject;
+    const { gameObject, creator } = this.props.gameObject;
     console.log("gameObject from redux", this.props.gameObject);
     const { players } = gameObject;
+    console.log('creator at lobby', this.props.gameObject.creator)
     console.log("players at lobby", players);
-    // const mappedPlayers = players.map((player, index) => {
-    //   return (
-    //     <div key={index} style={{ display: "flex" }}>
-    //       <h6>{player.username}</h6>
-    //       <img height={"50px"} width={"auto"} src={player.avatar} />
-    //     </div>
-    //   );
-    // });
+    
     console.log(players);
-    // const mappedPlayers = players.map(player => {
-    //   return (
-    //     <div className="mapped-players">
-    //       <h6>{player.username}</h6>
-    //       <img className="lobby-avatar" src={player.avatar} />
-    //     </div>
-    //   );
-    // });
+   
     return (
       <div className="lobby">
+
         {/* This is Lobby Component!
         <h1>PLAYERS</h1>
         <div>'this will display the players list as they join'</div> */}
@@ -117,9 +105,9 @@ class Lobby extends Component {
             {this.props.gamePin.gamePin}
           </h4>
         </div>
+
         <div className="lobby-inner">
-          {/* <div>'this will display the players list as they join'</div> */}
-          {/* <h2>{mappedPlayers}</h2> */}
+          
           {players ? (
             <h2>
               {players.map((player, index) => {
@@ -139,17 +127,18 @@ class Lobby extends Component {
             <h2>loading..</h2>
           )}
 
-          {/* 
-          <button>
-            <Link to="/createuser">Back</Link>
-          </button> */}
-          {/* THIS WILL GO ON PLAYERS VIEW BUT WORKING ON HERE FOR NOW
-          <button onClick={this.changeTurn}>CHANGE TURN</button> */}
-          {/* <button>
-          <Link className="link" to="/judgeview">
-            CLICK WHEN YOU ARE READY! -judgeview-
-          </Link>
-        </button> */}
+
+          {creator ? (
+            <Link to="/playerview">
+              <button className="start-game" onClick={this.startGame}>
+                START GAME
+              </button>
+            </Link>
+          ):(
+            <Link to="/playerview"><button className="start-game">JOIN GAME</button></Link>
+          )}
+          
+
         </div>
         <Link to="/playerview">
           <button className="start-game" onClick={this.startGame}>
@@ -164,7 +153,8 @@ function mapStateToProps(state) {
   return {
     gamePin: state.gamePin,
     gameObject: state.gameObject,
-    socket: state.socket
+    socket: state.socket,
+    creator: state.creator
   };
 }
 const mapDispatchToProps = {
