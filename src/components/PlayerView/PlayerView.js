@@ -62,12 +62,12 @@ class PlayerView extends Component {
     const {username} = this.props.gameObject
     console.log('USERNAME AT GET CARDS ON PLAYER VIEW',username)
     const { gameObject } = this.props.gameObject;
-    const {players} = gameObject
-    let playerIndex = players.findIndex(player => player.username === username)
-    console.log('PLAYER INDEX AT GET CARDS', playerIndex)
-    
+    const { players } = gameObject;
+    let playerIndex = players.findIndex(player => player.username === username);
+    console.log("PLAYER INDEX AT GET CARDS", playerIndex);
+
     // const { gameObject } = this.props.gameObject;
-    
+
     this.setState({
       cards: gameObject.players[playerIndex].hand
     });
@@ -105,6 +105,7 @@ class PlayerView extends Component {
         game: game
       });
       this.props.setGameObject(game);
+      this.getCards();
     });
     this.getCards()
   }
