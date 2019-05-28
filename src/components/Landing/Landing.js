@@ -19,7 +19,7 @@ class Landing extends Component {
       console.log('cards from db are on server')
     })
     axios.get('/api/media').then(media => {
-      console.log('media from db are on server')
+      console.log('media from db are on server', media)
     })
 
     this.props.setSocket(socket)

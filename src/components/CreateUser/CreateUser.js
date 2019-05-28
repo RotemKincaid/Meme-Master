@@ -3,7 +3,7 @@ import React, { Component } from "react";
 // import "slick-carousel/slick/slick.css";
 // import "slick-carousel/slick/slick-theme.css";
 import "./CreateUser.scss";
-import Slider from "react-slick"
+import Slider from "react-slick";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { setGamePin, setGameObject, setSocket } from "../../dux/reducer";
@@ -150,8 +150,6 @@ class CreateUser extends Component {
       console.log("SOMETHING IS WRONG");
     }
   };
-
-
 
   avatarSet = avatars => {
     this.setState({

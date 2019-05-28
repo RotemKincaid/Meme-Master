@@ -19,12 +19,12 @@
 
   .avatar-images {
     height: 300px;
-    width: 100%;
+    width: 40%;
     // border-style: solid 2px black;
     // background-color: rgba(160, 155, 155, 0.541);
     border-radius: 10px;
     display: flex;
-    justify-content: center;
+    // justify-content: center;
     align-items: center;
     overflow: scroll;
     overflow-x: scroll;
@@ -33,6 +33,7 @@
     img{
         border-radius: 50%;
         height: 100px;
+        margin: 15px;
         margin-left: 5px
     }
   }
