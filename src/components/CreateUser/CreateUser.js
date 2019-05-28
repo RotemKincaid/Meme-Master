@@ -14,6 +14,7 @@ import {
   setCreator
 } from "../../dux/reducer";
 import avatarData from "./avatarData";
+import { numberLiteralTypeAnnotation } from "@babel/types";
 
 // const {socket} = this.props.socket
 // var socket = ""
@@ -64,20 +65,19 @@ class CreateUser extends Component {
   }
 
   componentDidMount() {
-    
-    console.log('this.props. at component did moutn set user',this.props)
+    console.log("this.props. at component did moutn set user", this.props);
     const { gameObject, gamePin } = this.props;
 
-    if (gamePin.gamePin){
+    if (gamePin.gamePin) {
       this.setState({
         isCreator: true
-      })
-      this.props.setCreator(true)
-    }else if (gamePin.gamePin === "") {
+      });
+      this.props.setCreator(true);
+    } else if (gamePin.gamePin === "") {
       this.setState({
         isCreator: false
-      })
-      this.props.setCreator(false)
+      });
+      this.props.setCreator(false);
     }
     console.log(gameObject.players);
     console.log(this.state.avatar);
@@ -160,9 +160,13 @@ class CreateUser extends Component {
     });
   };
 
+  checkLength = number => {
+    return number.toString().length;
+  };
+
   render() {
-    console.log('PROPS AT CREATE USER FROM REDUX',this.props)
-    const { avatarData , isCreator} = this.state;
+    console.log("PROPS AT CREATE USER FROM REDUX", this.props);
+    const { avatarData, isCreator } = this.state;
     const mappedAvatars = avatarData.map(avatars => {
       // console.log(avatars);
       return (
@@ -187,20 +191,21 @@ class CreateUser extends Component {
     // const mappedNames = players.map(name => {
     //   return <div key={name.id}>{name} Joined</div>;
     // });
+    const countSixPin = this.checkLength(gamePin) === 6;
 
     return (
       <div className="createuser">
         <div className="createuser-inner">
           <div className="pin-username">
-            <h2>Your Game Pin: {this.props.gamePin.gamePin}</h2>
-            {this.props.gamePin.gamePin ? (
-              <div />
-            ) : (
+            <h2>Your Game Pin: {gamePin}</h2>
+            {!countSixPin ? (
               <input
-                value={this.state.gamePin}
+                value={gamePin}
                 placeholder="Enter game pin..."
                 onChange={this.handlePin}
               />
+            ) : (
+              <div />
             )}
             <br />
             <h2>Enter Username</h2>
@@ -209,6 +214,7 @@ class CreateUser extends Component {
               placeholder="Be creative..."
               onChange={this.nameHandler}
             />
+            <h2>{this.state.username}</h2>
           </div>
 
           <div className="avatar-container">
@@ -227,26 +233,24 @@ class CreateUser extends Component {
               </div>
             )}
           </div>
-          <div className='button-container'>
+          <div className="join-btnsss">
             {isCreator ? (
-              <Link to="/lobby"><button className="join-btn" onClick={this.joinRoomAsCreator}>
-                CONTINUE TO LOBBY
-              </button></Link>
+              <Link to="/lobby">
+                <button className="join-btn" onClick={this.joinRoomAsCreator}>
+                  CONTINUE TO LOBBY
+                </button>
+              </Link>
             ) : (
               <div>
-                <Link to="/lobby"><button className="join-btn" onClick={this.joinRoom}>
-                  JOIN GAME
-                </button></Link>
+                <Link to="/lobby">
+                  <button className="join-btn" onClick={this.joinRoom}>
+                    JOIN GAME
+                  </button>
+                </Link>
                 {/* GO TO LOBBY */}
               </div>
             )}
           </div>
-          
-
-
-          
-          
-          
         </div>
       </div>
     );

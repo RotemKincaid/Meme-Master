@@ -14,7 +14,8 @@ class JudgeView extends Component {
       image: "",
       socket: "",
       game: {},
-      chosenCards: []
+      chosenCards: [],
+      winnerCard: []
     };
 
   }
@@ -53,6 +54,39 @@ class JudgeView extends Component {
     });
 
   };
+
+  chooseCard = (card) => {
+    const { username } = this.props.gameObject;
+    const { gameObject } = this.props.gameObject;
+    const { players } = gameObject;
+    let playerIndex = players.findIndex(player => player.username === username);
+
+    const { gamePin } = this.props.gamePin;
+    console.log("card at choosecard", card);
+    console.log("this.props at chooseCard", this.props);
+    const { socket } = this.state;
+    console.log("socket at choose card", socket);
+
+    this.setState({
+      winnerCard: [card]
+    });
+
+    socket.emit("choose winner card", {
+      gamePin: gamePin,
+      card: card
+      // username: this.props.username.username
+    });
+
+    socket.on("get update game with winner card", game => {
+      console.log("game sent from server after a card was chosen as winner", game);
+      this.setState({
+        game: game
+      });
+      this.props.setGameObject(game);
+      
+    });
+
+  }
 
   // getChosenCards = (gamePin) => {
   //   console.log('game pin at get chosen cards',gamePin)
@@ -93,7 +127,8 @@ class JudgeView extends Component {
     let mappedChosenCards = chosenCards.map(card => {
       return <div key= {card.card_id} className="card-container-judgeview">
       <Card card={card}
-            content={card.content}/>
+            content={card.content}
+            chooseCard ={this.chooseCard}/>
       </div>
 
     })
@@ -119,6 +154,7 @@ class JudgeView extends Component {
         <div className="card-container-judgeview">
           {mappedChosenCards}
         </div>
+        <Link to = '/winner'><button>WHO'S THE WINNER!!?</button></Link>
       </div>
     );
   }

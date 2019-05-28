@@ -40,6 +40,9 @@ io.on("connection", function(socket) {
   socket.on("choose card", data =>
     SocketController.chooseCard(data, socket, io)
   );
+  socket.on("choose winner card", data =>
+    SocketController.chooseWinnerCard(data, socket, io)
+  );
   socket.on("join room at player view", data =>
     SocketController.joinRoomAtPlayerView(data, socket, io)
   );
