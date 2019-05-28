@@ -69,7 +69,7 @@ class CreateGame extends Component {
         </div>
 
         <Link className="link" to="/createuser">
-          <button onClick={this.sendGame}>Next</button>
+          <button onClick={this.sendGame}>NEXT</button>
         </Link>
       </div>
     );

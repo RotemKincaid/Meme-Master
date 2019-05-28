@@ -15,6 +15,7 @@ massive(CONNECTION_STRING)
   .catch(err => console.log("error connecting to db", err));
 
 io.on("connection", function(socket) {
+  console.log('a user connected')
   socket.emit("news", " hello world");
   
   socket.on("name", function(data) {
@@ -42,6 +43,11 @@ io.on("connection", function(socket) {
   socket.on("join room at player view", data =>
     SocketController.joinRoomAtPlayerView(data, socket, io)
   );
+  socket.on("join room only", data =>
+    SocketController.joinRoomOnly(data, socket, io)
+  );
+
+  socket.on('get chosen cards', data => SocketController.getAllChosenCardsFromPlayers(data, socket, io));
 
   
 

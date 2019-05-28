@@ -9,7 +9,8 @@ import {
   setGamePin,
   setGameObject,
   setSocket,
-  setPlayerUsername
+  setPlayerUsername,
+  setCreator
 } from "../../dux/reducer";
 import avatarData from "./avatarData";
 
@@ -33,7 +34,8 @@ class CreateUser extends Component {
       gamePin: null,
       game: {},
       avatarData: avatarData,
-      socket: ""
+      socket: "",
+      isCreator: false
     };
 
     // const {socket} = this.props.socket
@@ -61,8 +63,21 @@ class CreateUser extends Component {
   }
 
   componentDidMount() {
-    // console.log('this.props. at component did moutn set user',this.props)
+    
+    console.log('this.props. at component did moutn set user',this.props)
     const { gameObject, gamePin } = this.props;
+
+    if (gamePin.gamePin){
+      this.setState({
+        isCreator: true
+      })
+      this.props.setCreator(true)
+    }else if (gamePin.gamePin === "") {
+      this.setState({
+        isCreator: false
+      })
+      this.props.setCreator(false)
+    }
     console.log(gameObject.players);
     console.log(this.state.avatar);
 
@@ -145,7 +160,8 @@ class CreateUser extends Component {
   };
 
   render() {
-    const { avatarData } = this.state;
+    console.log('PROPS AT CREATE USER FROM REDUX',this.props)
+    const { avatarData , isCreator} = this.state;
     const mappedAvatars = avatarData.map(avatars => {
       // console.log(avatars);
       return (
@@ -209,17 +225,27 @@ class CreateUser extends Component {
                 <div className="avatar-images">{mappedAvatars}</div>
               </div>
             )}
-
-            {this.props.gamePin.gamePin ? (
-              <button className="join-btn" onClick={this.joinRoomAsCreator}>
-                <Link to="/lobby">JOIN GAME</Link>
-              </button>
+          </div>
+          <div className='button-container'>
+            {isCreator ? (
+              <Link to="/lobby"><button className="join-btn" onClick={this.joinRoomAsCreator}>
+                CONTINUE TO LOBBY
+              </button></Link>
             ) : (
-              <button className="join-btn" onClick={this.joinRoom}>
-                <Link to="/lobby">JOIN GAME</Link>
-              </button>
+              <div>
+                <Link to="/lobby"><button className="join-btn" onClick={this.joinRoom}>
+                  JOIN GAME
+                </button></Link>
+                {/* GO TO LOBBY */}
+              </div>
             )}
           </div>
+          
+
+
+          
+          
+          
         </div>
       </div>
     );
@@ -230,14 +256,16 @@ function mapStateToProps(state) {
   return {
     gamePin: state.gamePin,
     gameObject: state.gameObject,
-    socket: state.socket
+    socket: state.socket,
+    creator: state.creator
   };
 }
 
 const mapDispatchToProps = {
   setGamePin: setGamePin,
   setGameObject: setGameObject,
-  setPlayerUsername: setPlayerUsername
+  setPlayerUsername: setPlayerUsername,
+  setCreator: setCreator
 };
 
 export default connect(

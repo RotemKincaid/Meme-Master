@@ -4,6 +4,7 @@ import "./Lobby.scss";
 
 import { connect } from "react-redux";
 import { setGameObject } from "../../dux/reducer";
+
 import io from "socket.io-client";
 // const socket = io("http://localhost:4052");
 
@@ -13,7 +14,8 @@ class Lobby extends Component {
 
     this.state = {
       game: {},
-      socket: ""
+      socket: "",
+      
     };
   }
   componentDidMount() {
@@ -21,11 +23,52 @@ class Lobby extends Component {
       game: this.props.gameObject.gameObject,
       socket: this.props.socket.socket
     });
+    this.joinRoom(this.props.socket.socket);
+    // this.joinRoomOnly(this.props.socket.socket)
   }
+
+  joinRoom = socket => {
+    // const {socket} = this.state
+    console.log("SOCKET AT JOIN ROOM on lobby", socket);
+    // const {socket} = this.props.socket.socket
+    const { gamePin } = this.props.gamePin;
+
+    socket.emit("join room at player view", { gamePin });
+
+    socket.on("get game after join room", game => {
+      console.log("game sent from server", game);
+      this.setState({
+        game: game,
+        
+      });
+      this.props.setGameObject(game);
+      // this.getChosenCards(gamePin);
+      
+    });
+
+  };
+
+  // joinRoomOnly = (socket) => {
+  //   console.log("HIT JOIN ROOM at lobby");
+  //   const { username, gamePin, avatar } = this.state;
+  //   // const {gamePin} = this.props.gamePin
+  //   socket.emit("join room only", {
+  //     gamePin: gamePin
+  //   });
+  //   socket.on("send game", game => {
+  //     console.log("game sent from server after join room only", game);
+  //     this.setState({
+  //       game: game
+  //     });
+  //     this.props.setGameObject(game);
+  //   });
+  // }
 
   startGame = () => {
     console.log("startGame hit!");
-    const { socket } = this.state;
+    // const { socket } = this.state;
+    const {socket} = this.props.socket
+    console.log(socket)
     const { gamePin } = this.props.gamePin;
     console.log("gamepin at start game", gamePin);
 
@@ -36,11 +79,13 @@ class Lobby extends Component {
       console.log("prepared game", game);
 
       this.setState({
-        game: game
+        game: game,
+        gameReady: true,
       });
 
       this.props.setGameObject(game);
     });
+    
   };
   changeTurn = () => {
     console.log("changeTurn hit!");
@@ -67,6 +112,16 @@ class Lobby extends Component {
     console.log("gameObject from redux", this.props.gameObject);
 
     const { players } = gameObject;
+    console.log('players at lobby', players);
+
+    // const mappedPlayers = players.map((player, index) => {
+    //   return (
+    //     <div key={index} style={{ display: "flex" }}>
+    //       <h6>{player.username}</h6>
+    //       <img height={"50px"} width={"auto"} src={player.avatar} />
+    //     </div>
+    //   );
+    // });
     console.log(players);
 
     const mappedPlayers = players.map(player => {
@@ -78,7 +133,43 @@ class Lobby extends Component {
       );
     });
     return (
+      
+      
       <div className="lobby">
+       
+
+        
+          This is Lobby Component!
+          <h1>PLAYERS</h1>
+          <div>'this will display the players list as they join'</div>
+          {players ? (
+            <h2>{players.map((player, index) => {
+              return (
+                <div key={index} style={{ display: "flex" }}>
+                  <h6>{player.username}</h6>
+                  <img height={"50px"} width={"auto"} src={player.avatar} />
+                </div>
+              );
+              })}
+            </h2>
+
+          ):(
+            <h2>loading..</h2>
+          )}
+          <button>
+            <Link className="link" to="/playerview">
+                PLAYER VIEW
+            </Link>
+          </button>
+          <button onClick={this.startGame}>START GAME</button>
+          THIS WILL GO ON PLAYERS VIEW BUT WORKING ON HERE FOR NOW
+          <button onClick={this.changeTurn}>CHANGE TURN</button>
+          {/* <button>
+            <Link className="link" to="/judgeview">
+              CLICK WHEN YOU ARE READY! -judgeview-
+            </Link>
+          </button> */}
+        
         {/* This is Lobby Component! */}
         <h1>GAME LOBBY</h1>
         <div className="lobby-inner">

@@ -15,6 +15,7 @@
   width: 100%;
   // margin: 0;
 
+  
   .createuser-inner {
     display: flex;
     justify-content: center;
@@ -27,11 +28,19 @@
       height: 50px;
       width: 145px;
       border: 1px solid black;
+      margin: 3px;
+      font-size: 20px;
       margin-bottom: 0px;
       font-size: 15px;
 
       background-color: rgb(55, 17, 190);
       border-radius: 5px;
+      color: white;
+      text-decoration: none;
+      word-spacing: 1px;
+      text-shadow: 2px 2px 3px black;
+      font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+      margin-top: 35px;
 
       a {
         text-decoration: none;
@@ -113,4 +122,21 @@
       }
     }
   }
+}
+
+.button-container button {
+  border: 1px solid black;
+  margin-bottom: 20px;
+  
+
+  height: 40px;
+  width: 95px;
+  border: 1px solid black;
+  margin: 3px;
+  font-size: 25px;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  background-color: rgb(55, 17, 190);
+  border-radius: 5px;
+  text-shadow: 2px 2px 3px black;
+  color: white;
 }
