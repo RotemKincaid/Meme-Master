@@ -23,31 +23,30 @@ class Lobby extends Component {
       game: this.props.gameObject.gameObject,
       socket: this.props.socket.socket
     });
-    // this.joinRoom(this.props.socket.socket);
+    this.joinRoom(this.props.socket.socket);
     // this.joinRoomOnly(this.props.socket.socket)
   }
 
-  // joinRoom = socket => {
-  //   // const {socket} = this.state
-  //   console.log("SOCKET AT JOIN ROOM on judge", socket);
-  //   // const {socket} = this.props.socket.socket
-  //   const { gamePin } = this.props.gamePin;
+  joinRoom = socket => {
+    // const {socket} = this.state
+    console.log("SOCKET AT JOIN ROOM on lobby", socket);
+    // const {socket} = this.props.socket.socket
+    const { gamePin } = this.props.gamePin;
 
-  //   socket.emit("join room at player view", { gamePin });
+    socket.emit("join room at player view", { gamePin });
 
-  //   socket.on("get game after join room", game => {
-  //     console.log("game sent from server", game);
-  //     this.setState({
-  //       game: game,
-  //       image: game.current_image[0].media_url,
-  //       chosenCards: game.chosenCards
-  //     });
-  //     this.props.setGameObject(game);
-  //     // this.getChosenCards(gamePin);
+    socket.on("get game after join room", game => {
+      console.log("game sent from server", game);
+      this.setState({
+        game: game,
+        
+      });
+      this.props.setGameObject(game);
+      // this.getChosenCards(gamePin);
       
-  //   });
+    });
 
-  // };
+  };
 
   // joinRoomOnly = (socket) => {
   //   console.log("HIT JOIN ROOM at lobby");
@@ -115,14 +114,14 @@ class Lobby extends Component {
     const { players } = gameObject;
     console.log('players at lobby', players);
 
-    const mappedPlayers = players.map((player, index) => {
-      return (
-        <div key={index} style={{ display: "flex" }}>
-          <h6>{player.username}</h6>
-          <img height={"50px"} width={"auto"} src={player.avatar} />
-        </div>
-      );
-    });
+    // const mappedPlayers = players.map((player, index) => {
+    //   return (
+    //     <div key={index} style={{ display: "flex" }}>
+    //       <h6>{player.username}</h6>
+    //       <img height={"50px"} width={"auto"} src={player.avatar} />
+    //     </div>
+    //   );
+    // });
     return (
       
       
@@ -133,7 +132,20 @@ class Lobby extends Component {
           This is Lobby Component!
           <h1>PLAYERS</h1>
           <div>'this will display the players list as they join'</div>
-          <h2>{mappedPlayers}</h2>
+          {players ? (
+            <h2>{players.map((player, index) => {
+              return (
+                <div key={index} style={{ display: "flex" }}>
+                  <h6>{player.username}</h6>
+                  <img height={"50px"} width={"auto"} src={player.avatar} />
+                </div>
+              );
+              })}
+            </h2>
+
+          ):(
+            <h2>loading..</h2>
+          )}
           <button>
             <Link className="link" to="/playerview">
                 PLAYER VIEW

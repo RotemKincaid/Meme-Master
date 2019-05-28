@@ -229,14 +229,14 @@ class CreateUser extends Component {
           <div className='button-container'>
             {isCreator ? (
               <Link to="/lobby"><button className="join-btn" onClick={this.joinRoomAsCreator}>
-                JOIN GAME
+                CONTINUE TO LOBBY
               </button></Link>
             ) : (
               <div>
-                <button className="join-btn" onClick={this.joinRoom}>
+                <Link to="/lobby"><button className="join-btn" onClick={this.joinRoom}>
                   JOIN GAME
-                </button>
-                <Link to="/lobby">GO TO LOBBY</Link>
+                </button></Link>
+                {/* GO TO LOBBY */}
               </div>
             )}
           </div>
