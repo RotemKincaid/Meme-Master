@@ -196,7 +196,9 @@ class CreateUser extends Component {
       <div className="createuser">
         <div className="createuser-inner">
           <div className="pin-username">
-            <h2>Your Game Pin: {gamePin}</h2>
+            <h2>
+              Your Game Pin: <h2 style={{ color: "orangered" }}>{gamePin}</h2>
+            </h2>
             {!countSixPin ? (
               <input
                 value={gamePin}
@@ -217,38 +219,38 @@ class CreateUser extends Component {
           </div>
 
           <div className="avatar-container">
-            {avatar.url ? (
-              <div>
-                <h2>Your Selected Avatar:</h2>
-                <img className="selected-avatar" src={avatar.url} />
-                <button className="reset-avatar" onClick={this.resetAvatar}>
-                  NOT SURE?
-                </button>
-              </div>
-            ) : (
-              <div>
-                <h2>Tap Image To Select Avatar:</h2>
-                <div className="avatar-images">{mappedAvatars}</div>
-              </div>
-            )}
-          </div>
-          <div className="join-btnsss">
-            {isCreator ? (
-              <Link to="/lobby">
-                <button className="join-btn" onClick={this.joinRoomAsCreator}>
-                  CONTINUE TO LOBBY
-                </button>
-              </Link>
-            ) : (
-              <div>
+            <div className="join-btnsss">
+              {avatar.url ? (
+                <div>
+                  <h2>Your Selected Avatar:</h2>
+                  <img className="selected-avatar" src={avatar.url} />
+                  <button className="reset-avatar" onClick={this.resetAvatar}>
+                    NOT SURE?
+                  </button>
+                </div>
+              ) : (
+                <div>
+                  <h2>Tap Image To Select Avatar:</h2>
+                  <div className="avatar-images">{mappedAvatars}</div>
+                </div>
+              )}
+              {isCreator ? (
                 <Link to="/lobby">
-                  <button className="join-btn" onClick={this.joinRoom}>
-                    JOIN GAME
+                  <button className="join-btn" onClick={this.joinRoomAsCreator}>
+                    CONTINUE TO LOBBY
                   </button>
                 </Link>
-                {/* GO TO LOBBY */}
-              </div>
-            )}
+              ) : (
+                <div>
+                  <Link to="/lobby">
+                    <button className="join-btn" onClick={this.joinRoom}>
+                      JOIN GAME
+                    </button>
+                  </Link>
+                  {/* GO TO LOBBY */}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

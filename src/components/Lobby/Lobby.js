@@ -148,6 +148,7 @@ class Lobby extends Component {
           </button> */}
         {/* This is Lobby Component! */}
         <h1>GAME LOBBY</h1>
+        <h4 style={{ fontSize: "25px" }}>{this.props.gamePin.gamePin}</h4>
         <div className="lobby-inner">
           {/* <div>'this will display the players list as they join'</div> */}
           {/* <h2>{mappedPlayers}</h2> */}
@@ -165,17 +166,15 @@ class Lobby extends Component {
           ) : (
             <h2>loading..</h2>
           )}
-          <button>
-            <Link className="link" to="/playerview">
-              PLAYER VIEW
-            </Link>
-          </button>
-          <button className="start-game" onClick={this.startGame}>
-            START GAME
-          </button>
+          <Link to="/playerview">
+            <button className="start-game" onClick={this.startGame}>
+              START GAME
+            </button>
+          </Link>
+          {/* 
           <button>
             <Link to="/createuser">Back</Link>
-          </button>
+          </button> */}
           {/* THIS WILL GO ON PLAYERS VIEW BUT WORKING ON HERE FOR NOW
           <button onClick={this.changeTurn}>CHANGE TURN</button> */}
           {/* <button>
