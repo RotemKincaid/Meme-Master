@@ -225,36 +225,21 @@ class CreateUser extends Component {
                 <div className="avatar-images">{mappedAvatars}</div>
               </div>
             )}
-
-            {this.props.gamePin.gamePin ? (
-              <button className="join-btn" onClick={this.joinRoomAsCreator}>
-                <Link to="/lobby">JOIN GAME</Link>
-              </button>
+          </div>
+          <div className='button-container'>
+            {isCreator ? (
+              <Link to="/lobby"><button className="join-btn" onClick={this.joinRoomAsCreator}>
+                JOIN GAME
+              </button></Link>
             ) : (
-              <button className="join-btn" onClick={this.joinRoom}>
-                <Link to="/lobby">JOIN GAME</Link>
-              </button>
+              <Link to="/lobby"><button className="join-btn" onClick={this.joinRoom}>
+                JOIN GAME
+              </button></Link>
             )}
           </div>
+          
 
-          {isCreator ? (
-            <Link className="link" to="/lobby"><button onClick={this.joinRoomAsCreator}>
-              
-                JOIN GAME AS CREATOR
-              
-            </button></Link>
 
-          ):(
-            <div>
-              <button onClick={this.joinRoom}>JOIN GAME AS NOT A CREATOR
-                {/* <Link className="link" to="/lobby">
-                  JOIN GAME
-                </Link> */}
-              </button>
-              <Link clasName='link' to='/lobby'><button>Go to lobby</button></Link>
-            </div>
-
-          )}
           
           
           
