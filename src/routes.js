@@ -4,7 +4,7 @@ import Landing from "./components/Landing/Landing";
 // import Header from "./components/Header/Header";
 import CreateGame from "./components/CreateGame/CreateGame";
 import CreateUser from "./components/CreateUser/CreateUser";
-import JoinGame from "./components/JoinGame/JoinGame";
+
 import Instructions from "./components/Instructions/Instructions";
 import Lobby from "./components/Lobby/Lobby";
 import PlayerView from "./components/PlayerView/PlayerView";
@@ -17,7 +17,7 @@ export default (
     <Route exact path="/" component={Landing} />
     {/* <Route path="/header" component={Header} /> */}
     <Route path="/creategame" component={CreateGame} />
-    {/* <Route path="/joingame" component={JoinGame} /> */}
+   
     <Route path="/createuser" component={CreateUser} />
     <Route path="/instructions" component={Instructions} />
     <Route path="/lobby" component={Lobby} />

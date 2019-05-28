@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Card from "../Card/Card";
-import axios from "axios";
+// import axios from "axios";
 import "./PlayerView.scss";
 import { connect } from "react-redux";
 import { setGameObject, setSocket } from "../../dux/reducer";
@@ -51,18 +51,16 @@ class PlayerView extends Component {
       });
       this.props.setGameObject(game);
       this.getCards(game);
-      
     });
-
   };
 
-  getCards = (game) => {
-    console.log('game at get cards',game)
+  getCards = game => {
+    console.log("game at get cards", game);
     // axios.get("/api/cards2").then(cards => {
-      // console.log(th);
+    // console.log(th);
 
-    const {username} = this.props.gameObject
-    console.log('USERNAME AT GET CARDS ON PLAYER VIEW',username)
+    const { username } = this.props.gameObject;
+    console.log("USERNAME AT GET CARDS ON PLAYER VIEW", username);
     const { gameObject } = this.props.gameObject;
     const { players } = gameObject;
     let playerIndex = players.findIndex(player => player.username === username);
@@ -73,16 +71,10 @@ class PlayerView extends Component {
     this.setState({
       cards: gameObject.players[playerIndex].hand
     });
-  }
-
-    
-  
+  };
 
   chooseCard = card => {
     const { username } = this.props.gameObject;
-    const { gameObject } = this.props.gameObject;
-    const { players } = gameObject;
-    let playerIndex = players.findIndex(player => player.username === username);
 
     const { gamePin } = this.props.gamePin;
     console.log("card at choosecard", card);
@@ -109,8 +101,8 @@ class PlayerView extends Component {
       this.props.setGameObject(game);
       this.getCards();
     });
-    this.getCards()
-  }
+    this.getCards();
+  };
 
   // chooseCard = card => {
   //   // const { cards } = this.state
@@ -121,28 +113,24 @@ class PlayerView extends Component {
   // };
 
   render() {
-    console.log('THIS.STATE AT PLAYER VIEW', this.state)
-    
-      const {chosenCard, image} = this.state
-      const mappedChosenCard = chosenCard.map(card => {
-        return <div key ={card.card_id}>
-            <Card
-              card={card}
-              content={card.content}
-            />
-          </div>
-      })
+    console.log("THIS.STATE AT PLAYER VIEW", this.state);
 
-    
-
+    const { chosenCard, image } = this.state;
+    const mappedChosenCard = chosenCard.map(card => {
+      return (
+        <div key={card.card_id}>
+          <Card card={card} content={card.content} />
+        </div>
+      );
+    });
 
     console.log(this.props);
     console.log(this.state.cards, "CARDS FROM PLAYERVIEW");
     console.log("the chosen card", this.state.chosenCard);
-    const { cards } = this.state;
+
     const mappedCards = this.state.cards.map(card => {
       return (
-        <div key ={card.card_id}>
+        <div className="chosen-player-card" key={card.card_id}>
           <Card
             card={card}
             chooseCard={this.chooseCard}
@@ -153,34 +141,26 @@ class PlayerView extends Component {
     });
     return (
       <div className="playerview">
-        <h3>User1's turn!</h3>
-        <img
-          className="meme-image-playerview"
-          src={image}
-        />
+        <h3 className="turn">User1's is the judge for this round!</h3>
+        <img alt="playerview" className="meme-image-playerview" src={image} />
 
-        <h4>Choose the funniest card that matches the picture....</h4>
+        <h4>Choose the funniest card that best matches the picture....</h4>
         {chosenCard.length ? (
           <div>
-            <div className="card-container">{mappedChosenCard}</div>
-            <button>
-            <Link to="judgeview">NEXT</Link>
+            <div>{mappedChosenCard}</div>
+            <button className="playerview-next">
+              <Link to="judgeview">NEXT</Link>
             </button>
           </div>
-          
-        ):(
+        ) : (
           <div>
             <div className="card-container">{mappedCards}</div>
           </div>
-          
-
         )}
-        
       </div>
     );
   }
 }
-
 
 function mapStateToProps(state) {
   return {

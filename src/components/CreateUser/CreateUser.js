@@ -8,12 +8,10 @@ import { connect } from "react-redux";
 import {
   setGamePin,
   setGameObject,
-  setSocket,
   setPlayerUsername,
   setCreator
 } from "../../dux/reducer";
 import avatarData from "./avatarData";
-import { numberLiteralTypeAnnotation } from "@babel/types";
 
 // const {socket} = this.props.socket
 // var socket = ""
@@ -171,6 +169,7 @@ class CreateUser extends Component {
       return (
         <div className="avatar-display">
           <img
+            alt="avatar-display"
             // value={avatars.url}
             src={avatars.url}
             onClick={() => this.avatarSet(avatars)}
@@ -185,7 +184,7 @@ class CreateUser extends Component {
     // const {socket} = this.props.socket
     // console.log(this.props.gamePin);
     const { gamePin } = this.props.gamePin;
-    const { username, players, socket } = this.state;
+    // const { username, players, socket } = this.state;
     const { avatar } = this.state;
     // const mappedNames = players.map(name => {
     //   return <div key={name.id}>{name} Joined</div>;
@@ -219,38 +218,39 @@ class CreateUser extends Component {
           </div>
 
           <div className="avatar-container">
-            <div className="join-btnsss">
-              {avatar.url ? (
-                <div>
-                  <h2>Your Selected Avatar:</h2>
-                  <img className="selected-avatar" src={avatar.url} />
-                  <button className="reset-avatar" onClick={this.resetAvatar}>
-                    NOT SURE?
-                  </button>
-                </div>
-              ) : (
-                <div>
-                  <h2>Tap Image To Select Avatar:</h2>
-                  <div className="avatar-images">{mappedAvatars}</div>
-                </div>
-              )}
-              {isCreator ? (
+            {avatar.url ? (
+              <div className="condition-avatar">
+                <h2>Your Selected Avatar:</h2>
+                <img className="selected-avatar" src={avatar.url} />
+                <button className="reset-avatar" onClick={this.resetAvatar}>
+                  NOT SURE?
+                </button>
+              </div>
+            ) : (
+              <div>
+                <h2>Tap Image To Select Avatar:</h2>
+                <div className="avatar-images">{mappedAvatars}</div>
+              </div>
+            )}
+          </div>
+
+          <div className="join-btnsss">
+            {isCreator ? (
+              <Link to="/lobby">
+                <button className="join-btn" onClick={this.joinRoomAsCreator}>
+                  CONTINUE TO LOBBY
+                </button>
+              </Link>
+            ) : (
+              <div>
                 <Link to="/lobby">
-                  <button className="join-btn" onClick={this.joinRoomAsCreator}>
-                    CONTINUE TO LOBBY
+                  <button className="join-btn" onClick={this.joinRoom}>
+                    JOIN GAME
                   </button>
                 </Link>
-              ) : (
-                <div>
-                  <Link to="/lobby">
-                    <button className="join-btn" onClick={this.joinRoom}>
-                      JOIN GAME
-                    </button>
-                  </Link>
-                  {/* GO TO LOBBY */}
-                </div>
-              )}
-            </div>
+                {/* GO TO LOBBY */}
+              </div>
+            )}
           </div>
         </div>
       </div>

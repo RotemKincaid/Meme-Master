@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { setGamePin, setGameObject, setSocket } from "../../dux/reducer";
 import logo from "../../components/logo.png";
 
-import io from "socket.io-client";
+// import io from "socket.io-client";
 // const socket = io.connect("http://localhost:4052");
 // console.log(socket)
 
