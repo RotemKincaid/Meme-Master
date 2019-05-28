@@ -67,7 +67,7 @@ class CreateGame extends Component {
           <h3>Share Game PIN with other players so they can join the game!</h3>
                          
         </div>
-
+        
         <Link className="link" to="/createuser">
           <button onClick={this.sendGame}>NEXT</button>
         </Link>
@@ -80,7 +80,8 @@ function mapStateToProps(state) {
   return {
     gamePin: state.gamePin,
     gameObject: state.gameObject,
-    socket: state.socket
+    socket: state.socket,
+    creator: state.creator
   };
 }
 
