@@ -74,14 +74,13 @@ class Lobby extends Component {
     const { gameObject, creator } = this.props.gameObject;
     console.log("gameObject from redux", this.props.gameObject);
     const { players } = gameObject;
-    console.log('creator at lobby', this.props.gameObject.creator)
+    console.log("creator at lobby", this.props.gameObject.creator);
     console.log("players at lobby", players);
-    
+
     console.log(players);
-   
+
     return (
       <div className="lobby">
-
         {/* This is Lobby Component!
         <h1>PLAYERS</h1>
         <div>'this will display the players list as they join'</div> */}
@@ -107,7 +106,6 @@ class Lobby extends Component {
         </div>
 
         <div className="lobby-inner">
-          
           {players ? (
             <h2>
               {players.map((player, index) => {
@@ -126,25 +124,23 @@ class Lobby extends Component {
           ) : (
             <h2>loading..</h2>
           )}
-
-
-          {creator ? (
-            <Link to="/playerview">
-              <button className="start-game" onClick={this.startGame}>
-                START GAME
-              </button>
-            </Link>
-          ):(
-            <Link to="/playerview"><button className="start-game">JOIN GAME</button></Link>
-          )}
-          
-
         </div>
-        <Link to="/playerview">
+        {creator ? (
+          <Link to="/playerview">
+            <button className="start-game" onClick={this.startGame}>
+              START GAME
+            </button>
+          </Link>
+        ) : (
+          <Link to="/playerview">
+            <button className="start-game">JOIN GAME</button>
+          </Link>
+        )}
+        {/* <Link to="/playerview">
           <button className="start-game" onClick={this.startGame}>
             START GAME
           </button>
-        </Link>
+        </Link> */}
       </div>
     );
   }
