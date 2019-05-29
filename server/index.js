@@ -3,6 +3,7 @@ var server = require("http").Server(app);
 var io = require("socket.io")(server);
 require("dotenv").config();
 const massive = require("massive");
+const express = require('express')
 
 const SocketController = require("./Controllers/SocketController");
 const { SERVER_PORT, CONNECTION_STRING, SESSION_SECRET } = process.env;
