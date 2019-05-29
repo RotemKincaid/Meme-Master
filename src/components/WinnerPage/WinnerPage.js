@@ -15,7 +15,8 @@ class WinnerPage extends Component {
       socket: "",
       game: {},
       winnerCard: [],
-      scores: []
+      scores: [],
+      redirect: false,
     };
   }
 
@@ -55,8 +56,10 @@ class WinnerPage extends Component {
   };
 
   changeTurn = () => {
+    // this.props.history.push('/playerview')
     console.log("changeTurn hit!");
     const { socket } = this.state;
+    
     const { gamePin } = this.props.gamePin;
     console.log("gamepin at change turn game", gamePin);
     socket.emit("change turn", { gamePin });
@@ -64,11 +67,21 @@ class WinnerPage extends Component {
       console.log("game sent from server after turned has changed", game);
       console.log("changed turned game", game);
       this.setState({
-        game: game
+        game: game,
+        redirect: true
+        
       });
       this.props.setGameObject(game);
-    });
+      });
+    // this.redirect(socket)
+        
   };
+
+  // redirect = (socket) => {
+  //   socket.on('redirect', url => {
+  //     this.props.history.push(url)
+  //   })
+  // }
 
   openScores = () => {
     this.setState({
@@ -87,26 +100,39 @@ class WinnerPage extends Component {
     console.log('props at winner page',this.props)
 
     const {gameObject} = this.props.gameObject
-    let winner = gameObject.winnerCard[0].playerUsername
-    console.log('WINNER!', winner)
+    
+    
 
     // gameObject
 
     console.log(gameObject.current_image)
     return (
       <div className="winnerpage-main">
-        <Link to ='/playerview' ><button onClick={this.changeTurn}>CHANGE TURN</button> </Link>
+        
         {this.state.isOpen ? (
           <div onClick={this.closeScores} className="backdrop" />
         ) : null}
 
         
         <div>WINNER WINNER CHICKEN DINNER</div>
-        <h1>{winner} IS THE WINNER!</h1>
-        <img alt = 'winner' src={gameObject.current_image[0].media_url}/>
+        {gameObject.winnerCard.length ? (
+        <div>
+          <h1>{gameObject.winnerCard[0].playerUsername} IS THE WINNER!</h1>
+          <img alt = 'winner' src={gameObject.current_image[0].media_url}/>
+        </div>
+
+        ):(
+          <div/>
+        )}
+
+        
+
+
         <button className="open-scores-btn" onClick={this.openScores}>
           View Scores
         </button>
+
+        
 
         <Scores
           scores={gameObject.scores}
@@ -116,6 +142,16 @@ class WinnerPage extends Component {
         >
           {" "}
         </Scores>
+
+        <button style={{fontSize: '30px'}} onClick={this.changeTurn}>CHANGE TURN!</button>
+
+        {!gameObject.winnerCard.length ? (
+          this.props.history.push('/playerview')
+        ):(
+          null
+        )}
+
+        
 
       </div>
     );
