@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Scores from "../Scores/Scores";
 import "./WinnerPage.scss";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 
 import { connect } from "react-redux";
 import { setGameObject, setSocket } from "../../dux/reducer";
@@ -19,7 +19,7 @@ class WinnerPage extends Component {
     };
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.setState({
       socket: this.props.socket.socket
     });
@@ -48,10 +48,7 @@ class WinnerPage extends Component {
         scores: game.scores
       });
       this.props.setGameObject(game);
-      
-      
     });
-
   };
 
   changeTurn = () => {
@@ -83,27 +80,31 @@ class WinnerPage extends Component {
   };
 
   render() {
+    console.log("props at winner page", this.props);
 
-    console.log('props at winner page',this.props)
-
-    const {gameObject} = this.props.gameObject
-    let winner = gameObject.winnerCard[0].playerUsername
-    console.log('WINNER!', winner)
+    const { gameObject } = this.props.gameObject;
+    let winner = gameObject.winnerCard[0].playerUsername;
+    console.log("WINNER!", winner);
 
     // gameObject
 
-    console.log(gameObject.current_image)
+    console.log(gameObject.current_image);
     return (
       <div className="winnerpage-main">
-        <Link to ='/playerview' ><button onClick={this.changeTurn}>CHANGE TURN</button> </Link>
+        <Link to="/playerview">
+          <button onClick={this.changeTurn}>CHANGE TURN</button>{" "}
+        </Link>
         {this.state.isOpen ? (
           <div onClick={this.closeScores} className="backdrop" />
         ) : null}
 
-        
         <div>WINNER WINNER CHICKEN DINNER</div>
         <h1>{winner} IS THE WINNER!</h1>
-        <img alt = 'winner' src={gameObject.current_image[0].media_url}/>
+        <img
+          className="meme-image-winnerpage"
+          alt="winner"
+          src={gameObject.current_image[0].media_url}
+        />
         <button className="open-scores-btn" onClick={this.openScores}>
           View Scores
         </button>
@@ -116,7 +117,6 @@ class WinnerPage extends Component {
         >
           {" "}
         </Scores>
-
       </div>
     );
   }
@@ -140,5 +140,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(WinnerPage);
-
-
