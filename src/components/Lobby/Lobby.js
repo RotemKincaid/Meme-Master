@@ -79,10 +79,9 @@ class Lobby extends Component {
     
     console.log('ACTIVE AT LOBBY',active)
     console.log(players);
-   
+
     return (
       <div className="lobby">
-
         {/* This is Lobby Component!
         <h1>PLAYERS</h1>
         <div>'this will display the players list as they join'</div> */}
@@ -108,7 +107,6 @@ class Lobby extends Component {
         </div>
 
         <div className="lobby-inner">
-          
           {players ? (
             <h2>
               {players.map((player, index) => {
@@ -127,6 +125,7 @@ class Lobby extends Component {
           ) : (
             <h2>loading..</h2>
           )}
+<<<<<<< HEAD
 
 
           
@@ -159,6 +158,25 @@ class Lobby extends Component {
 
 
         
+=======
+        </div>
+        {creator ? (
+          <Link to="/playerview">
+            <button className="start-game" onClick={this.startGame}>
+              START GAME
+            </button>
+          </Link>
+        ) : (
+          <Link to="/playerview">
+            <button className="start-game">JOIN GAME</button>
+          </Link>
+        )}
+        {/* <Link to="/playerview">
+          <button className="start-game" onClick={this.startGame}>
+            START GAME
+          </button>
+        </Link> */}
+>>>>>>> 81047f800beda7d791010a6608e8df42dec978a5
       </div>
     );
   }

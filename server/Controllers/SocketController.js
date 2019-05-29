@@ -141,6 +141,7 @@ module.exports = {
     }
     //chose a judge
 
+<<<<<<< HEAD
     games[gamePin].judge = [players[0]]
 
     games[gamePin].active = true
@@ -150,6 +151,11 @@ module.exports = {
     games[gamePin].current_image = games[gamePin].images.splice(0,1)
 
      let preparedGame = games[gamePin]
+=======
+    games[gamePin].judge = players[0];
+
+    players[0].judge = true;
+>>>>>>> 81047f800beda7d791010a6608e8df42dec978a5
 
       socket.join(data.gamePin);
      io.in(gamePin).emit("get prepared game",preparedGame )
@@ -161,16 +167,23 @@ module.exports = {
 
     //this will add a card to each player, pick a new judge
 
+<<<<<<< HEAD
     let gamePin = data.gamePin
     let players = games[gamePin].players
     let cards = games[gamePin].cards
+=======
+    let gamePin = data.gamePin;
+    let players = games[gamePin].players;
+    let cards = games[gamePin].cards;
 
-    let game = games[gamePin]
+    let game = games[gamePin];
+>>>>>>> 81047f800beda7d791010a6608e8df42dec978a5
 
-    for (var i = 0; i < players.length; i++){
-      games[gamePin].players[i].hand.push(games[gamePin].cards.splice(0, 1)[0])
+    for (var i = 0; i < players.length; i++) {
+      games[gamePin].players[i].hand.push(games[gamePin].cards.splice(0, 1)[0]);
     }
 
+<<<<<<< HEAD
     game.winnerCard = []
     game.chosenCards = []
 
@@ -179,11 +192,17 @@ module.exports = {
 
 
     let changedTurnGame = games[gamePin]
+=======
+    game.winnerCard = [];
+
+    let changedTurnGame = games[gamePin];
+>>>>>>> 81047f800beda7d791010a6608e8df42dec978a5
 
     games[gamePin].current_image = games[gamePin].images.splice(0,1)
     socket.join(data.gamePin);
 
 
+<<<<<<< HEAD
     // for (var i = 0; i < players.length; i++){
     //   for (var j = i + 1; j < players.length - 1; j++){
     //   //change the players judge
@@ -234,6 +253,26 @@ module.exports = {
     let url = '/playerview'
     io.in(gamePin).emit('redirect', url)
 
+=======
+    let indexOfJudge = players.findIndex(player => {
+      player.judge === true;
+    });
+
+    game.judge = players[indexOfJudge];
+    // }
+    // else if (players[1].judge === true) {
+    //   players[1].judge = false
+    //   players[2].judge = true
+    // }
+    // else if (players[2].judge === true) {
+    //   players[2].judge = false
+    //   players[3].judge = true
+    // }
+
+    console.log(changedTurnGame);
+    io.in(gamePin).emit("get changed turn", changedTurnGame);
+  },
+>>>>>>> 81047f800beda7d791010a6608e8df42dec978a5
 
 
 
