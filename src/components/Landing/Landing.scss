@@ -22,6 +22,26 @@
     height: 310px;
     margin: 25px;
     // border: 8px solid white;
+    animation: fun3 2s ease-in-out 0.1s 1 backwards;
+    
+  }
+
+  @keyframes fun3 {
+    0% {
+      height: 500px;
+      width: auto;
+      transform: translate(0px, 0px);
+    }
+    // 50% {
+    //   height: 400px;
+    //   width: auto;
+    //   transform: translate(0px, 0px);
+    // }
+    100% {
+      height: 310px;
+      width: auto;
+      transform: translate(0, 0);
+    }
   }
 
   .landing-btns {
@@ -49,7 +69,7 @@
     @keyframes fun1 {
       0% {
         height: 55px;
-        // width: 200px;
+        width: 200px;
         transform: translate(0, 0);
       }
       50% {

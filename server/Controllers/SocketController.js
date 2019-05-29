@@ -95,7 +95,7 @@ module.exports = {
       images: shuffledMedia,
       current_image: "",
       players: [],
-      active: true,
+      active: false,
       chosenCards: [],
       winnerCard: [],
       scores: [],
@@ -124,7 +124,9 @@ module.exports = {
     }
     //chose a judge
 
-    games[gamePin].judge = players[0];
+    games[gamePin].judge = [players[0]];
+
+    games[gamePin].active = true;
 
     players[0].judge = true;
 
@@ -152,27 +154,43 @@ module.exports = {
     }
 
     game.winnerCard = [];
+    game.chosenCards = [];
 
     let changedTurnGame = games[gamePin];
 
     games[gamePin].current_image = games[gamePin].images.splice(0, 1);
     socket.join(data.gamePin);
 
-    for (var i = 0; i < players.length; i++) {
-      for (var j = i + 1; j < players.length; j++) {
-        //change the players judge
-        if (players[i].judge === true) {
-          players[j].judge = true;
-          players[i].judge = false;
-        }
-      }
-    }
+    // for (var i = 0; i < players.length; i++){
+    //   for (var j = i + 1; j < players.length - 1; j++){
+    //   //change the players judge
+    //     if (players[i].judge === true) {
+    //       players[j].judge = true
+    //       players[i].judge = false
+    //     }
+    //   }
+    // }
 
     let indexOfJudge = players.findIndex(player => {
       player.judge === true;
     });
 
-    game.judge = players[indexOfJudge];
+    console.log("INDEX OF JUDGE AT TURN GAME", indexOfJudge);
+
+    // let newIndex = indexOfJudge + 1
+
+    // game.judge = players[newIndex]
+
+    for (var i = 0; i < players.length; i++) {
+      if (indexOfJudge === i) {
+        game.judge = [players[i + 1]];
+      } else if (indexOfJudge === players.length) {
+        game.judge = [players[i + 1]];
+      }
+    }
+
+    console.log("indexofJudge at turn game", indexOfJudge);
+
     // }
     // else if (players[1].judge === true) {
     //   players[1].judge = false
@@ -185,6 +203,8 @@ module.exports = {
 
     console.log(changedTurnGame);
     io.in(gamePin).emit("get changed turn", changedTurnGame);
+    let url = "/playerview";
+    io.in(gamePin).emit("redirect", url);
   },
 
   chooseCard: (data, socket, io) => {

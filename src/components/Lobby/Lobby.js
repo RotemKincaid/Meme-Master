@@ -63,8 +63,7 @@ class Lobby extends Component {
       console.log("game sent from server after being prepared", game);
       console.log("prepared game", game);
       this.setState({
-        game: game,
-        gameReady: true
+        game: game
       });
       this.props.setGameObject(game);
     });
@@ -73,10 +72,11 @@ class Lobby extends Component {
   render() {
     const { gameObject, creator } = this.props.gameObject;
     console.log("gameObject from redux", this.props.gameObject);
-    const { players } = gameObject;
+    const { players, active } = gameObject;
     console.log("creator at lobby", this.props.gameObject.creator);
     console.log("players at lobby", players);
 
+    console.log("ACTIVE AT LOBBY", active);
     console.log(players);
 
     return (
@@ -125,22 +125,26 @@ class Lobby extends Component {
             <h2>loading..</h2>
           )}
         </div>
+
         {creator ? (
-          <Link to="/playerview">
+          <div>
+            <h5>Is everyone ready to play?</h5>
+            <br />
+            {/* <Link to="/playerview">
+              <button className="start-game" onClick={this.startGame}>
+                START GAME
+              </button>
+            </Link> */}
             <button className="start-game" onClick={this.startGame}>
               START GAME
             </button>
-          </Link>
+          </div>
         ) : (
-          <Link to="/playerview">
-            <button className="start-game">JOIN GAME</button>
-          </Link>
+          // <Link to="/playerview"><button className="start-game">JOIN GAME</button></Link>
+          <h5>Creator will start the game!</h5>
         )}
-        {/* <Link to="/playerview">
-          <button className="start-game" onClick={this.startGame}>
-            START GAME
-          </button>
-        </Link> */}
+
+        {active ? this.props.history.push("/playerview") : null}
       </div>
     );
   }

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Card from "../Card/Card";
+import CardPlayerView from "../CardPlayerView/CardPlayerView";
 import "./JudgeView.scss";
 import { connect } from "react-redux";
 import { setGameObject, setSocket } from "../../dux/reducer";
@@ -107,21 +108,53 @@ class JudgeView extends Component {
   // }
 
   render() {
-    // console.log(this.props)
+    console.log("PROPS AT JUDGE VIEW", this.props);
     // const {current_image} = this.props.gameObject.gameObject
     // const image = current_image[0].media_url
     // console.log(image)
 
     const { image, chosenCards } = this.state;
 
+    const { gameObject, username } = this.props;
+
+    var winnerCard = gameObject.gameObject.winnerCard;
+
+    // console.log('WINNER CARD I NEED', gameObject.gameObject.winnerCard)
+
+    var judgeUsername = gameObject.gameObject.judge[0].username;
+    var playerUsername = username.username;
+
+    console.log("JUDGE USERNAME AT JUDGE VIEW", judgeUsername);
+
+    var isPlayerJudge = false;
+
+    if (playerUsername === judgeUsername) {
+      isPlayerJudge = true;
+    } else {
+      isPlayerJudge = false;
+    }
+
+    console.log("IS PLAYER JUDGE AT JUDGE VIEW", isPlayerJudge);
+
     let mappedChosenCards = chosenCards.map(card => {
       return (
         <div key={card.card_id} className="card-container-judgeview">
-          <Card
-            card={card}
-            content={card.content}
-            chooseCard={this.chooseCard}
-          />
+          {isPlayerJudge ? (
+            <Card
+              isPlayerJudge={isPlayerJudge}
+              card={card}
+              content={card.content}
+              chooseCard={this.chooseCard}
+            />
+          ) : (
+            //non clickable card, just display
+            <CardPlayerView
+              isPlayerJudge={isPlayerJudge}
+              card={card}
+              content={card.content}
+              chooseCard={this.chooseCard}
+            />
+          )}
         </div>
       );
     });
@@ -129,26 +162,35 @@ class JudgeView extends Component {
     return (
       <div className="judgeview-main">
         <div className="judgeview-inner">
-          <h3>Judge is thinking...</h3>
+          {isPlayerJudge ? (
+            <h3>{judgeUsername} - you are the judge! </h3>
+          ) : (
+            <h3>{judgeUsername} is thinking...</h3>
+          )}
           <img
             alt="judge"
             className="meme-image-judgeview"
             src={image}
             // src="https://imgflip.com/s/meme/Two-Buttons.jpg"
           />
-          <h5>
-            judge will select a winner card out of the ones diplayed below...
-          </h5>
+          {chosenCards.length ? (
+            <h5>
+              The judge will select a card out of the ones diplayed below...
+            </h5>
+          ) : (
+            <h5>Players are choosing their cards...</h5>
+          )}
           {/* <div className="card-container-judgeview">
           <Card />
           <Card />
           <Card />
         </div> */}
           <div className="card-container-judgeview">{mappedChosenCards}</div>
-          <Link to="/winner">
+          {/* <Link to="/winner">
             <button>WHO'S THE WINNER!!?</button>
-          </Link>
+          </Link> */}
         </div>
+        {winnerCard.length ? this.props.history.push("/winner") : null}
       </div>
     );
   }

@@ -26,6 +26,9 @@
       margin: 15px;
     }
   }
+  h5 {
+    font-size: 25px;
+  }
 
   .lobby-inner {
     // background-image: url("./table3.jpg");
@@ -75,7 +78,9 @@
     font-size: 19px;
     color: white;
     font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-    background-image: url("./cool\ background.jpg");
+    // background-image: url("./cool\ background.jpg");
+    background-color: rgb(55, 17, 190);
+
     border-radius: 5px;
     text-shadow: 3px 3px 4px black;
   }
