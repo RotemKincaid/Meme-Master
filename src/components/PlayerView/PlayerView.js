@@ -131,7 +131,9 @@ class PlayerView extends Component {
     console.log('props at PLAYERVIEW',this.props);
     //get judge
     const {gameObject, username} = this.props
-    var judgeUsername = gameObject.gameObject.judge.username
+    var judgeUsername = gameObject.gameObject.judge[0].username
+
+    console.log('JUDGEUSERNAME',judgeUsername)
     var playerUsername = username.username
     
     
@@ -171,6 +173,12 @@ class PlayerView extends Component {
         )}
 
         {playerUsername === judgeUsername ? (
+          this.props.history.push('/judgeview')
+        ):(
+          null
+        )}
+
+        {this.state.chosenCard.length ? (
           this.props.history.push('/judgeview')
         ):(
           null

@@ -1,13 +1,13 @@
 import React from "react";
 
-import "./Card.scss";
+// import "./CardPlayerView.scss";
 
-function Card(props) {
+function CardPlayerView(props) {
   
   return (
     <div
       
-      onClick={()=>props.chooseCard(props.card)}
+      
       className="card"
       >
       <p>{props.content}</p>
@@ -16,4 +16,4 @@ function Card(props) {
   );
 }
 
-export default Card;
+export default CardPlayerView;

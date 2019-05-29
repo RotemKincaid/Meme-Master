@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Card from "../Card/Card";
+import CardPlayerView from "../CardPlayerView/CardPlayerView";
 import "./JudgeView.scss";
 import { connect } from "react-redux";
 import { setGameObject, setSocket } from "../../dux/reducer";
@@ -107,7 +108,7 @@ class JudgeView extends Component {
   // }
 
   render() {
-    // console.log(this.props)
+    console.log('PROPS AT JUDGE VIEW',this.props)
     // const {current_image} = this.props.gameObject.gameObject
     // const image = current_image[0].media_url
     // console.log(image)
@@ -115,8 +116,15 @@ class JudgeView extends Component {
     const { image, chosenCards } = this.state;
 
     const {gameObject, username} = this.props
-    var judgeUsername = gameObject.gameObject.judge.username
+
+    var winnerCard = gameObject.gameObject.winnerCard
+
+    // console.log('WINNER CARD I NEED', gameObject.gameObject.winnerCard)
+
+    var judgeUsername = gameObject.gameObject.judge[0].username
     var playerUsername = username.username
+
+    console.log('JUDGE USERNAME AT JUDGE VIEW', judgeUsername)
 
     var isPlayerJudge = false
 
@@ -130,13 +138,25 @@ class JudgeView extends Component {
 
     let mappedChosenCards = chosenCards.map(card => {
       return (
+
         <div key={card.card_id} className="card-container-judgeview">
-          <Card
-            isPlayerJudge={isPlayerJudge}
-            card={card}
-            content={card.content}
-            chooseCard={this.chooseCard}
-          />
+          {isPlayerJudge ? (
+            <Card
+              isPlayerJudge={isPlayerJudge}
+              card={card}
+              content={card.content}
+              chooseCard={this.chooseCard}
+            />
+
+          ):(
+            //non clickable card, just display
+            <CardPlayerView
+              isPlayerJudge={isPlayerJudge}
+              card={card}
+              content={card.content}
+              chooseCard={this.chooseCard}
+            />
+          )}
         </div>
       );
     });
@@ -173,6 +193,11 @@ class JudgeView extends Component {
             <button>WHO'S THE WINNER!!?</button>
           </Link>
         </div>
+        {winnerCard.length ? (
+          this.props.history.push('/winner')
+        ):(
+          null
+        )}
       </div>
     );
   }

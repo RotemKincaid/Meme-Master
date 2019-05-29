@@ -141,7 +141,7 @@ module.exports = {
     }
     //chose a judge
 
-    games[gamePin].judge = players[0]
+    games[gamePin].judge = [players[0]]
 
     games[gamePin].active = true
 
@@ -184,21 +184,39 @@ module.exports = {
     socket.join(data.gamePin);
 
 
-    for (var i = 0; i < players.length; i++){
-      for (var j = i + 1; j < players.length; j++){
-      //change the players judge
-        if (players[i].judge === true) {
-          players[j].judge = true
-          players[i].judge = false
-        }
-      }
-    }
+    // for (var i = 0; i < players.length; i++){
+    //   for (var j = i + 1; j < players.length - 1; j++){
+    //   //change the players judge
+    //     if (players[i].judge === true) {
+    //       players[j].judge = true
+    //       players[i].judge = false
+    //     }
+    //   }
+    // }
 
     let indexOfJudge = players.findIndex(player=>{
       player.judge === true
     })
 
-    game.judge = players[indexOfJudge]
+    // let newIndex = indexOfJudge + 1
+
+    // game.judge = players[newIndex]
+
+    for (var i = 0; i < players.length; i++){
+      if (indexOfJudge === i){
+        game.judge = [players[i + 1] ]
+      } else if (indexOfJudge === players.length){
+        game.judge = [players[i + 1] ]
+      }
+    }
+
+    
+
+
+
+    console.log('indexofJudge at turn game', indexOfJudge)
+
+    
       // }
       // else if (players[1].judge === true) {
       //   players[1].judge = false
