@@ -157,11 +157,13 @@ module.exports = {
   },
 
   changeTurn: (data, socket, io) => {
-    console.log('HIT CHANGE TURN', data)
-
+    // console.log('HIT CHANGE TURN', data)
+    
     //this will add a card to each player, pick a new judge
-
+    
     let gamePin = data.gamePin
+    let changedTurnGame = games[gamePin]
+    console.log('GAME BEFEORE BEING  TURNED',changedTurnGame)
     let players = games[gamePin].players
     let cards = games[gamePin].cards
 
@@ -178,7 +180,7 @@ module.exports = {
 
 
 
-    let changedTurnGame = games[gamePin]
+    
 
     games[gamePin].current_image = games[gamePin].images.splice(0,1)
     socket.join(data.gamePin);
@@ -195,8 +197,15 @@ module.exports = {
     // }
 
     let indexOfJudge = players.findIndex(player=>{
-      player.judge === true
+      console.log('PLAYER.JUDGE?', player.judge)
+      return player.judge
     })
+
+    players[indexOfJudge].judge = false
+
+    
+
+    console.log('INDEX OF JUDGE AT TURN GAME', indexOfJudge)
 
     // let newIndex = indexOfJudge + 1
 
@@ -214,7 +223,7 @@ module.exports = {
 
 
 
-    console.log('indexofJudge at turn game', indexOfJudge)
+    // console.log('indexofJudge at turn game', indexOfJudge)
 
     
       // }
@@ -229,7 +238,7 @@ module.exports = {
     
      
 
-    console.log(changedTurnGame)
+    // console.log('GAME AFTER BEING TURNED',changedTurnGame)
     io.in(gamePin).emit("get changed turn", changedTurnGame)
     let url = '/playerview'
     io.in(gamePin).emit('redirect', url)
