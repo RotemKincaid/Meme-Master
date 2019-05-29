@@ -114,10 +114,25 @@ class JudgeView extends Component {
 
     const { image, chosenCards } = this.state;
 
+    const {gameObject, username} = this.props
+    var judgeUsername = gameObject.gameObject.judge.username
+    var playerUsername = username.username
+
+    var isPlayerJudge = false
+
+    if (playerUsername === judgeUsername){
+      isPlayerJudge = true
+    }else{
+      isPlayerJudge = false
+    }
+
+    console.log('IS PLAYER JUDGE AT JUDGE VIEW',isPlayerJudge)
+
     let mappedChosenCards = chosenCards.map(card => {
       return (
         <div key={card.card_id} className="card-container-judgeview">
           <Card
+            isPlayerJudge={isPlayerJudge}
             card={card}
             content={card.content}
             chooseCard={this.chooseCard}
@@ -126,17 +141,28 @@ class JudgeView extends Component {
       );
     });
 
+    
+
     return (
       <div className="judgeview-main">
         <div className="judgeview-inner">
-          <h3>Judge is thinking...</h3>
+          {isPlayerJudge ? (
+            <h3>{judgeUsername} you are the judge! </h3>
+          ):(
+            <h3>{judgeUsername} is thinking...</h3>
+
+          )}
           <img
             alt="judge"
             className="meme-image-judgeview"
             src={image}
             // src="https://imgflip.com/s/meme/Two-Buttons.jpg"
           />
-          <h5>judge will select a card out of the ones diplayed below...</h5>
+          {chosenCards.length ? (
+            <h5>judge will select a card out of the ones diplayed below...</h5>
+          ):(
+            <h5>Players are choosing...</h5>
+          )}
           {/* <div className="card-container-judgeview">
           <Card />
           <Card />

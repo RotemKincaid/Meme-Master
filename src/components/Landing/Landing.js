@@ -30,7 +30,9 @@ class Landing extends Component {
 
     return (
       <div className="landing">
+        
         <img src={logo} alt ='logo' />
+        
         <div className="landing-btns">
           <Link to="/creategame">
             <button className="create-btn">CREATE GAME</button>

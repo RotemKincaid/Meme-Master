@@ -33,6 +33,8 @@ class PlayerView extends Component {
     );
 
     this.joinRoom(this.props.socket.socket);
+
+    
   }
 
   joinRoom = socket => {
@@ -115,6 +117,8 @@ class PlayerView extends Component {
   render() {
     console.log("THIS.STATE AT PLAYER VIEW", this.state);
 
+    
+
     const { chosenCard, image } = this.state;
     const mappedChosenCard = chosenCard.map(card => {
       return (
@@ -124,7 +128,15 @@ class PlayerView extends Component {
       );
     });
 
-    console.log(this.props);
+    console.log('props at PLAYERVIEW',this.props);
+    //get judge
+    const {gameObject, username} = this.props
+    var judgeUsername = gameObject.gameObject.judge.username
+    var playerUsername = username.username
+    
+    
+
+
     console.log(this.state.cards, "CARDS FROM PLAYERVIEW");
     console.log("the chosen card", this.state.chosenCard);
 
@@ -141,7 +153,7 @@ class PlayerView extends Component {
     });
     return (
       <div className="playerview">
-        <h3 className="turn">User1's is the judge for this round!</h3>
+        <h3 className="turn">{judgeUsername} is the judge for this round!</h3>
         <img alt="playerview" className="meme-image-playerview" src={image} />
 
         <h4>Choose the funniest card that best matches the picture....</h4>
@@ -156,6 +168,12 @@ class PlayerView extends Component {
           <div>
             <div className="card-container">{mappedCards}</div>
           </div>
+        )}
+
+        {playerUsername === judgeUsername ? (
+          this.props.history.push('/judgeview')
+        ):(
+          null
         )}
       </div>
     );

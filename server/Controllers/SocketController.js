@@ -109,7 +109,7 @@ module.exports = {
       images: shuffledMedia,
       current_image: "",
       players: [],
-      active: true,
+      active: false,
       chosenCards: [],
       winnerCard: [],
       scores: [],
@@ -143,6 +143,8 @@ module.exports = {
 
     games[gamePin].judge = players[0]
 
+    games[gamePin].active = true
+
     players[0].judge = true 
 
     games[gamePin].current_image = games[gamePin].images.splice(0,1)
@@ -170,6 +172,7 @@ module.exports = {
     }
 
     game.winnerCard = []
+    game.chosenCards = []
 
 
 
@@ -210,6 +213,8 @@ module.exports = {
 
     console.log(changedTurnGame)
     io.in(gamePin).emit("get changed turn", changedTurnGame)
+    let url = '/playerview'
+    io.in(gamePin).emit('redirect', url)
 
 
 

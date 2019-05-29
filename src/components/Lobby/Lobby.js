@@ -64,19 +64,20 @@ class Lobby extends Component {
       console.log("prepared game", game);
       this.setState({
         game: game,
-        gameReady: true
+        
       });
       this.props.setGameObject(game);
     });
   };
 
   render() {
-    const { gameObject, creator } = this.props.gameObject;
+    const { gameObject, creator} = this.props.gameObject;
     console.log("gameObject from redux", this.props.gameObject);
-    const { players } = gameObject;
+    const { players, active} = gameObject;
     console.log('creator at lobby', this.props.gameObject.creator)
     console.log("players at lobby", players);
     
+    console.log('ACTIVE AT LOBBY',active)
     console.log(players);
    
     return (
@@ -128,23 +129,36 @@ class Lobby extends Component {
           )}
 
 
-          {creator ? (
-            <Link to="/playerview">
-              <button className="start-game" onClick={this.startGame}>
-                START GAME
-              </button>
-            </Link>
-          ):(
-            <Link to="/playerview"><button className="start-game">JOIN GAME</button></Link>
-          )}
+          
           
 
         </div>
-        <Link to="/playerview">
-          <button className="start-game" onClick={this.startGame}>
-            START GAME
-          </button>
-        </Link>
+
+        {creator ? (
+          <div>
+            <h1>Is everyone ready to play!?</h1><br/>
+            {/* <Link to="/playerview">
+              <button className="start-game" onClick={this.startGame}>
+                START GAME
+              </button>
+            </Link> */}
+            <button className="start-game" onClick={this.startGame}>
+                START GAME
+              </button>
+          </div>
+        ):(
+            // <Link to="/playerview"><button className="start-game">JOIN GAME</button></Link>
+            <h1>Creator will start the game!</h1>
+        )}
+
+        {active ? (
+          this.props.history.push('/playerview')
+        ):(
+          null
+        )}
+
+
+        
       </div>
     );
   }
