@@ -125,7 +125,6 @@ class Lobby extends Component {
           ) : (
             <h2>loading..</h2>
           )}
-<<<<<<< HEAD
 
 
           
@@ -158,25 +157,6 @@ class Lobby extends Component {
 
 
         
-=======
-        </div>
-        {creator ? (
-          <Link to="/playerview">
-            <button className="start-game" onClick={this.startGame}>
-              START GAME
-            </button>
-          </Link>
-        ) : (
-          <Link to="/playerview">
-            <button className="start-game">JOIN GAME</button>
-          </Link>
-        )}
-        {/* <Link to="/playerview">
-          <button className="start-game" onClick={this.startGame}>
-            START GAME
-          </button>
-        </Link> */}
->>>>>>> 81047f800beda7d791010a6608e8df42dec978a5
       </div>
     );
   }
