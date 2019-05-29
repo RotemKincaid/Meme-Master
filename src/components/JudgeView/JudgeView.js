@@ -136,7 +136,9 @@ class JudgeView extends Component {
             src={image}
             // src="https://imgflip.com/s/meme/Two-Buttons.jpg"
           />
-          <h5>judge will select a card out of the ones diplayed below...</h5>
+          <h5>
+            judge will select a winner card out of the ones diplayed below...
+          </h5>
           {/* <div className="card-container-judgeview">
           <Card />
           <Card />
