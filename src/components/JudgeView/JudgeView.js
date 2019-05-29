@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import Card from "../Card/Card";
 import "./JudgeView.scss";
 import { connect } from "react-redux";
-import { setGameObject , setSocket} from "../../dux/reducer";
+import { setGameObject, setSocket } from "../../dux/reducer";
 import { Link } from "react-router-dom";
 
 class JudgeView extends Component {
-  constructor(props){
-    super(props)
+  constructor(props) {
+    super(props);
 
     this.state = {
       cards: [],
@@ -17,10 +17,9 @@ class JudgeView extends Component {
       chosenCards: [],
       winnerCard: []
     };
-
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.setState({
       socket: this.props.socket.socket
     });
@@ -50,17 +49,10 @@ class JudgeView extends Component {
       });
       this.props.setGameObject(game);
       // this.getChosenCards(gamePin);
-      
     });
-
   };
 
-  chooseCard = (card) => {
-    
-    
-   
-    
-
+  chooseCard = card => {
     const { gamePin } = this.props.gamePin;
     console.log("card at choosecard", card);
     console.log("this.props at chooseCard", this.props);
@@ -78,15 +70,16 @@ class JudgeView extends Component {
     });
 
     socket.on("get update game with winner card", game => {
-      console.log("game sent from server after a card was chosen as winner", game);
+      console.log(
+        "game sent from server after a card was chosen as winner",
+        game
+      );
       this.setState({
         game: game
       });
       this.props.setGameObject(game);
-      
     });
-
-  }
+  };
 
   // getChosenCards = (gamePin) => {
   //   console.log('game pin at get chosen cards',gamePin)
@@ -108,12 +101,9 @@ class JudgeView extends Component {
 
   //   })
 
-
-    
-
-    // this.setState({
-    //   chosenCards: gameObject.players[playerIndex].hand
-    // });
+  // this.setState({
+  //   chosenCards: gameObject.players[playerIndex].hand
+  // });
   // }
 
   render() {
@@ -122,40 +112,41 @@ class JudgeView extends Component {
     // const image = current_image[0].media_url
     // console.log(image)
 
-    const { image, chosenCards} = this.state
+    const { image, chosenCards } = this.state;
 
     let mappedChosenCards = chosenCards.map(card => {
-      return <div key= {card.card_id} className="card-container-judgeview">
-      <Card card={card}
+      return (
+        <div key={card.card_id} className="card-container-judgeview">
+          <Card
+            card={card}
             content={card.content}
-            chooseCard ={this.chooseCard}/>
-      </div>
+            chooseCard={this.chooseCard}
+          />
+        </div>
+      );
+    });
 
-    })
-
-
-
-    
     return (
       <div className="judgeview-main">
-        This is JudgeView Component!
-        <h3>Judge is thinking...</h3>
-        <img
-        alt='judge'
-          className="meme-image-judgeview"
-          src={image}
-          // src="https://imgflip.com/s/meme/Two-Buttons.jpg"
-        />
-        <h5>judge will select a card out of the ones diplayed below...</h5>
-        {/* <div className="card-container-judgeview">
+        <div className="judgeview-inner">
+          <h3>Judge is thinking...</h3>
+          <img
+            alt="judge"
+            className="meme-image-judgeview"
+            src={image}
+            // src="https://imgflip.com/s/meme/Two-Buttons.jpg"
+          />
+          <h5>judge will select a card out of the ones diplayed below...</h5>
+          {/* <div className="card-container-judgeview">
           <Card />
           <Card />
           <Card />
         </div> */}
-        <div className="card-container-judgeview">
-          {mappedChosenCards}
+          <div className="card-container-judgeview">{mappedChosenCards}</div>
+          <Link to="/winner">
+            <button>WHO'S THE WINNER!!?</button>
+          </Link>
         </div>
-        <Link to = '/winner'><button>WHO'S THE WINNER!!?</button></Link>
       </div>
     );
   }

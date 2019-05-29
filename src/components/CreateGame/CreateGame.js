@@ -60,17 +60,25 @@ class CreateGame extends Component {
     console.log(gamePin);
     return (
       <div className="creategame">
-        <div>
-          <img src={logo} alt='logo' />
+        <div className="create-game-inner">
+          <img src={logo} />
+          <br />
           <h3>Here is your game pin:</h3> <h1>{gamePin}</h1>
                             
           <h3>Share Game PIN with other players so they can join the game!</h3>
                          
+          <Link to="/createuser">
+            <button className="next-btn" onClick={this.sendGame}>
+              NEXT
+            </button>
+          </Link>
         </div>
+
         
         <Link className="link" to="/createuser">
           <button onClick={this.sendGame}>NEXT</button>
         </Link>
+
       </div>
     );
   }

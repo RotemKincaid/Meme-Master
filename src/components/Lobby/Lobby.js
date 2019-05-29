@@ -69,7 +69,7 @@ class Lobby extends Component {
       this.props.setGameObject(game);
     });
   };
-  
+
   render() {
     const { gameObject, creator } = this.props.gameObject;
     console.log("gameObject from redux", this.props.gameObject);
@@ -81,9 +81,31 @@ class Lobby extends Component {
    
     return (
       <div className="lobby">
-        
-        <h1>GAME LOBBY</h1>
-        <h4 style={{ fontSize: "25px" }}>{this.props.gamePin.gamePin}</h4>
+
+        {/* This is Lobby Component!
+        <h1>PLAYERS</h1>
+        <div>'this will display the players list as they join'</div> */}
+        {/* <button>
+          <Link className="link" to="/playerview">
+            PLAYER VIEW
+          </Link>
+        </button> */}
+        {/* <button onClick={this.startGame}>START GAME</button>
+        THIS WILL GO ON PLAYERS VIEW BUT WORKING ON HERE FOR NOW
+        <button onClick={this.changeTurn}>CHANGE TURN</button> */}
+        {/* <button>
+            <Link className="link" to="/judgeview">
+              CLICK WHEN YOU ARE READY! -judgeview-
+            </Link>
+          </button> */}
+        {/* This is Lobby Component! */}
+        <div className="titles">
+          <h1>GAME LOBBY</h1>
+          <h4 style={{ fontSize: "35px", color: "red" }}>
+            {this.props.gamePin.gamePin}
+          </h4>
+        </div>
+
         <div className="lobby-inner">
           
           {players ? (
@@ -92,7 +114,11 @@ class Lobby extends Component {
                 return (
                   <div className="mapped-players" key={index}>
                     <h6>{player.username}</h6>
-                    <img alt='lobby-avatar' className="lobby-avatar" src={player.avatar} />
+                    <img
+                      alt="lobby-avatar"
+                      className="lobby-avatar"
+                      src={player.avatar}
+                    />
                   </div>
                 );
               })}
@@ -100,6 +126,7 @@ class Lobby extends Component {
           ) : (
             <h2>loading..</h2>
           )}
+
 
           {creator ? (
             <Link to="/playerview">
@@ -111,7 +138,13 @@ class Lobby extends Component {
             <Link to="/playerview"><button className="start-game">JOIN GAME</button></Link>
           )}
           
+
         </div>
+        <Link to="/playerview">
+          <button className="start-game" onClick={this.startGame}>
+            START GAME
+          </button>
+        </Link>
       </div>
     );
   }
