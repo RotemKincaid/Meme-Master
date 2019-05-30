@@ -59,6 +59,7 @@ module.exports = {
     // var newCards = [];
     const db = req.app.get("db");
     db.get_cards().then(cardsdb => {
+      console.log('HIT GET CARDS TO OBJECT', cardsdb.length)
       cardsFromDb.push(cardsdb);
     });
   },
