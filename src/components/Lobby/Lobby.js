@@ -15,10 +15,10 @@ class Lobby extends Component {
   }
   componentDidMount() {
     this.setState({
-      game: this.props.gameObject.gameObject,
-      socket: this.props.socket.socket
+      game: this.props.gameObject,
+      socket: this.props.socket
     });
-    this.joinRoom(this.props.socket.socket);
+    this.joinRoom(this.props.socket);
     // this.joinRoomOnly(this.props.socket.socket)
   }
   joinRoom = socket => {
@@ -70,8 +70,8 @@ class Lobby extends Component {
   };
 
   render() {
-    const { gameObject, creator } = this.props.gameObject;
-    console.log("gameObject from redux", this.props.gameObject);
+    const { gameObject, creator } = this.props;
+    console.log("gameObject from redux", this.props);
     const { players, active } = gameObject;
     console.log("creator at lobby", this.props.gameObject.creator);
     console.log("players at lobby", players);

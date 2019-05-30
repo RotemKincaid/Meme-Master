@@ -82,7 +82,7 @@ class CreateUser extends Component {
     this.setState({
       // game: gameObject,
       // gamePin: gamePin,
-      socket: this.props.socket.socket
+      socket: this.props.socket
     });
   }
 
@@ -183,7 +183,7 @@ class CreateUser extends Component {
 
     // const {socket} = this.props.socket
     // console.log(this.props.gamePin);
-    const { gamePin } = this.props.gamePin;
+    const { gamePin } = this.props;
     // const { username, players, socket } = this.state;
     const { avatar } = this.state;
     // const mappedNames = players.map(name => {

@@ -3,6 +3,8 @@ import Scores from "../Scores/Scores";
 import "./WinnerPage.scss";
 import { Link } from "react-router-dom";
 import horizontalLogo from "./memelogohorizontal.png";
+import applause from "./applause3.mp3";
+import tada from "./tada.mp3";
 
 import { connect } from "react-redux";
 import { setGameObject, setSocket } from "../../dux/reducer";
@@ -17,9 +19,27 @@ class WinnerPage extends Component {
       game: {},
       winnerCard: [],
       scores: [],
-      redirect: false
+      redirect: false,
+      play: false,
+      pause: true
     };
+    this.applause1 = new Audio(applause);
+    this.tada1 = new Audio(tada);
   }
+
+  play = () => {
+    this.setState({
+      play: true,
+      pause: false
+    });
+  };
+
+  pause = () => {
+    this.setState({
+      play: false,
+      pause: true
+    });
+  };
 
   componentDidMount() {
     this.setState({
@@ -32,6 +52,9 @@ class WinnerPage extends Component {
     );
 
     this.joinRoom(this.props.socket.socket);
+
+    this.play(applause);
+    this.play(tada);
   }
 
   joinRoom = socket => {
