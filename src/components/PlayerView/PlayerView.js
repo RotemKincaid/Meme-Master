@@ -22,20 +22,26 @@ class PlayerView extends Component {
   }
 
   componentDidMount() {
+    if (this.props.socket.socket){
     // this.getCards();
-    this.setState({
-      socket: this.props.socket.socket
-    });
+      this.setState({
+        socket: this.props.socket.socket
+      });
 
-    console.log(
-      "socket at component did mount player view",
-      this.props.socket.socket
-    );
+      console.log(
+        "socket at component did mount player view",
+        this.props.socket.socket
+      );
 
-    this.joinRoom(this.props.socket.socket);
+      this.joinRoom(this.props.socket.socket);
+    }else {
+      this.props.history.push('/')
+    }
 
     
   }
+
+
 
   joinRoom = socket => {
     // const {socket} = this.state
@@ -118,43 +124,47 @@ class PlayerView extends Component {
     console.log("THIS.STATE AT PLAYER VIEW", this.state);
 
     
+    
+     
+      const { chosenCard, image } = this.state;
+      const mappedChosenCard = chosenCard.map(card => {
+        return (
+          <div key={card.card_id}>
+            <Card card={card} content={card.content} />
+          </div>
+        );
+      });
 
-    const { chosenCard, image } = this.state;
-    const mappedChosenCard = chosenCard.map(card => {
-      return (
-        <div key={card.card_id}>
-          <Card card={card} content={card.content} />
-        </div>
-      );
-    });
+      console.log('props at PLAYERVIEW',this.props);
+      //get judge
+      const {gameObject, username} = this.props
+      var judgeUsername = gameObject.gameObject.judge[0].username
 
-    console.log('props at PLAYERVIEW',this.props);
-    //get judge
-    const {gameObject, username} = this.props
-    var judgeUsername = gameObject.gameObject.judge[0].username
+      var judgeAvatar = gameObject.gameObject.judge[0].avatar;
 
-    var judgeAvatar = gameObject.gameObject.judge[0].avatar;
+      console.log('JUDGEUSERNAME',judgeUsername)
+      var playerUsername = username.username
+      
+      
 
-    console.log('JUDGEUSERNAME',judgeUsername)
-    var playerUsername = username.username
+
+      console.log(this.state.cards, "CARDS FROM PLAYERVIEW");
+      console.log("the chosen card", this.state.chosenCard);
+
+      const mappedCards = this.state.cards.map(card => {
+        return (
+          <div className="chosen-player-card" key={card.card_id}>
+            <Card
+              card={card}
+              chooseCard={this.chooseCard}
+              content={card.content}
+            />
+          </div>
+        );
+      });
     
     
-
-
-    console.log(this.state.cards, "CARDS FROM PLAYERVIEW");
-    console.log("the chosen card", this.state.chosenCard);
-
-    const mappedCards = this.state.cards.map(card => {
-      return (
-        <div className="chosen-player-card" key={card.card_id}>
-          <Card
-            card={card}
-            chooseCard={this.chooseCard}
-            content={card.content}
-          />
-        </div>
-      );
-    });
+    
     return (
       <div className="playerview">
         <div className='playerview-avatar-name'>
@@ -189,6 +199,8 @@ class PlayerView extends Component {
         ):(
           null
         )}
+      
+     
       </div>
     );
   }

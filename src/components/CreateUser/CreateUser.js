@@ -2,6 +2,7 @@ import React, { Component } from "react";
 // import Slider from "react-slick";
 // import "slick-carousel/slick/slick.css";
 // import "slick-carousel/slick/slick-theme.css";
+import io from "socket.io-client";
 import "./CreateUser.scss";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
@@ -9,7 +10,8 @@ import {
   setGamePin,
   setGameObject,
   setPlayerUsername,
-  setCreator
+  setCreator,
+  setSocket
 } from "../../dux/reducer";
 import avatarData from "./avatarData";
 
@@ -62,28 +64,41 @@ class CreateUser extends Component {
   }
 
   componentDidMount() {
-    console.log("this.props. at component did moutn set user", this.props);
-    const { gameObject, gamePin } = this.props;
 
-    if (gamePin.gamePin) {
+    if (this.props.socket.socket){
+      console.log("this.props. at component did moutn set user", this.props);
+      const { gameObject, gamePin } = this.props;
+  
+      if (gamePin.gamePin) {
+        this.setState({
+          isCreator: true
+        });
+        this.props.setCreator(true);
+      } else if (gamePin.gamePin === "") {
+        this.setState({
+          isCreator: false
+        });
+        this.props.setCreator(false);
+      }
+      console.log(gameObject.players);
+      console.log(this.state.avatar);
+  
       this.setState({
-        isCreator: true
+        // game: gameObject,
+        // gamePin: gamePin,
+        socket: this.props.socket.socket
       });
-      this.props.setCreator(true);
-    } else if (gamePin.gamePin === "") {
+
+    } else {
+      
+      const socket = io("http://localhost:4052");
       this.setState({
-        isCreator: false
+        // game: gameObject,
+        // gamePin: gamePin,
+        socket: socket
       });
-      this.props.setCreator(false);
+      this.props.setSocket(socket)
     }
-    console.log(gameObject.players);
-    console.log(this.state.avatar);
-
-    this.setState({
-      // game: gameObject,
-      // gamePin: gamePin,
-      socket: this.props.socket.socket
-    });
   }
 
   nameHandler = e => {
@@ -136,19 +151,21 @@ class CreateUser extends Component {
     console.log("HIT JOIN ROOM");
     const { username, socket, avatar } = this.state;
     const { gamePin } = this.props.gamePin;
-    socket.emit("Join Room", {
-      username: username,
-      avatar: avatar,
-      // players: players.push(username),
-      gamePin: gamePin
-    });
-    socket.on("send updated game", game => {
-      console.log("game sent from server:", game);
-      this.setState({
-        game: game
+    if (socket){
+      socket.emit("Join Room", {
+        username: username,
+        avatar: avatar,
+        // players: players.push(username),
+        gamePin: gamePin
       });
-      this.props.setGameObject(game);
-    });
+      socket.on("send updated game", game => {
+        console.log("game sent from server:", game);
+        this.setState({
+          game: game
+        });
+        this.props.setGameObject(game);
+      });
+    }
   };
 
   resetAvatar = () => {
@@ -164,10 +181,10 @@ class CreateUser extends Component {
   render() {
     console.log("PROPS AT CREATE USER FROM REDUX", this.props);
     const { avatarData, isCreator } = this.state;
-    const mappedAvatars = avatarData.map(avatars => {
+    const mappedAvatars = avatarData.map((avatars, index) => {
       // console.log(avatars);
       return (
-        <div className="avatar-display">
+        <div key={index} className="avatar-display">
           <img
             alt="avatar-display"
             // value={avatars.url}
@@ -271,7 +288,8 @@ const mapDispatchToProps = {
   setGamePin: setGamePin,
   setGameObject: setGameObject,
   setPlayerUsername: setPlayerUsername,
-  setCreator: setCreator
+  setCreator: setCreator,
+  setSocket: setSocket
 };
 
 export default connect(

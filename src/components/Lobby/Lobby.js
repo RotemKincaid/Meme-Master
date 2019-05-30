@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "./Lobby.scss";
 import { connect } from "react-redux";
-import { setGameObject } from "../../dux/reducer";
-// import io from "socket.io-client";
+import { setGameObject , setSocket} from "../../dux/reducer";
+import io from "socket.io-client";
 // const socket = io("http://localhost:4052");
 class Lobby extends Component {
   constructor() {
@@ -14,12 +14,25 @@ class Lobby extends Component {
     };
   }
   componentDidMount() {
-    this.setState({
-      game: this.props.gameObject.gameObject,
-      socket: this.props.socket.socket
-    });
-    this.joinRoom(this.props.socket.socket);
-    // this.joinRoomOnly(this.props.socket.socket)
+    if (this.props.socket.socket){
+      this.setState({
+        game: this.props.gameObject.gameObject,
+        socket: this.props.socket.socket
+      });
+      this.joinRoom(this.props.socket.socket);
+      // this.joinRoomOnly(this.props.socket.socket)
+    } else {
+
+      this.props.history.push('/')
+      // const socket = io("http://localhost:4052");
+      // this.setState({
+      //   // game: gameObject,
+      //   // gamePin: gamePin,
+      //   socket: socket
+      // });
+      // this.props.setSocket(socket)
+      // this.joinRoom(socket);
+    }
   }
   joinRoom = socket => {
     // const {socket} = this.state
@@ -158,7 +171,8 @@ function mapStateToProps(state) {
   };
 }
 const mapDispatchToProps = {
-  setGameObject: setGameObject
+  setGameObject: setGameObject,
+  setSocket: setSocket
 };
 export default connect(
   mapStateToProps,
