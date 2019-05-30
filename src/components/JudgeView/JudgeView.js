@@ -122,6 +122,9 @@ class JudgeView extends Component {
     // console.log('WINNER CARD I NEED', gameObject.gameObject.winnerCard)
 
     var judgeUsername = gameObject.gameObject.judge[0].username;
+
+    var judgeAvatar = gameObject.gameObject.judge[0].avatar;
+
     var playerUsername = username.username;
 
     console.log("JUDGE USERNAME AT JUDGE VIEW", judgeUsername);
@@ -141,7 +144,7 @@ class JudgeView extends Component {
         <div key={card.card_id} className="card-container-judgeview">
           {isPlayerJudge ? (
             <Card
-              isPlayerJudge={isPlayerJudge}
+              
               card={card}
               content={card.content}
               chooseCard={this.chooseCard}
@@ -149,7 +152,7 @@ class JudgeView extends Component {
           ) : (
             //non clickable card, just display
             <CardPlayerView
-              isPlayerJudge={isPlayerJudge}
+              
               card={card}
               content={card.content}
               chooseCard={this.chooseCard}
@@ -163,7 +166,12 @@ class JudgeView extends Component {
       <div className="judgeview-main">
         <div className="judgeview-inner">
           {isPlayerJudge ? (
-            <h3>{judgeUsername} - you are the judge! </h3>
+            <div className='judge-avatar-name'>
+              
+              <h3> <span>{judgeUsername} </span> you are the judge! </h3>
+              <img alt="lobby-avatar"
+              className="judge-avatar" src={judgeAvatar} />
+            </div>
           ) : (
             <h3>{judgeUsername} is thinking...</h3>
           )}

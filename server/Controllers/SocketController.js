@@ -205,7 +205,7 @@ module.exports = {
       if (indexOfJudge === i) {
         game.judge = [players[i + 1]];
       } else if (indexOfJudge === players.length) {
-        game.judge = [players[i + 1]];
+        game.judge = [players[i]];
       }
     }
 
