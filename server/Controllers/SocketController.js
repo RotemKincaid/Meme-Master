@@ -31,7 +31,11 @@ module.exports = {
 
     let playerUsername = data.username;
 
-    let initialPlayerScore = { playerUsername, score: 0 };
+    let initialPlayerScore = {
+      playerUsername,
+      score: 0,
+      avatar: data.avatar.url
+    };
 
     games[objectKey].scores.push(initialPlayerScore);
 
@@ -57,8 +61,8 @@ module.exports = {
     // var newCards = [];
     const db = req.app.get("db");
     return db.get_cards().then(cardsdb => {
-      cardsFromDb = cardsdb;
-      res.send(cardsFromDb)
+      cardsFromDb.push(cardsdb);
+      res.send(cardsFromDb);
     });
   },
   // getCardsToFront: (req, res) => {
@@ -69,7 +73,7 @@ module.exports = {
   getMedia: (req, res) => {
     const db = req.app.get("db");
     return db.get_media().then(mediadb => {
-      mediaFromDb = mediadb;
+      mediaFromDb.push(mediadb);
       res.send(mediaFromDb);
     });
   },
@@ -80,16 +84,12 @@ module.exports = {
 
     io.in(data.gamePin).emit("welcome to");
 
-
     var shuffledCards = cardsFromDb[0].sort(function(a, b) {
-
       return Math.random() - 0.5;
     });
     // console.log(shuffledCards)
 
-
     var shuffledMedia = mediaFromDb[0].sort(function(a, b) {
-
       return Math.random() - 0.5;
     });
     // console.log('shuffledCards', shuffledCards)
@@ -125,7 +125,6 @@ module.exports = {
     // let cards = games[gamePin].cards
     let players = games[gamePin].players;
 
-
     for (var i = 0; i < players.length; i++) {
       games[gamePin].players[i].hand = games[gamePin].cards.splice(0, 7);
     }
@@ -146,17 +145,15 @@ module.exports = {
   },
 
   changeTurn: (data, socket, io) => {
-
     // console.log('HIT CHANGE TURN', data)
-    
-    //this will add a card to each player, pick a new judge
-    
-    let gamePin = data.gamePin
-    let changedTurnGame = games[gamePin]
-    console.log('GAME BEFEORE BEING  TURNED',changedTurnGame)
-    let players = games[gamePin].players
-    let cards = games[gamePin].cards
 
+    //this will add a card to each player, pick a new judge
+
+    let gamePin = data.gamePin;
+    let changedTurnGame = games[gamePin];
+    console.log("GAME BEFEORE BEING  TURNED", changedTurnGame);
+    let players = games[gamePin].players;
+    let cards = games[gamePin].cards;
 
     let game = games[gamePin];
 
@@ -167,12 +164,9 @@ module.exports = {
     game.winnerCard = [];
     game.chosenCards = [];
 
-    let changedTurnGame = games[gamePin];
+    let changedTurnGame1 = games[gamePin];
 
-
-    
-
-    games[gamePin].current_image = games[gamePin].images.splice(0,1);
+    games[gamePin].current_image = games[gamePin].images.splice(0, 1);
 
     socket.join(data.gamePin);
 
@@ -186,21 +180,16 @@ module.exports = {
     //   }
     // }
 
-
-
     console.log("INDEX OF JUDGE AT TURN GAME", indexOfJudge);
 
-    let indexOfJudge = players.findIndex(player=>{
-      console.log('PLAYER.JUDGE?', player.judge)
-      return player.judge
-    })
+    let indexOfJudge = players.findIndex(player => {
+      console.log("PLAYER.JUDGE?", player.judge);
+      return player.judge;
+    });
 
+    players[indexOfJudge].judge = false;
 
-    players[indexOfJudge].judge = false
-
-    
-
-    console.log('INDEX OF JUDGE AT TURN GAME', indexOfJudge)
+    console.log("INDEX OF JUDGE AT TURN GAME", indexOfJudge);
 
     // let newIndex = indexOfJudge + 1
 
@@ -214,15 +203,9 @@ module.exports = {
       }
     }
 
-
     console.log("indexofJudge at turn game", indexOfJudge);
 
-    
-
-
-
     // console.log('indexofJudge at turn game', indexOfJudge)
-
 
     // }
     // else if (players[1].judge === true) {
@@ -234,14 +217,11 @@ module.exports = {
     //   players[3].judge = true
     // }
 
-
-    console.log(changedTurnGame);
-    io.in(gamePin).emit("get changed turn", changedTurnGame);
+    console.log(changedTurnGame1);
+    io.in(gamePin).emit("get changed turn", changedTurnGame1);
     let url = "/playerview";
     io.in(gamePin).emit("redirect", url);
   },
-
-
 
   chooseCard: (data, socket, io) => {
     console.log("hit choose card", data);
@@ -359,7 +339,5 @@ module.exports = {
     io.in(gamePin).emit("get game after join room", game);
   },
 
-
   getAllChosenCardsFromPlayers: (data, socket, io) => {}
-
 };

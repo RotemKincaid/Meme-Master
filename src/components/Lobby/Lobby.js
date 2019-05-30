@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import "./Lobby.scss";
 import { connect } from "react-redux";
 import { setGameObject } from "../../dux/reducer";

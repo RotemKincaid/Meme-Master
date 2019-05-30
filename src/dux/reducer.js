@@ -3,7 +3,8 @@ const initialState = {
   username: "",
   gameObject: {},
   socket: "",
-  creator: "",
+  creator: ""
+
   // players: '',
 };
 
@@ -23,7 +24,6 @@ export default function reducer(state = initialState, action) {
       // const newPlayersList = state.players.push(action.payload)
       return { ...state, username: action.payload };
 
-    
     case SET_GAME_OBJECT:
       // const newPlayersList = state.players.push(action.payload)
       return { ...state, gameObject: action.payload };
@@ -52,8 +52,6 @@ export function setPlayerUsername(username) {
     payload: username
   };
 }
-
-
 
 export function setGameObject(gameObject) {
   return {

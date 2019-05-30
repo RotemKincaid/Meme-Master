@@ -1,5 +1,6 @@
 import React from "react";
 
+
 import "./Scores.scss";
 
 const Scores = props => {
@@ -10,9 +11,11 @@ const Scores = props => {
   let mappedScores = scores.map((player, index) => {
     return (
       <div key={index}>
-        <p>{player.playerUsername}</p>
+        <p>
+          {player.playerUsername} <img src={player.avatar} alt = "avatar " />
+        </p>
         <p>{player.score}</p>
-        <img src={player.avatar} />
+        &nbsp;
       </div>
     );
   });
