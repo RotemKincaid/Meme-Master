@@ -201,13 +201,30 @@ module.exports = {
 
     // game.judge = players[newIndex]
 
+    console.log('GAME.JUDGE BEFORE Change', game.judge)
+    
+
     for (var i = 0; i < players.length; i++) {
       if (indexOfJudge === i) {
-        game.judge = [players[i + 1]];
+        game.judge = [players[i + 1]]
       } else if (indexOfJudge === players.length) {
         game.judge = [players[i]];
       }
     }
+
+    console.log('game.judge[0].username', game.judge[0].username)
+
+    let indexOfJudgeByUsername = players.findIndex(player=>{
+      console.log('PLAYER.username?', player.username)
+      return player.username === game.judge[0].username
+    })
+
+    players[indexOfJudgeByUsername].judge = true
+
+    console.log('index of judge by username', indexOfJudgeByUsername)
+
+    console.log('GAME.JUDGE after change', game.judge)
+    
 
 
     console.log("indexofJudge at turn game", indexOfJudge);
@@ -218,7 +235,11 @@ module.exports = {
 
     // console.log('indexofJudge at turn game', indexOfJudge)
 
-
+    // for (var i = 0; i < players.length; i++){
+    //   if (players[i].judge){
+    //     players[i].judge = false 
+    //   } 
+    // }
     // }
     // else if (players[1].judge === true) {
     //   players[1].judge = false
