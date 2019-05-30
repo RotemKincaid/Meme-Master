@@ -108,37 +108,36 @@ class JudgeView extends Component {
   // }
 
   render() {
-    console.log('PROPS AT JUDGE VIEW',this.props)
+    console.log("PROPS AT JUDGE VIEW", this.props);
     // const {current_image} = this.props.gameObject.gameObject
     // const image = current_image[0].media_url
     // console.log(image)
 
     const { image, chosenCards } = this.state;
 
-    const {gameObject, username} = this.props
+    const { gameObject, username } = this.props;
 
-    var winnerCard = gameObject.gameObject.winnerCard
+    var winnerCard = gameObject.gameObject.winnerCard;
 
     // console.log('WINNER CARD I NEED', gameObject.gameObject.winnerCard)
 
-    var judgeUsername = gameObject.gameObject.judge[0].username
-    var playerUsername = username.username
+    var judgeUsername = gameObject.gameObject.judge[0].username;
+    var playerUsername = username.username;
 
-    console.log('JUDGE USERNAME AT JUDGE VIEW', judgeUsername)
+    console.log("JUDGE USERNAME AT JUDGE VIEW", judgeUsername);
 
-    var isPlayerJudge = false
+    var isPlayerJudge = false;
 
-    if (playerUsername === judgeUsername){
-      isPlayerJudge = true
-    }else{
-      isPlayerJudge = false
+    if (playerUsername === judgeUsername) {
+      isPlayerJudge = true;
+    } else {
+      isPlayerJudge = false;
     }
 
-    console.log('IS PLAYER JUDGE AT JUDGE VIEW',isPlayerJudge)
+    console.log("IS PLAYER JUDGE AT JUDGE VIEW", isPlayerJudge);
 
     let mappedChosenCards = chosenCards.map(card => {
       return (
-
         <div key={card.card_id} className="card-container-judgeview">
           {isPlayerJudge ? (
             <Card
@@ -147,8 +146,7 @@ class JudgeView extends Component {
               content={card.content}
               chooseCard={this.chooseCard}
             />
-
-          ):(
+          ) : (
             //non clickable card, just display
             <CardPlayerView
               isPlayerJudge={isPlayerJudge}
@@ -161,16 +159,13 @@ class JudgeView extends Component {
       );
     });
 
-    
-
     return (
       <div className="judgeview-main">
         <div className="judgeview-inner">
           {isPlayerJudge ? (
-            <h3>{judgeUsername} you are the judge! </h3>
-          ):(
+            <h3>{judgeUsername} - you are the judge! </h3>
+          ) : (
             <h3>{judgeUsername} is thinking...</h3>
-
           )}
           <img
             alt="judge"
@@ -179,9 +174,11 @@ class JudgeView extends Component {
             // src="https://imgflip.com/s/meme/Two-Buttons.jpg"
           />
           {chosenCards.length ? (
-            <h5>judge will select a card out of the ones diplayed below...</h5>
-          ):(
-            <h5>Players are choosing...</h5>
+            <h5>
+              The judge will select a card out of the ones diplayed below...
+            </h5>
+          ) : (
+            <h5>Players are choosing their cards...</h5>
           )}
           {/* <div className="card-container-judgeview">
           <Card />
@@ -189,15 +186,11 @@ class JudgeView extends Component {
           <Card />
         </div> */}
           <div className="card-container-judgeview">{mappedChosenCards}</div>
-          <Link to="/winner">
+          {/* <Link to="/winner">
             <button>WHO'S THE WINNER!!?</button>
-          </Link>
+          </Link> */}
         </div>
-        {winnerCard.length ? (
-          this.props.history.push('/winner')
-        ):(
-          null
-        )}
+        {winnerCard.length ? this.props.history.push("/winner") : null}
       </div>
     );
   }
