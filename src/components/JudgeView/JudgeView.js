@@ -173,7 +173,7 @@ class JudgeView extends Component {
               className="judge-avatar" src={judgeAvatar} />
             </div>
           ) : (
-            <h3>{judgeUsername} is thinking...</h3>
+            <h3><span>{judgeUsername}</span> is thinking...</h3>
           )}
           <img
             alt="judge"

@@ -133,6 +133,8 @@ class PlayerView extends Component {
     const {gameObject, username} = this.props
     var judgeUsername = gameObject.gameObject.judge[0].username
 
+    var judgeAvatar = gameObject.gameObject.judge[0].avatar;
+
     console.log('JUDGEUSERNAME',judgeUsername)
     var playerUsername = username.username
     
@@ -155,7 +157,11 @@ class PlayerView extends Component {
     });
     return (
       <div className="playerview">
-        <h3 className="turn">{judgeUsername} is the judge for this round!</h3>
+        <div className='playerview-avatar-name'>
+          <h3 className="turn"><span>{judgeUsername}</span> is the judge for this round! </h3>
+          <img alt="lobby-avatar"
+              className="playerview-avatar" src={judgeAvatar} />
+        </div>
         <img alt="playerview" className="meme-image-playerview" src={image} />
 
         <h4>Choose the funniest card that best matches the picture....</h4>
