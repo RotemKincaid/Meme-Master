@@ -26,7 +26,7 @@ class CreateGame extends Component {
     const { gamePin } = this.state;
     this.generateRandom();
     this.setState({
-      // game: gameObject,
+      
 
       socket: this.props.socket
     });
@@ -38,7 +38,7 @@ class CreateGame extends Component {
     this.props.setGamePin(gamePin);
   }
 
-  getCardsAndMediaToServer =() => {
+  getCardsAndMediaToServer = () => {
     axios.get("/api/cards1").then(res => {
       console.log("cards from db are on server", res);
     });
