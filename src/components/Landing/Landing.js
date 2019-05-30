@@ -10,7 +10,10 @@ import { setSocket } from "../../dux/reducer";
 import { connect } from "react-redux";
 
 import io from "socket.io-client";
-const socket = io("http://localhost:4052");
+
+//if hosting take local host out
+const socket = io();
+// const socket = io("http://localhost:4052");
 console.log("new socket connection", socket);
 
 class Landing extends Component {
@@ -30,7 +33,9 @@ class Landing extends Component {
 
     return (
       <div className="landing">
+        
         <img src={logo} alt ='logo' />
+        
         <div className="landing-btns">
           <Link to="/creategame">
             <button className="create-btn">CREATE GAME</button>

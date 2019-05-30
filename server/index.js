@@ -3,9 +3,12 @@ var server = require("http").Server(app);
 var io = require("socket.io")(server);
 require("dotenv").config();
 const massive = require("massive");
+const express = require('express')
 
 const SocketController = require("./Controllers/SocketController");
 const { SERVER_PORT, CONNECTION_STRING, SESSION_SECRET } = process.env;
+
+app.use( express.static( `${__dirname}/../build` ) );
 
 massive(CONNECTION_STRING)
   .then(db => {
@@ -64,6 +67,14 @@ app.get("/api/cards1", SocketController.getCardsToObject);
 // get the cards to frontend
 // app.get("/api/cards2", SocketController.getCardsToFront);
 app.get("/api/media", SocketController.getMedia);
+
+
+
+
+const path = require('path')
+app.get('*', (req, res)=>{
+  res.sendFile(path.join(__dirname, '../build/index.html'));
+})
 
 server.listen(SERVER_PORT, () =>
   console.log(`server running on port ${SERVER_PORT}`)

@@ -63,35 +63,22 @@ class Lobby extends Component {
       console.log("game sent from server after being prepared", game);
       console.log("prepared game", game);
       this.setState({
-        game: game,
-        gameReady: true
+        game: game
       });
       this.props.setGameObject(game);
     });
   };
-  
+
   render() {
-    const { gameObject } = this.props.gameObject;
+    const { gameObject, creator } = this.props.gameObject;
     console.log("gameObject from redux", this.props.gameObject);
-    const { players } = gameObject;
+    const { players, active } = gameObject;
+    console.log("creator at lobby", this.props.gameObject.creator);
     console.log("players at lobby", players);
-    // const mappedPlayers = players.map((player, index) => {
-    //   return (
-    //     <div key={index} style={{ display: "flex" }}>
-    //       <h6>{player.username}</h6>
-    //       <img height={"50px"} width={"auto"} src={player.avatar} />
-    //     </div>
-    //   );
-    // });
+
+    console.log("ACTIVE AT LOBBY", active);
     console.log(players);
-    // const mappedPlayers = players.map(player => {
-    //   return (
-    //     <div className="mapped-players">
-    //       <h6>{player.username}</h6>
-    //       <img className="lobby-avatar" src={player.avatar} />
-    //     </div>
-    //   );
-    // });
+
     return (
       <div className="lobby">
         {/* This is Lobby Component!
@@ -111,18 +98,25 @@ class Lobby extends Component {
             </Link>
           </button> */}
         {/* This is Lobby Component! */}
-        <h1>GAME LOBBY</h1>
-        <h4 style={{ fontSize: "25px" }}>{this.props.gamePin.gamePin}</h4>
+        <div className="titles">
+          <h1>GAME LOBBY</h1>
+          <h4 style={{ fontSize: "35px", color: "red" }}>
+            {this.props.gamePin.gamePin}
+          </h4>
+        </div>
+
         <div className="lobby-inner">
-          {/* <div>'this will display the players list as they join'</div> */}
-          {/* <h2>{mappedPlayers}</h2> */}
           {players ? (
             <h2>
               {players.map((player, index) => {
                 return (
                   <div className="mapped-players" key={index}>
                     <h6>{player.username}</h6>
-                    <img alt='lobby-avatar' className="lobby-avatar" src={player.avatar} />
+                    <img
+                      alt="lobby-avatar"
+                      className="lobby-avatar"
+                      src={player.avatar}
+                    />
                   </div>
                 );
               })}
@@ -130,23 +124,27 @@ class Lobby extends Component {
           ) : (
             <h2>loading..</h2>
           )}
-          <Link to="/playerview">
+        </div>
+
+        {creator ? (
+          <div>
+            <h5>Is everyone ready to play?</h5>
+            <br />
+            {/* <Link to="/playerview">
+              <button className="start-game" onClick={this.startGame}>
+                START GAME
+              </button>
+            </Link> */}
             <button className="start-game" onClick={this.startGame}>
               START GAME
             </button>
-          </Link>
-          {/* 
-          <button>
-            <Link to="/createuser">Back</Link>
-          </button> */}
-          {/* THIS WILL GO ON PLAYERS VIEW BUT WORKING ON HERE FOR NOW
-          <button onClick={this.changeTurn}>CHANGE TURN</button> */}
-          {/* <button>
-          <Link className="link" to="/judgeview">
-            CLICK WHEN YOU ARE READY! -judgeview-
-          </Link>
-        </button> */}
-        </div>
+          </div>
+        ) : (
+          // <Link to="/playerview"><button className="start-game">JOIN GAME</button></Link>
+          <h5>Creator will start the game!</h5>
+        )}
+
+        {active ? this.props.history.push("/playerview") : null}
       </div>
     );
   }
@@ -155,7 +153,8 @@ function mapStateToProps(state) {
   return {
     gamePin: state.gamePin,
     gameObject: state.gameObject,
-    socket: state.socket
+    socket: state.socket,
+    creator: state.creator
   };
 }
 const mapDispatchToProps = {

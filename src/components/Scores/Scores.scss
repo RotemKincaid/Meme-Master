@@ -2,42 +2,80 @@
   background: white;
   border: 1px solid rgb(31, 14, 31);
   box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
-  margin: 100px auto 0;
+  margin: 10px auto 0;
   transition: all 0.7s;
-  width: 40%;
+  width: 400px;
+  // height: 400px;
+  z-index: 3;
+  // border-radius: 1
+  position: fixed;
+  top: 120px;
 
   .scores-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #263238;
+    background: #950ae6;
+    border: 1px solid black;
     color: white;
     height: 40px;
     line-height: 40px;
     padding: 5px 20px;
     text-align: right;
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+    text-shadow: 1px 2px 2px black;
   }
 
   .scores-body {
-    height: 400px;
-    width: 200px;
+    background: linear-gradient(
+      0.4turn,
+      rgb(247, 130, 75),
+      rgb(222, 152, 243),
+      // white,
+      rgb(35, 222, 247)
+    );
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    height: auto;
+    width: 100%;
     padding: 10px 15px;
-    text-align: center;
+    // background-image: url(".././Lobby/cool\ background.jpg");
+    // text-align: center;
+    border: 1.5px solid black;
+    .username-scores {
+      display: flex;
+      justify-content: space-between;
+
+      align-items: center;
+      flex-direction: column;
+      font-family: Cambria, Cochin, Georgia, Times, "Times New Roman",
+        serif sans-serif;
+      color: black;
+      font-size: 20px;
+      font-style: bolder;
+      text-shadow: 1px 2px 2px white;
+      //   width: 100%;
+    }
   }
 
   .scores-footer {
-    background: #263238;
+    // background: #263238;
     height: 35px;
     padding: 15px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    background: #950ae6;
+    border: 1px solid black;
   }
   .cancel-btn {
     color: white;
     cursor: pointer;
     float: right;
-    color: black;
+    background: black;
+    border-radius: 5px;
     // font-size: 20px;
     margin: 0;
   }
@@ -46,6 +84,8 @@
   background-color: rgba(48, 49, 48, 0.42);
   height: 100%;
   position: fixed;
-  transition: all 1.3s;
+  margin: 0;
+  // transition: all 1s;
   width: 100%;
 }
+//

@@ -10,12 +10,25 @@
   height: 100vh;
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   flex-direction: column;
   font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
   text-shadow: 3px 3px 4px black;
-  font-size: 36px;
+  // margin: 2px;
+  .titles {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+    h1 {
+      font-size: 76px;
+      margin: 15px;
+    }
+  }
+  h5 {
+    font-size: 25px;
+  }
 
   .lobby-inner {
     // background-image: url("./table3.jpg");
@@ -28,6 +41,7 @@
     justify-content: space-between;
     align-items: center;
     flex-direction: column;
+
     font-size: 25px;
     .mapped-players {
       width: 250px;
@@ -44,20 +58,6 @@
       }
     }
 
-    .start-game {
-      border: 1px solid black;
-      margin-bottom: 20px;
-
-      height: 40px;
-      width: 125px;
-      margin-bottom: 23px;
-      font-size: 19px;
-      color: white;
-      font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-      background-image: url("./cool\ background.jpg");
-      border-radius: 5px;
-      text-shadow: 3px 3px 4px black;
-    }
     div {
       // border: 1px solid black;
       height: 100px;
@@ -67,5 +67,21 @@
     .link {
       text-decoration: none;
     }
+  }
+  .start-game {
+    border: 1px solid black;
+    margin-bottom: 20px;
+
+    height: 50px;
+    width: 145px;
+    margin-bottom: 23px;
+    font-size: 19px;
+    color: white;
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+    // background-image: url("./cool\ background.jpg");
+    background-color: rgb(55, 17, 190);
+
+    border-radius: 5px;
+    text-shadow: 3px 3px 4px black;
   }
 }

@@ -1,0 +1,29 @@
+.card {
+    height: 200px;
+    width: 150px;
+    background-color: rgb(17, 17, 17);
+    color: whitesmoke;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: scroll;
+    margin: 2px;
+    font-family: "Roboto", sans-serif;
+    padding: 10px;
+    overflow: wrap;
+  
+    //   display: inline-block;
+  
+    &:hover {
+      height: 250px;
+      width: 180px;
+      font-size: 25px;
+      overflow: wrap;
+    }
+  
+    button{
+      color: red;
+    }
+  }
+  
