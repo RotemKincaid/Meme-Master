@@ -30,18 +30,13 @@ module.exports = {
     let objectKey = data.gamePin;
 
     let playerUsername = data.username;
-
-
-//     let initialPlayerScore = {
-//       playerUsername,
-//       score: 0,
-//       avatar: data.avatar.url
-//     };
-
-    let playerAvatar = data.avatar.url;
-
-    let initialPlayerScore = { playerUsername, score: 0, playerAvatar };
-
+    // this is the change that cam made to keep the avatar images in the scores keep this change
+    // KEEEEEEEP MEEEEEEE
+    let initialPlayerScore = {
+      playerUsername,
+      score: 0,
+      avatar: data.avatar.url
+    };
 
     games[objectKey].scores.push(initialPlayerScore);
 
