@@ -4,6 +4,7 @@ import React, { Component } from "react";
 // import "slick-carousel/slick/slick-theme.css";
 import io from "socket.io-client";
 import "./CreateUser.scss";
+import Slider from "react-slick"
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import {
