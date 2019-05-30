@@ -5,6 +5,8 @@ import { connect } from "react-redux";
 import { setGamePin, setGameObject, setSocket } from "../../dux/reducer";
 import logo from "../../components/logo.png";
 
+import axios from 'axios'
+
 // import io from "socket.io-client";
 // const socket = io.connect("http://localhost:4052");
 // console.log(socket)
@@ -28,10 +30,21 @@ class CreateGame extends Component {
 
       socket: this.props.socket
     });
+    this.getCardsAndMediaToServer();
     // console.log('socket at component did mount',socket)
     // this.props.setSocket(socket)
+    
 
     this.props.setGamePin(gamePin);
+  }
+
+  getCardsAndMediaToServer =() => {
+    axios.get("/api/cards1").then(res => {
+      console.log("cards from db are on server", res);
+    });
+    axios.get("/api/media").then(res => {
+      console.log("media from db are on server", res);
+    });
   }
 
   pauseSong = () => {
