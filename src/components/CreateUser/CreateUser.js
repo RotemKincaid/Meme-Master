@@ -5,9 +5,6 @@ import React, { Component } from "react";
 import io from "socket.io-client";
 import "./CreateUser.scss";
 
-
-
-
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import {
@@ -68,17 +65,16 @@ class CreateUser extends Component {
   }
 
   componentDidMount() {
-
-    if (this.props.socket.socket){
+    if (this.props.socket) {
       console.log("this.props. at component did moutn set user", this.props);
       const { gameObject, gamePin } = this.props;
-  
-      if (gamePin.gamePin) {
+
+      if (gamePin) {
         this.setState({
           isCreator: true
         });
         this.props.setCreator(true);
-      } else if (gamePin.gamePin === "") {
+      } else if (gamePin === "") {
         this.setState({
           isCreator: false
         });
@@ -86,22 +82,20 @@ class CreateUser extends Component {
       }
       console.log(gameObject.players);
       console.log(this.state.avatar);
-  
+
       this.setState({
         // game: gameObject,
         // gamePin: gamePin,
-        socket: this.props.socket.socket
+        socket: this.props.socket
       });
-
     } else {
-      
       const socket = io("http://localhost:4052");
       this.setState({
         // game: gameObject,
         // gamePin: gamePin,
         socket: socket
       });
-      this.props.setSocket(socket)
+      this.props.setSocket(socket);
     }
   }
 
@@ -120,7 +114,7 @@ class CreateUser extends Component {
   };
 
   pinMatch = () => {
-    if (this.state.gamePin === this.props.gamePin.gamePin) {
+    if (this.state.gamePin === this.props.gamePin) {
       console.log("GAME PIN MATCHES");
     } else {
       console.log("SOMETHING IS WRONG");
@@ -154,8 +148,8 @@ class CreateUser extends Component {
   joinRoomAsCreator = () => {
     console.log("HIT JOIN ROOM");
     const { username, socket, avatar } = this.state;
-    const { gamePin } = this.props.gamePin;
-    if (socket){
+    const { gamePin } = this.props;
+    if (socket) {
       socket.emit("Join Room", {
         username: username,
         avatar: avatar,
@@ -204,7 +198,7 @@ class CreateUser extends Component {
 
     // const {socket} = this.props.socket
     // console.log(this.props.gamePin);
-    const { gamePin } = this.props.gamePin;
+    const { gamePin } = this.props;
     // const { username, players, socket } = this.state;
     const { avatar } = this.state;
     // const mappedNames = players.map(name => {

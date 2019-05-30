@@ -1,11 +1,18 @@
+import song1 from "../components/Landing/sillymusic.mp3";
+
 const initialState = {
   gamePin: "",
   username: "",
   gameObject: {},
   socket: "",
   creator: "",
+  song: new Audio(song1)
   // players: '',
 };
+
+const PLAY_SONG = "PLAY_SONG";
+const PAUSE_SONG = "PAUSE_SONG";
+// const SET_SONG = "SET_SONG";
 
 const SET_GAME_PIN = "SET_GAME_PIN";
 const SET_PLAYER_USERNAME = "SET_PLAYER_USERNAME";
@@ -23,7 +30,6 @@ export default function reducer(state = initialState, action) {
       // const newPlayersList = state.players.push(action.payload)
       return { ...state, username: action.payload };
 
-    
     case SET_GAME_OBJECT:
       // const newPlayersList = state.players.push(action.payload)
       return { ...state, gameObject: action.payload };
@@ -33,6 +39,8 @@ export default function reducer(state = initialState, action) {
     case SET_CREATOR:
       // const newPlayersList = state.players.push(action.payload)
       return { ...state, creator: action.payload };
+    // case PLAY_SONG:
+    //   return { ...state, song: action.payload };
 
     default:
       return state;
@@ -53,8 +61,6 @@ export function setPlayerUsername(username) {
   };
 }
 
-
-
 export function setGameObject(gameObject) {
   return {
     type: SET_GAME_OBJECT,
@@ -71,6 +77,20 @@ export function setSocket(socket) {
 export function setCreator(boolean) {
   return {
     type: SET_CREATOR,
+    payload: boolean
+  };
+}
+
+export function playSong(boolean) {
+  return {
+    type: PLAY_SONG,
+    payload: boolean
+  };
+}
+
+export function pauseSong(boolean) {
+  return {
+    type: PAUSE_SONG,
     payload: boolean
   };
 }
