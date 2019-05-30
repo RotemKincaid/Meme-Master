@@ -55,13 +55,17 @@ describe("Integration tests", () => {
     });
   });
 
-  describe('join room', () => {
-    it('create a new player', () => {
-      
-    })
-  })
+  
 
 
-
-
+  
 });
+
+//Francisca's testing
+
+// describe('JOIN ROOM:', () => {
+//   test('join room should return a new player', () => {
+//     expect (socksFuncs.joinRoom().toEqual())
+//     return sockFuncs.joinRoom(data, socket, io);
+//   })
+// })
