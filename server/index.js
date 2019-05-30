@@ -18,9 +18,9 @@ massive(CONNECTION_STRING)
   .catch(err => console.log("error connecting to db", err));
 
 io.on("connection", function(socket) {
-  console.log('a user connected')
+  console.log("a user connected");
   socket.emit("news", " hello world");
-  
+
   socket.on("name", function(data) {
     console.log(data, "AHHHH MONSTERS");
     socket.emit("welcome", data.playerName);
@@ -53,16 +53,19 @@ io.on("connection", function(socket) {
     SocketController.joinRoomOnly(data, socket, io)
   );
 
-  socket.on('get chosen cards', data => SocketController.getAllChosenCardsFromPlayers(data, socket, io));
+  socket.on("get chosen cards", data =>
+    SocketController.getAllChosenCardsFromPlayers(data, socket, io)
+  );
 
-  
-
-
+  socket.on("1234", function(data) {
+    console.log("TESTY", data);
+    socket.emit("4321", data);
+  });
 });
 // getting cards into the game object
 app.get("/api/cards1", SocketController.getCardsToObject);
 // get the cards to frontend
-app.get("/api/cards2", SocketController.getCardsToFront);
+// app.get("/api/cards2", SocketController.getCardsToFront);
 app.get("/api/media", SocketController.getMedia);
 
 

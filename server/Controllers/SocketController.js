@@ -1,7 +1,7 @@
 const players = [];
 const games = {};
-const cardsFromDb = [];
-const mediaFromDb = [];
+let cardsFromDb = [];
+let mediaFromDb = [];
 
 module.exports = {
   joinRoom: (data, socket, io) => {
@@ -56,19 +56,21 @@ module.exports = {
   getCardsToObject: (req, res) => {
     // var newCards = [];
     const db = req.app.get("db");
-    db.get_cards().then(cardsdb => {
-      cardsFromDb.push(cardsdb);
+    return db.get_cards().then(cardsdb => {
+      cardsFromDb = cardsdb;
+      res.send(cardsFromDb)
     });
   },
-  getCardsToFront: (req, res) => {
-    const db = req.app.get("db");
-    db.get_cards().then(cards => res.status(200).send(cards));
-  },
+  // getCardsToFront: (req, res) => {
+  //   const db = req.app.get("db");
+  //   db.get_cards().then(cards => res.status(200).send(cards));
+  // },
 
   getMedia: (req, res) => {
     const db = req.app.get("db");
-    db.get_media().then(mediadb => {
-      mediaFromDb.push(mediadb);
+    return db.get_media().then(mediadb => {
+      mediaFromDb = mediadb;
+      res.send(mediaFromDb);
     });
   },
 
@@ -78,12 +80,16 @@ module.exports = {
 
     io.in(data.gamePin).emit("welcome to");
 
+
     var shuffledCards = cardsFromDb[0].sort(function(a, b) {
+
       return Math.random() - 0.5;
     });
     // console.log(shuffledCards)
 
+
     var shuffledMedia = mediaFromDb[0].sort(function(a, b) {
+
       return Math.random() - 0.5;
     });
     // console.log('shuffledCards', shuffledCards)
@@ -118,6 +124,7 @@ module.exports = {
 
     // let cards = games[gamePin].cards
     let players = games[gamePin].players;
+
 
     for (var i = 0; i < players.length; i++) {
       games[gamePin].players[i].hand = games[gamePin].cards.splice(0, 7);
@@ -352,5 +359,7 @@ module.exports = {
     io.in(gamePin).emit("get game after join room", game);
   },
 
+
   getAllChosenCardsFromPlayers: (data, socket, io) => {}
+
 };
