@@ -33,6 +33,10 @@ class CreateGame extends Component {
 
     this.props.setGamePin(gamePin);
   }
+
+  pauseSong = () => {
+    this.props.pauseSong();
+  };
   generateRandom() {
     this.setState({
       gamePin: Math.floor(100000 + Math.random() * 900000)

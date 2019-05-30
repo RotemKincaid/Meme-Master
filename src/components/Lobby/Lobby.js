@@ -2,30 +2,54 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "./Lobby.scss";
 import { connect } from "react-redux";
-import { setGameObject } from "../../dux/reducer";
-// import io from "socket.io-client";
+import { setGameObject, setSocket, pauseSong } from "../../dux/reducer";
+import io from "socket.io-client";
 // const socket = io("http://localhost:4052");
 class Lobby extends Component {
   constructor() {
     super();
     this.state = {
       game: {},
-      socket: ""
+      socket: "",
+      play: true,
+      pause: false
     };
   }
   componentDidMount() {
-    this.setState({
-      game: this.props.gameObject,
-      socket: this.props.socket
-    });
-    this.joinRoom(this.props.socket);
-    // this.joinRoomOnly(this.props.socket.socket)
+    if (this.props.socket) {
+      this.setState({
+        game: this.props.gameObject,
+        socket: this.props.socket
+      });
+      this.joinRoom(this.props.socket);
+      // this.joinRoomOnly(this.props.socket.socket)
+    } else {
+      this.props.history.push("/");
+      // const socket = io("http://localhost:4052");
+      // this.setState({
+      //   // game: gameObject,
+      //   // gamePin: gamePin,
+      //   socket: socket
+      // });
+      // this.props.setSocket(socket)
+      // this.joinRoom(socket);
+    }
+    this.pauseSong();
   }
+
+  pauseSong = () => {
+    this.setState({
+      play: false,
+      pause: true
+    });
+    this.props.pauseSong();
+  };
+
   joinRoom = socket => {
     // const {socket} = this.state
     console.log("SOCKET AT JOIN ROOM on lobby", socket);
     // const {socket} = this.props.socket.socket
-    const { gamePin } = this.props.gamePin;
+    const { gamePin } = this.props;
     socket.emit("join room at player view", { gamePin });
     socket.on("get game after join room", game => {
       console.log("game sent from server", game);
@@ -36,27 +60,13 @@ class Lobby extends Component {
       // this.getChosenCards(gamePin);
     });
   };
-  // joinRoomOnly = (socket) => {
-  //   console.log("HIT JOIN ROOM at lobby");
-  //   const { username, gamePin, avatar } = this.state;
-  //   // const {gamePin} = this.props.gamePin
-  //   socket.emit("join room only", {
-  //     gamePin: gamePin
-  //   });
-  //   socket.on("send game", game => {
-  //     console.log("game sent from server after join room only", game);
-  //     this.setState({
-  //       game: game
-  //     });
-  //     this.props.setGameObject(game);
-  //   });
-  // }
+
   startGame = () => {
     console.log("startGame hit!");
     // const { socket } = this.state;
-    const { socket } = this.props.socket;
+    const { socket } = this.props;
     console.log(socket);
-    const { gamePin } = this.props.gamePin;
+    const { gamePin } = this.props;
     console.log("gamepin at start game", gamePin);
     socket.emit("prepare game", { gamePin });
     socket.on("get prepared game", game => {
@@ -81,27 +91,10 @@ class Lobby extends Component {
 
     return (
       <div className="lobby">
-        {/* This is Lobby Component!
-        <h1>PLAYERS</h1>
-        <div>'this will display the players list as they join'</div> */}
-        {/* <button>
-          <Link className="link" to="/playerview">
-            PLAYER VIEW
-          </Link>
-        </button> */}
-        {/* <button onClick={this.startGame}>START GAME</button>
-        THIS WILL GO ON PLAYERS VIEW BUT WORKING ON HERE FOR NOW
-        <button onClick={this.changeTurn}>CHANGE TURN</button> */}
-        {/* <button>
-            <Link className="link" to="/judgeview">
-              CLICK WHEN YOU ARE READY! -judgeview-
-            </Link>
-          </button> */}
-        {/* This is Lobby Component! */}
         <div className="titles">
           <h1>GAME LOBBY</h1>
           <h4 style={{ fontSize: "35px", color: "red" }}>
-            {this.props.gamePin.gamePin}
+            {this.props.gamePin}
           </h4>
         </div>
 
@@ -130,17 +123,12 @@ class Lobby extends Component {
           <div>
             <h5>Is everyone ready to play?</h5>
             <br />
-            {/* <Link to="/playerview">
-              <button className="start-game" onClick={this.startGame}>
-                START GAME
-              </button>
-            </Link> */}
+
             <button className="start-game" onClick={this.startGame}>
               START GAME
             </button>
           </div>
         ) : (
-          // <Link to="/playerview"><button className="start-game">JOIN GAME</button></Link>
           <h5>Creator will start the game!</h5>
         )}
 
@@ -158,7 +146,9 @@ function mapStateToProps(state) {
   };
 }
 const mapDispatchToProps = {
-  setGameObject: setGameObject
+  setGameObject: setGameObject,
+  setSocket: setSocket,
+  pauseSong: pauseSong
 };
 export default connect(
   mapStateToProps,

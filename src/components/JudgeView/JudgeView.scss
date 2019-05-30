@@ -14,6 +14,35 @@
     min-height: 100vh;
     width: 100%;
 
+    span{
+      color:lightblue;
+    }
+    
+    .judge-avatar-name {
+      margin-top: 17px;
+      margin-right: 17px;
+      display: flex;
+      justify-content: center;
+      align-content: center;
+      align-items: center;
+      
+      
+      h3 {
+        margin-top: 0;
+      }
+      .judge-avatar {
+        height: 55px;
+        width: 55px;
+        border-radius: 50%;
+        border: 1px solid white;
+      }
+      @media (max-width: 700px) {
+        width: 370px;
+        
+      }
+      
+    }
+
     h3 {
       width: 350px;
       margin-top: 17px;
@@ -22,6 +51,7 @@
       font-size: 28px;
       font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
       word-spacing: 2px;
+      
     }
     h5 {
       width: 350px;

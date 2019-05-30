@@ -43,7 +43,7 @@ class WinnerPage extends Component {
 
   componentDidMount() {
     this.setState({
-      socket: this.props.socket.socket
+      socket: this.props.socket
     });
 
     console.log(
@@ -51,7 +51,7 @@ class WinnerPage extends Component {
       this.props.socket.socket
     );
 
-    this.joinRoom(this.props.socket.socket);
+    this.joinRoom(this.props.socket);
 
     this.play(applause);
     this.play(tada);
@@ -61,7 +61,7 @@ class WinnerPage extends Component {
     // const {socket} = this.state
     console.log("SOCKET AT JOIN ROOM on player view", socket);
     // const {socket} = this.props.socket.socket
-    const { gamePin } = this.props.gamePin;
+    const { gamePin } = this.props;
 
     socket.emit("join room at player view", { gamePin });
 
@@ -81,7 +81,7 @@ class WinnerPage extends Component {
     console.log("changeTurn hit!");
     const { socket } = this.state;
 
-    const { gamePin } = this.props.gamePin;
+    const { gamePin } = this.props;
     console.log("gamepin at change turn game", gamePin);
     socket.emit("change turn", { gamePin });
     socket.on("get changed turn", game => {
@@ -117,7 +117,7 @@ class WinnerPage extends Component {
   render() {
     console.log("props at winner page", this.props);
 
-    const { gameObject } = this.props.gameObject;
+    const { gameObject } = this.props;
 
     // gameObject
 

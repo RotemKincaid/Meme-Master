@@ -12,6 +12,31 @@
   justify-content: space-evenly;
   align-items: center;
   flex-direction: column;
+  .playerview-avatar-name {
+    // margin-top: 17px;
+    // margin-right: 17px;
+    display: flex;
+    justify-content: center;
+    // align-content: space-around;
+    align-items: center;
+
+    span {
+      color: lightblue;
+    }
+    h3 {
+      margin-top: 0;
+    }
+    .playerview-avatar {
+      height: 55px;
+      width: 55px;
+      border-radius: 50%;
+      border: 1px solid white;
+      margin-left: 20px;
+    }
+    @media (max-width: 700px) {
+      width: 370px;
+    }
+  }
   .turn {
     margin-top: 19px;
     color: white;

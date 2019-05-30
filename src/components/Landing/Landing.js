@@ -6,11 +6,14 @@ import logo from "./mememasterlogo.png";
 import "./Landing.scss";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { setSocket, playSong, pauseSong } from "../../dux/reducer";
+import { setSocket, playSong } from "../../dux/reducer";
 import { connect } from "react-redux";
 // import song from "../Landing/sillymusic.mp3";
 
 import io from "socket.io-client";
+
+//if hosting take local host out
+// const socket = io();
 const socket = io("http://localhost:4052");
 console.log("new socket connection", socket);
 
@@ -26,8 +29,8 @@ class Landing extends Component {
   }
 
   componentDidMount() {
-    axios.get("/api/cards1").then(cards => {
-      console.log("cards from db are on server");
+    axios.get("/api/cards1").then(res => {
+      console.log("cards from db are on server", res);
     });
     axios.get("/api/media").then(media => {
       console.log("media from db are on server");
@@ -51,7 +54,7 @@ class Landing extends Component {
       play: false,
       pause: true
     });
-    this.props.pauseSong();
+    // this.props.pauseSong();
   };
 
   render() {
@@ -65,13 +68,11 @@ class Landing extends Component {
 
         <div className="landing-btns">
           <Link to="/creategame">
-            <button onClick={this.pause} className="create-btn">
-              CREATE GAME
-            </button>
+            <button className="create-btn">CREATE GAME</button>
           </Link>
           <br />
           <Link className="join-btn" to="/createuser">
-            <button onClick={this.pause}>JOIN GAME</button>
+            <button>JOIN GAME</button>
           </Link>
         </div>
         <Link to="/instructions">
@@ -91,8 +92,8 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   setSocket: setSocket,
-  playSong: playSong,
-  pauseSong: pauseSong
+  playSong: playSong
+  // pauseSong: pauseSong
 };
 
 export default connect(
