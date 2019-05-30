@@ -80,7 +80,7 @@ class CreateGame extends Component {
     return (
       <div className="creategame">
         <div className="create-game-inner">
-          <img src={logo} />
+          <img src={logo} alt="logo" />
           <br />
           <h3>Here is your game pin:</h3> <h1>{gamePin}</h1>
                             

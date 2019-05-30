@@ -77,10 +77,13 @@ module.exports = [
   },
   {
     url: "https://s3-us-west-1.amazonaws.com/memes-project/avatars/Daniel.png"
+  },
+  {
+    url: "https://memes-project.s3-us-west-1.amazonaws.com/avatars/nugget2.jpg"
+  },
+  {
+    url: "https://memes-project.s3-us-west-1.amazonaws.com/avatars/NewTravis.png"
   }
-
-
-
-
-
 ];
+
+
