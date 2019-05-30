@@ -41,6 +41,9 @@
     justify-content: space-between;
     align-items: center;
     flex-direction: column;
+    @media (max-width: 700px) {
+      width: 340px;
+    }
 
     font-size: 25px;
     .mapped-players {

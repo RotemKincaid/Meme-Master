@@ -31,7 +31,7 @@ module.exports = {
 
     let playerUsername = data.username;
 
-    let playerAvatar = data.avatar.url
+    let playerAvatar = data.avatar.url;
 
     let initialPlayerScore = { playerUsername, score: 0, playerAvatar };
 
@@ -63,13 +63,13 @@ module.exports = {
     //   console.log('HIT GET CARDS TO OBJECT', cardsdb.length)
     //   cardsFromDb.push(cardsdb);
 
-      db.get_cards().then(cardsdb => {
-        // console.log('cardsdb', cardsdb)
-        cardsFromDb.push(cardsdb);
-        res.send('cards are on db', cards)
-        // console.log('cardsFromDb', cardsFromDb)
-      });
-
+    db.get_cards().then(res => {
+      console.log("res at get cards to object", res);
+      // console.log('cardsdb', cardsdb)
+      cardsFromDb.push(res);
+      // res.status(200).send(cardsdb);
+      // console.log('cardsFromDb', cardsFromDb)
+    });
   },
   // getCardsToFront: (req, res) => {
   //   const db = req.app.get("db");
@@ -78,10 +78,10 @@ module.exports = {
 
   getMedia: (req, res) => {
     const db = req.app.get("db");
-    return db.get_media().then(mediadb => {
+    return db.get_media().then(res => {
       // mediaFromDb = mediadb;
-      res.send(mediaFromDb);
-      mediaFromDb.push(mediadb)
+      // res.send("media are on db", mediaFromDb);
+      mediaFromDb.push(res);
     });
   },
 
@@ -91,19 +91,18 @@ module.exports = {
 
     io.in(data.gamePin).emit("welcome to");
 
-    console.log('cardsFromDb at gameObjectCreator', cardsFromDb[0])
+    console.log("cardsFromDb at gameObjectCreator", cardsFromDb[0]);
 
     if (cardsFromDb.length) {
       var shuffledCards = cardsFromDb[0].sort(function(a, b) {
-  
         return Math.random() - 0.5;
       });
     }
     // console.log(shuffledCards)
 
-    if (mediaFromDb.length){
+    if (mediaFromDb.length) {
       var shuffledMedia = mediaFromDb[0].sort(function(a, b) {
-      return Math.random() - 0.5;
+        return Math.random() - 0.5;
       });
     }
     // console.log('shuffledCards', shuffledCards)
@@ -136,9 +135,8 @@ module.exports = {
     let gamePin = data.gamePin;
     console.log("GAME PIN AT PREPARE GAME", gamePin);
 
-    // let cards = games[gamePin].cards
+    let cards = games[gamePin].cards;
     let players = games[gamePin].players;
-
 
     for (var i = 0; i < players.length; i++) {
       games[gamePin].players[i].hand = games[gamePin].cards.splice(0, 7);
@@ -160,17 +158,15 @@ module.exports = {
   },
 
   changeTurn: (data, socket, io) => {
-
     // console.log('HIT CHANGE TURN', data)
-    
-    //this will add a card to each player, pick a new judge
-    
-    let gamePin = data.gamePin
-    let changedTurnGame = games[gamePin]
-    console.log('GAME BEFEORE BEING  TURNED',changedTurnGame)
-    let players = games[gamePin].players
-    let cards = games[gamePin].cards
 
+    //this will add a card to each player, pick a new judge
+
+    let gamePin = data.gamePin;
+    let changedTurnGame = games[gamePin];
+    console.log("GAME BEFEORE BEING  TURNED", changedTurnGame);
+    let players = games[gamePin].players;
+    let cards = games[gamePin].cards;
 
     let game = games[gamePin];
 
@@ -181,12 +177,7 @@ module.exports = {
     game.winnerCard = [];
     game.chosenCards = [];
 
-    
-
-
-    
-
-    games[gamePin].current_image = games[gamePin].images.splice(0,1);
+    games[gamePin].current_image = games[gamePin].images.splice(0, 1);
 
     socket.join(data.gamePin);
 
@@ -200,64 +191,51 @@ module.exports = {
     //   }
     // }
 
+    let indexOfJudge = players.findIndex(player => {
+      console.log("PLAYER.JUDGE?", player.judge);
+      return player.judge;
+    });
 
-
-    
-    let indexOfJudge = players.findIndex(player=>{
-      console.log('PLAYER.JUDGE?', player.judge)
-      return player.judge
-    })
-    
-    
     console.log("INDEX OF JUDGE AT TURN GAME", indexOfJudge);
-    players[indexOfJudge].judge = false
+    players[indexOfJudge].judge = false;
 
-    
-
-    console.log('INDEX OF JUDGE AT TURN GAME', indexOfJudge)
+    console.log("INDEX OF JUDGE AT TURN GAME", indexOfJudge);
 
     // let newIndex = indexOfJudge + 1
 
     // game.judge = players[newIndex]
 
-    console.log('GAME.JUDGE BEFORE Change', game.judge)
-    
+    console.log("GAME.JUDGE BEFORE Change", game.judge);
 
     for (var i = 0; i < players.length; i++) {
       if (indexOfJudge === i) {
-        game.judge = [players[i + 1]]
+        game.judge = [players[i + 1]];
       } else if (indexOfJudge === players.length) {
         game.judge = [players[i]];
       }
     }
 
-    console.log('game.judge[0].username', game.judge[0].username)
+    console.log("game.judge[0].username", game.judge[0].username);
 
-    let indexOfJudgeByUsername = players.findIndex(player=>{
-      console.log('PLAYER.username?', player.username)
-      return player.username === game.judge[0].username
-    })
+    let indexOfJudgeByUsername = players.findIndex(player => {
+      console.log("PLAYER.username?", player.username);
+      return player.username === game.judge[0].username;
+    });
 
-    players[indexOfJudgeByUsername].judge = true
+    players[indexOfJudgeByUsername].judge = true;
 
-    console.log('index of judge by username', indexOfJudgeByUsername)
+    console.log("index of judge by username", indexOfJudgeByUsername);
 
-    console.log('GAME.JUDGE after change', game.judge)
-    
-
+    console.log("GAME.JUDGE after change", game.judge);
 
     console.log("indexofJudge at turn game", indexOfJudge);
-
-    
-
-
 
     // console.log('indexofJudge at turn game', indexOfJudge)
 
     // for (var i = 0; i < players.length; i++){
     //   if (players[i].judge){
-    //     players[i].judge = false 
-    //   } 
+    //     players[i].judge = false
+    //   }
     // }
     // }
     // else if (players[1].judge === true) {
@@ -269,14 +247,11 @@ module.exports = {
     //   players[3].judge = true
     // }
 
-
     console.log(changedTurnGame);
     io.in(gamePin).emit("get changed turn", changedTurnGame);
     let url = "/playerview";
     io.in(gamePin).emit("redirect", url);
   },
-
-
 
   chooseCard: (data, socket, io) => {
     console.log("hit choose card", data);
@@ -394,7 +369,5 @@ module.exports = {
     io.in(gamePin).emit("get game after join room", game);
   },
 
-
   getAllChosenCardsFromPlayers: (data, socket, io) => {}
-
 };

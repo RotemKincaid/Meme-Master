@@ -22,32 +22,28 @@ class PlayerView extends Component {
   }
 
   componentDidMount() {
-    if (this.props.socket.socket){
-    // this.getCards();
+    if (this.props.socket) {
+      // this.getCards();
       this.setState({
-        socket: this.props.socket.socket
+        socket: this.props.socket
       });
 
       console.log(
         "socket at component did mount player view",
-        this.props.socket.socket
+        this.props.socket
       );
 
-      this.joinRoom(this.props.socket.socket);
-    }else {
-      this.props.history.push('/')
+      this.joinRoom(this.props.socket);
+    } else {
+      this.props.history.push("/");
     }
-
-    
   }
-
-
 
   joinRoom = socket => {
     // const {socket} = this.state
     console.log("SOCKET AT JOIN ROOM on player view", socket);
     // const {socket} = this.props.socket.socket
-    const { gamePin } = this.props.gamePin;
+    const { gamePin } = this.props;
 
     socket.emit("join room at player view", { gamePin });
 
@@ -67,9 +63,9 @@ class PlayerView extends Component {
     // axios.get("/api/cards2").then(cards => {
     // console.log(th);
 
-    const { username } = this.props.gameObject;
+    const { username } = this.props;
     console.log("USERNAME AT GET CARDS ON PLAYER VIEW", username);
-    const { gameObject } = this.props.gameObject;
+    const { gameObject } = this.props;
     const { players } = gameObject;
     let playerIndex = players.findIndex(player => player.username === username);
     console.log("PLAYER INDEX AT GET CARDS", playerIndex);
@@ -82,9 +78,9 @@ class PlayerView extends Component {
   };
 
   chooseCard = card => {
-    const { username } = this.props.gameObject;
+    const { username } = this.props;
 
-    const { gamePin } = this.props.gamePin;
+    const { gamePin } = this.props;
     console.log("card at choosecard", card);
     console.log("this.props at chooseCard", this.props);
     const { socket } = this.state;
@@ -123,54 +119,56 @@ class PlayerView extends Component {
   render() {
     console.log("THIS.STATE AT PLAYER VIEW", this.state);
 
-    
-    
-     
-      const { chosenCard, image } = this.state;
-      const mappedChosenCard = chosenCard.map(card => {
-        return (
-          <div key={card.card_id}>
-            <Card card={card} content={card.content} />
-          </div>
-        );
-      });
+    const { chosenCard, image } = this.state;
+    const mappedChosenCard = chosenCard.map(card => {
+      return (
+        <div key={card.card_id}>
+          <Card card={card} content={card.content} />
+        </div>
+      );
+    });
 
-      console.log('props at PLAYERVIEW',this.props);
-      //get judge
-      const {gameObject, username} = this.props
-      var judgeUsername = gameObject.gameObject.judge[0].username
+    console.log("props at PLAYERVIEW", this.props);
+    //get judge
+    const { gameObject, username } = this.props;
+    var judgeUsername = gameObject.judge[0].username;
 
-      var judgeAvatar = gameObject.gameObject.judge[0].avatar;
+    var judgeAvatar = gameObject.judge[0].avatar;
 
-      console.log('JUDGEUSERNAME',judgeUsername)
-      var playerUsername = username.username
-      
-      
+    console.log("JUDGEUSERNAME", judgeUsername);
+    var playerUsername = username;
 
+    console.log(this.state.cards, "CARDS FROM PLAYERVIEW");
+    console.log("the chosen card", this.state.chosenCard);
 
-      console.log(this.state.cards, "CARDS FROM PLAYERVIEW");
-      console.log("the chosen card", this.state.chosenCard);
+    const mappedCards = this.state.cards.map(card => {
+      return (
+        <div className="chosen-player-card" key={card.card_id}>
+          <Card
+            card={card}
+            chooseCard={this.chooseCard}
+            content={card.content}
+          />
+        </div>
+      );
+    });
 
-      const mappedCards = this.state.cards.map(card => {
-        return (
-          <div className="chosen-player-card" key={card.card_id}>
-            <Card
-              card={card}
-              chooseCard={this.chooseCard}
-              content={card.content}
-            />
-          </div>
-        );
-      });
-    
-    
-    
     return (
       <div className="playerview">
-        <div className='playerview-avatar-name'>
-          <h3 className="turn"><span>{judgeUsername}</span> is the judge for this round! </h3>
-          <img alt="lobby-avatar"
-              className="playerview-avatar" src={judgeAvatar} />
+        <div className="playerview-avatar-name">
+          <h3 className="turn">
+            <img
+              alt="lobby-avatar"
+              className="playerview-avatar"
+              src={judgeAvatar}
+            />
+            <span>{judgeUsername}</span> is the judge for this round!{" "}
+            {/* <img
+              alt="lobby-avatar"
+              className="playerview-avatar"
+              src={player.avatar}
+            /> */}
+          </h3>
         </div>
         <img alt="playerview" className="meme-image-playerview" src={image} />
 
@@ -188,31 +186,26 @@ class PlayerView extends Component {
           </div>
         )}
 
-        {playerUsername === judgeUsername ? (
-          this.props.history.push('/judgeview')
-        ):(
-          null
-        )}
+        {playerUsername === judgeUsername
+          ? this.props.history.push("/judgeview")
+          : null}
 
-        {this.state.chosenCard.length ? (
-          this.props.history.push('/judgeview')
-        ):(
-          null
-        )}
-      
-     
+        {this.state.chosenCard.length
+          ? this.props.history.push("/judgeview")
+          : null}
       </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-  return {
-    gamePin: state.gamePin,
-    gameObject: state.gameObject,
-    socket: state.socket,
-    username: state.username
-  };
+  return state;
+  // return {
+  //   gamePin: state.gamePin,
+  //   gameObject: state.gameObject,
+  //   socket: state.socket,
+  //   username: state.username
+  // };
 }
 
 const mapDispatchToProps = {

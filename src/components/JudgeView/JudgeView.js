@@ -22,22 +22,19 @@ class JudgeView extends Component {
 
   componentDidMount() {
     this.setState({
-      socket: this.props.socket.socket
+      socket: this.props.socket
     });
 
-    console.log(
-      "socket at component did mount player view",
-      this.props.socket.socket
-    );
+    console.log("socket at component did mount player view", this.props.socket);
 
-    this.joinRoom(this.props.socket.socket);
+    this.joinRoom(this.props.socket);
   }
 
   joinRoom = socket => {
     // const {socket} = this.state
     console.log("SOCKET AT JOIN ROOM on judge", socket);
     // const {socket} = this.props.socket.socket
-    const { gamePin } = this.props.gamePin;
+    const { gamePin } = this.props;
 
     socket.emit("join room at player view", { gamePin });
 
@@ -54,7 +51,7 @@ class JudgeView extends Component {
   };
 
   chooseCard = card => {
-    const { gamePin } = this.props.gamePin;
+    const { gamePin } = this.props;
     console.log("card at choosecard", card);
     console.log("this.props at chooseCard", this.props);
     const { socket } = this.state;
@@ -82,50 +79,22 @@ class JudgeView extends Component {
     });
   };
 
-  // getChosenCards = (gamePin) => {
-  //   console.log('game pin at get chosen cards',gamePin)
-  //   // const {gamePin} = game
-  //   const {socket} = this.state
-  //   console.log('socket at get chosen cards', socket)
-
-  //   socket.emit("get chosen cards", {gamePin})
-
-  //   socket.on('receive chosen cards and updated game', game => {
-  //     console.log('game sent from server after to get updated chosen cards')
-  //     // this.setState({
-  //     //   ''
-  //     // })
-  //     this.props.setGameObject(game)
-
-  //     const {players} = game
-  //     console.log(players)
-
-  //   })
-
-  // this.setState({
-  //   chosenCards: gameObject.players[playerIndex].hand
-  // });
-  // }
-
   render() {
     console.log("PROPS AT JUDGE VIEW", this.props);
-    // const {current_image} = this.props.gameObject.gameObject
-    // const image = current_image[0].media_url
-    // console.log(image)
 
     const { image, chosenCards } = this.state;
 
     const { gameObject, username } = this.props;
 
-    var winnerCard = gameObject.gameObject.winnerCard;
+    var winnerCard = gameObject.winnerCard;
 
     // console.log('WINNER CARD I NEED', gameObject.gameObject.winnerCard)
 
-    var judgeUsername = gameObject.gameObject.judge[0].username;
+    var judgeUsername = gameObject.judge[0].username;
 
-    var judgeAvatar = gameObject.gameObject.judge[0].avatar;
+    var judgeAvatar = gameObject.judge[0].avatar;
 
-    var playerUsername = username.username;
+    var playerUsername = username;
 
     console.log("JUDGE USERNAME AT JUDGE VIEW", judgeUsername);
 
@@ -144,7 +113,6 @@ class JudgeView extends Component {
         <div key={card.card_id} className="card-container-judgeview">
           {isPlayerJudge ? (
             <Card
-              
               card={card}
               content={card.content}
               chooseCard={this.chooseCard}
@@ -152,7 +120,6 @@ class JudgeView extends Component {
           ) : (
             //non clickable card, just display
             <CardPlayerView
-              
               card={card}
               content={card.content}
               chooseCard={this.chooseCard}
@@ -166,14 +133,21 @@ class JudgeView extends Component {
       <div className="judgeview-main">
         <div className="judgeview-inner">
           {isPlayerJudge ? (
-            <div className='judge-avatar-name'>
-              
-              <h3> <span>{judgeUsername} </span> you are the judge! </h3>
-              <img alt="lobby-avatar"
-              className="judge-avatar" src={judgeAvatar} />
+            <div className="judge-avatar-name">
+              <h3>
+                {" "}
+                <span>{judgeUsername} </span> you are the judge!{" "}
+              </h3>
+              <img
+                alt="lobby-avatar"
+                className="judge-avatar"
+                src={judgeAvatar}
+              />
             </div>
           ) : (
-            <h3><span>{judgeUsername}</span> is thinking...</h3>
+            <h3>
+              <span>{judgeUsername}</span> is thinking...
+            </h3>
           )}
           <img
             alt="judge"
@@ -188,15 +162,8 @@ class JudgeView extends Component {
           ) : (
             <h5>Players are choosing their cards...</h5>
           )}
-          {/* <div className="card-container-judgeview">
-          <Card />
-          <Card />
-          <Card />
-        </div> */}
+
           <div className="card-container-judgeview">{mappedChosenCards}</div>
-          {/* <Link to="/winner">
-            <button>WHO'S THE WINNER!!?</button>
-          </Link> */}
         </div>
         {winnerCard.length ? this.props.history.push("/winner") : null}
       </div>
