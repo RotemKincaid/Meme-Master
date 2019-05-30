@@ -26,13 +26,17 @@ class CreateGame extends Component {
     this.setState({
       // game: gameObject,
 
-      socket: this.props.socket.socket
+      socket: this.props.socket
     });
     // console.log('socket at component did mount',socket)
     // this.props.setSocket(socket)
 
     this.props.setGamePin(gamePin);
   }
+
+  pauseSong = () => {
+    this.props.pauseSong();
+  };
   generateRandom() {
     this.setState({
       gamePin: Math.floor(100000 + Math.random() * 900000)
@@ -58,6 +62,8 @@ class CreateGame extends Component {
     const { gamePin } = this.state;
     console.log(this.props.gamePin);
     console.log(gamePin);
+    console.log(this.props.socket);
+
     return (
       <div className="creategame">
         <div className="create-game-inner">

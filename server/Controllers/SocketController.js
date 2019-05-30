@@ -1,7 +1,7 @@
 const players = [];
 const games = {};
-let cardsFromDb = [];
-let mediaFromDb = [];
+var cardsFromDb = [];
+var mediaFromDb = [];
 
 module.exports = {
   joinRoom: (data, socket, io) => {
@@ -31,11 +31,17 @@ module.exports = {
 
     let playerUsername = data.username;
 
-    let initialPlayerScore = {
-      playerUsername,
-      score: 0,
-      avatar: data.avatar.url
-    };
+
+//     let initialPlayerScore = {
+//       playerUsername,
+//       score: 0,
+//       avatar: data.avatar.url
+//     };
+
+    let playerAvatar = data.avatar.url;
+
+    let initialPlayerScore = { playerUsername, score: 0, playerAvatar };
+
 
     games[objectKey].scores.push(initialPlayerScore);
 
@@ -60,9 +66,17 @@ module.exports = {
   getCardsToObject: (req, res) => {
     // var newCards = [];
     const db = req.app.get("db");
-    return db.get_cards().then(cardsdb => {
-      cardsFromDb.push(cardsdb);
-      res.send(cardsFromDb);
+
+    // db.get_cards().then(cardsdb => {
+    //   console.log('HIT GET CARDS TO OBJECT', cardsdb.length)
+    //   cardsFromDb.push(cardsdb);
+
+    db.get_cards().then(res => {
+      console.log("res at get cards to object", res);
+      // console.log('cardsdb', cardsdb)
+      cardsFromDb.push(res);
+      // res.status(200).send(cardsdb);
+      // console.log('cardsFromDb', cardsFromDb)
     });
   },
   // getCardsToFront: (req, res) => {
@@ -72,9 +86,10 @@ module.exports = {
 
   getMedia: (req, res) => {
     const db = req.app.get("db");
-    return db.get_media().then(mediadb => {
-      mediaFromDb.push(mediadb);
-      res.send(mediaFromDb);
+    return db.get_media().then(res => {
+      // mediaFromDb = mediadb;
+      // res.send("media are on db", mediaFromDb);
+      mediaFromDb.push(res);
     });
   },
 
@@ -84,14 +99,20 @@ module.exports = {
 
     io.in(data.gamePin).emit("welcome to");
 
-    var shuffledCards = cardsFromDb[0].sort(function(a, b) {
-      return Math.random() - 0.5;
-    });
+    console.log("cardsFromDb at gameObjectCreator", cardsFromDb[0]);
+
+    if (cardsFromDb.length) {
+      var shuffledCards = cardsFromDb[0].sort(function(a, b) {
+        return Math.random() - 0.5;
+      });
+    }
     // console.log(shuffledCards)
 
-    var shuffledMedia = mediaFromDb[0].sort(function(a, b) {
-      return Math.random() - 0.5;
-    });
+    if (mediaFromDb.length) {
+      var shuffledMedia = mediaFromDb[0].sort(function(a, b) {
+        return Math.random() - 0.5;
+      });
+    }
     // console.log('shuffledCards', shuffledCards)
     // console.log('shuffled media', shuffledCards)
 
@@ -122,7 +143,7 @@ module.exports = {
     let gamePin = data.gamePin;
     console.log("GAME PIN AT PREPARE GAME", gamePin);
 
-    // let cards = games[gamePin].cards
+    let cards = games[gamePin].cards;
     let players = games[gamePin].players;
 
     for (var i = 0; i < players.length; i++) {
@@ -164,8 +185,6 @@ module.exports = {
     game.winnerCard = [];
     game.chosenCards = [];
 
-    let changedTurnGame1 = games[gamePin];
-
     games[gamePin].current_image = games[gamePin].images.splice(0, 1);
 
     socket.join(data.gamePin);
@@ -180,13 +199,12 @@ module.exports = {
     //   }
     // }
 
-    console.log("INDEX OF JUDGE AT TURN GAME", indexOfJudge);
-
     let indexOfJudge = players.findIndex(player => {
       console.log("PLAYER.JUDGE?", player.judge);
       return player.judge;
     });
 
+    console.log("INDEX OF JUDGE AT TURN GAME", indexOfJudge);
     players[indexOfJudge].judge = false;
 
     console.log("INDEX OF JUDGE AT TURN GAME", indexOfJudge);
@@ -195,18 +213,38 @@ module.exports = {
 
     // game.judge = players[newIndex]
 
+    console.log("GAME.JUDGE BEFORE Change", game.judge);
+
     for (var i = 0; i < players.length; i++) {
       if (indexOfJudge === i) {
         game.judge = [players[i + 1]];
       } else if (indexOfJudge === players.length) {
-        game.judge = [players[i + 1]];
+        game.judge = [players[i]];
       }
     }
+
+    console.log("game.judge[0].username", game.judge[0].username);
+
+    let indexOfJudgeByUsername = players.findIndex(player => {
+      console.log("PLAYER.username?", player.username);
+      return player.username === game.judge[0].username;
+    });
+
+    players[indexOfJudgeByUsername].judge = true;
+
+    console.log("index of judge by username", indexOfJudgeByUsername);
+
+    console.log("GAME.JUDGE after change", game.judge);
 
     console.log("indexofJudge at turn game", indexOfJudge);
 
     // console.log('indexofJudge at turn game', indexOfJudge)
 
+    // for (var i = 0; i < players.length; i++){
+    //   if (players[i].judge){
+    //     players[i].judge = false
+    //   }
+    // }
     // }
     // else if (players[1].judge === true) {
     //   players[1].judge = false
@@ -217,8 +255,8 @@ module.exports = {
     //   players[3].judge = true
     // }
 
-    console.log(changedTurnGame1);
-    io.in(gamePin).emit("get changed turn", changedTurnGame1);
+    console.log(changedTurnGame);
+    io.in(gamePin).emit("get changed turn", changedTurnGame);
     let url = "/playerview";
     io.in(gamePin).emit("redirect", url);
   },
