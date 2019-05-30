@@ -31,7 +31,9 @@ module.exports = {
 
     let playerUsername = data.username;
 
-    let initialPlayerScore = { playerUsername, score: 0 };
+    let playerAvatar = data.avatar.url
+
+    let initialPlayerScore = { playerUsername, score: 0, playerAvatar };
 
     games[objectKey].scores.push(initialPlayerScore);
 
@@ -181,14 +183,14 @@ module.exports = {
 
 
 
-    console.log("INDEX OF JUDGE AT TURN GAME", indexOfJudge);
-
+    
     let indexOfJudge = players.findIndex(player=>{
       console.log('PLAYER.JUDGE?', player.judge)
       return player.judge
     })
-
-
+    
+    
+    console.log("INDEX OF JUDGE AT TURN GAME", indexOfJudge);
     players[indexOfJudge].judge = false
 
     
