@@ -1,7 +1,7 @@
 const players = [];
 const games = {};
-let cardsFromDb = [];
-let mediaFromDb = [];
+var cardsFromDb = [];
+var mediaFromDb = [];
 
 module.exports = {
   joinRoom: (data, socket, io) => {
@@ -31,7 +31,9 @@ module.exports = {
 
     let playerUsername = data.username;
 
-    let initialPlayerScore = { playerUsername, score: 0 };
+    let playerAvatar = data.avatar.url
+
+    let initialPlayerScore = { playerUsername, score: 0, playerAvatar };
 
     games[objectKey].scores.push(initialPlayerScore);
 
@@ -56,10 +58,18 @@ module.exports = {
   getCardsToObject: (req, res) => {
     // var newCards = [];
     const db = req.app.get("db");
-    return db.get_cards().then(cardsdb => {
-      cardsFromDb = cardsdb;
-      res.send(cardsFromDb)
-    });
+
+    // db.get_cards().then(cardsdb => {
+    //   console.log('HIT GET CARDS TO OBJECT', cardsdb.length)
+    //   cardsFromDb.push(cardsdb);
+
+      db.get_cards().then(cardsdb => {
+        // console.log('cardsdb', cardsdb)
+        cardsFromDb.push(cardsdb);
+        res.send('cards are on db', cards)
+        // console.log('cardsFromDb', cardsFromDb)
+      });
+
   },
   // getCardsToFront: (req, res) => {
   //   const db = req.app.get("db");
@@ -69,8 +79,9 @@ module.exports = {
   getMedia: (req, res) => {
     const db = req.app.get("db");
     return db.get_media().then(mediadb => {
-      mediaFromDb = mediadb;
+      // mediaFromDb = mediadb;
       res.send(mediaFromDb);
+      mediaFromDb.push(mediadb)
     });
   },
 
@@ -80,18 +91,21 @@ module.exports = {
 
     io.in(data.gamePin).emit("welcome to");
 
+    console.log('cardsFromDb at gameObjectCreator', cardsFromDb[0])
 
-    var shuffledCards = cardsFromDb[0].sort(function(a, b) {
-
-      return Math.random() - 0.5;
-    });
+    if (cardsFromDb.length) {
+      var shuffledCards = cardsFromDb[0].sort(function(a, b) {
+  
+        return Math.random() - 0.5;
+      });
+    }
     // console.log(shuffledCards)
 
-
-    var shuffledMedia = mediaFromDb[0].sort(function(a, b) {
-
+    if (mediaFromDb.length){
+      var shuffledMedia = mediaFromDb[0].sort(function(a, b) {
       return Math.random() - 0.5;
-    });
+      });
+    }
     // console.log('shuffledCards', shuffledCards)
     // console.log('shuffled media', shuffledCards)
 
@@ -167,7 +181,7 @@ module.exports = {
     game.winnerCard = [];
     game.chosenCards = [];
 
-    let changedTurnGame = games[gamePin];
+    
 
 
     
@@ -188,14 +202,14 @@ module.exports = {
 
 
 
-    console.log("INDEX OF JUDGE AT TURN GAME", indexOfJudge);
-
+    
     let indexOfJudge = players.findIndex(player=>{
       console.log('PLAYER.JUDGE?', player.judge)
       return player.judge
     })
-
-
+    
+    
+    console.log("INDEX OF JUDGE AT TURN GAME", indexOfJudge);
     players[indexOfJudge].judge = false
 
     
@@ -206,13 +220,30 @@ module.exports = {
 
     // game.judge = players[newIndex]
 
+    console.log('GAME.JUDGE BEFORE Change', game.judge)
+    
+
     for (var i = 0; i < players.length; i++) {
       if (indexOfJudge === i) {
-        game.judge = [players[i + 1]];
+        game.judge = [players[i + 1]]
       } else if (indexOfJudge === players.length) {
-        game.judge = [players[i + 1]];
+        game.judge = [players[i]];
       }
     }
+
+    console.log('game.judge[0].username', game.judge[0].username)
+
+    let indexOfJudgeByUsername = players.findIndex(player=>{
+      console.log('PLAYER.username?', player.username)
+      return player.username === game.judge[0].username
+    })
+
+    players[indexOfJudgeByUsername].judge = true
+
+    console.log('index of judge by username', indexOfJudgeByUsername)
+
+    console.log('GAME.JUDGE after change', game.judge)
+    
 
 
     console.log("indexofJudge at turn game", indexOfJudge);
@@ -223,7 +254,11 @@ module.exports = {
 
     // console.log('indexofJudge at turn game', indexOfJudge)
 
-
+    // for (var i = 0; i < players.length; i++){
+    //   if (players[i].judge){
+    //     players[i].judge = false 
+    //   } 
+    // }
     // }
     // else if (players[1].judge === true) {
     //   players[1].judge = false

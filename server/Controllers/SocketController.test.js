@@ -54,4 +54,14 @@ describe("Integration tests", () => {
       return sockFuncs.getCardsToObject(req, res);
     });
   });
+
+  describe('join room', () => {
+    it('create a new player', () => {
+      
+    })
+  })
+
+
+
+
 });
