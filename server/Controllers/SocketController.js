@@ -89,16 +89,20 @@ module.exports = {
 
   gameObjectCreator: (data, socket, io) => {
     console.log("hit gameobject creator");
+
     socket.join(data.gamePin);
 
     io.in(data.gamePin).emit("welcome to");
 
     console.log("cardsFromDb at gameObjectCreator", cardsFromDb[0]);
 
+
     if (cardsFromDb.length) {
       var shuffledCards = cardsFromDb[0].sort(function(a, b) {
         return Math.random() - 0.5;
       });
+    }else {
+      this.getCardsToObject()
     }
     // console.log(shuffledCards)
 
@@ -106,6 +110,8 @@ module.exports = {
       var shuffledMedia = mediaFromDb[0].sort(function(a, b) {
         return Math.random() - 0.5;
       });
+    } else {
+      this.getMedia()
     }
     // console.log('shuffledCards', shuffledCards)
     // console.log('shuffled media', shuffledCards)
