@@ -2,7 +2,14 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "./Lobby.scss";
 import { connect } from "react-redux";
-import { setGameObject, setSocket, pauseSong } from "../../dux/reducer";
+import {
+  setGameObject,
+  setSocket,
+  pauseSong,
+  setSong,
+  playSong
+} from "../../dux/reducer";
+import sillyChicken from "./sillychicken.mp3";
 import io from "socket.io-client";
 // const socket = io("http://localhost:4052");
 class Lobby extends Component {
@@ -34,15 +41,20 @@ class Lobby extends Component {
       // this.props.setSocket(socket)
       // this.joinRoom(socket);
     }
-    this.pauseSong();
+    // this.pauseSong();
+    this.playNew();
   }
 
-  pauseSong = () => {
+  pause = () => {
     this.setState({
       play: false,
       pause: true
     });
-    this.props.pauseSong();
+    this.props.song.pauseSong();
+  };
+
+  playNew = () => {
+    this.props.setSong(sillyChicken);
   };
 
   joinRoom = socket => {
@@ -76,11 +88,13 @@ class Lobby extends Component {
         game: game
       });
       this.props.setGameObject(game);
+      // this.props.song.pause();
     });
   };
 
   render() {
     const { gameObject, creator } = this.props;
+
     console.log("gameObject from redux", this.props);
     const { players, active } = gameObject;
     console.log("creator at lobby", this.props.gameObject.creator);
@@ -138,17 +152,20 @@ class Lobby extends Component {
   }
 }
 function mapStateToProps(state) {
-  return {
-    gamePin: state.gamePin,
-    gameObject: state.gameObject,
-    socket: state.socket,
-    creator: state.creator
-  };
+  return state;
+  // return {
+  //   gamePin: state.gamePin,
+  //   gameObject: state.gameObject,
+  //   socket: state.socket,
+  //   creator: state.creator
+  // };
 }
 const mapDispatchToProps = {
   setGameObject: setGameObject,
   setSocket: setSocket,
-  pauseSong: pauseSong
+  pauseSong: pauseSong,
+  setSong: setSong,
+  playSong: playSong
 };
 export default connect(
   mapStateToProps,

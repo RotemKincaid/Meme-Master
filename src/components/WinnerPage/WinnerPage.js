@@ -53,8 +53,8 @@ class WinnerPage extends Component {
 
     this.joinRoom(this.props.socket);
 
-    this.play(applause);
-    this.play(tada);
+    this.play(this.applause1);
+    this.play(this.tada1);
   }
 
   joinRoom = socket => {

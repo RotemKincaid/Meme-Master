@@ -63,11 +63,11 @@ module.exports = {
     //   console.log('HIT GET CARDS TO OBJECT', cardsdb.length)
     //   cardsFromDb.push(cardsdb);
 
-    db.get_cards().then(res => {
-      console.log("res at get cards to object", res);
+    db.get_cards().then(cards => {
+      console.log("res at get cards to object", cards);
       // console.log('cardsdb', cardsdb)
-      cardsFromDb.push(res);
-      // res.status(200).send(cardsdb);
+      cardsFromDb.push(cards);
+      // res.status(200).send(cards);
       // console.log('cardsFromDb', cardsFromDb)
     });
   },
@@ -139,7 +139,7 @@ module.exports = {
     let players = games[gamePin].players;
 
     for (var i = 0; i < players.length; i++) {
-      games[gamePin].players[i].hand = games[gamePin].cards.splice(0, 7);
+      games[gamePin].players[i].hand = cards.splice(0, 7);
     }
     //chose a judge
 

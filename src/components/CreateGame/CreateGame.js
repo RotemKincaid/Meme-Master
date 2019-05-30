@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./CreateGame.scss";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { setGamePin, setGameObject, setSocket } from "../../dux/reducer";
+import { setGamePin, setGameObject } from "../../dux/reducer";
 import logo from "../../components/logo.png";
 
 // import io from "socket.io-client";
@@ -34,9 +34,6 @@ class CreateGame extends Component {
     this.props.setGamePin(gamePin);
   }
 
-  pauseSong = () => {
-    this.props.pauseSong();
-  };
   generateRandom() {
     this.setState({
       gamePin: Math.floor(100000 + Math.random() * 900000)
@@ -95,8 +92,9 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   setGamePin: setGamePin,
-  setGameObject: setGameObject,
-  setSocket: setSocket
+  setGameObject: setGameObject
+  // ,
+  // setSocket: setSocket
 };
 
 export default connect(
