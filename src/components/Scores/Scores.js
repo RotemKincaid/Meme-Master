@@ -3,17 +3,19 @@ import React from "react";
 import "./Scores.scss";
 
 const Scores = props => {
-  console.log('props at scores component',props)
+  console.log("props at scores component", props);
 
-  const {scores} = props
+  const { scores } = props;
 
   let mappedScores = scores.map((player, index) => {
-    return <div key = {index}>
-      <h1>{player.playerUsername}</h1>
-      <h1>{player.score}</h1>
-    </div>
-
-  })
+    return (
+      <div key={index}>
+        <p>{player.playerUsername}</p>
+        <p>{player.score}</p>
+        <img src={player.avatar} />
+      </div>
+    );
+  });
   return (
     <div
       className="scores-wrapper"
@@ -29,7 +31,7 @@ const Scores = props => {
         </span>
       </div>
       <div className="scores-body">
-        <p>Scores content: {mappedScores}</p>
+        <p className="username-scores">{mappedScores}</p>
       </div>
       <div className="scores-footer">
         <button className="cancel-btn" onClick={props.close}>
