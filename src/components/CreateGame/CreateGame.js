@@ -23,6 +23,7 @@ class CreateGame extends Component {
   }
 
   componentDidMount() {
+    this.getCardsAndMediaToServer();
     const { gamePin } = this.state;
     this.generateRandom();
     this.setState({
@@ -30,7 +31,6 @@ class CreateGame extends Component {
 
       socket: this.props.socket
     });
-    this.getCardsAndMediaToServer();
     // console.log('socket at component did mount',socket)
     // this.props.setSocket(socket)
     
