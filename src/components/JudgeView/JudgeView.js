@@ -3,6 +3,7 @@ import Card from "../Card/Card";
 import CardPlayerView from "../CardPlayerView/CardPlayerView";
 import "./JudgeView.scss";
 import { connect } from "react-redux";
+
 import {
   setGameObject,
   setSocket,
@@ -10,6 +11,7 @@ import {
   playSong
 } from "../../dux/reducer";
 import { Link } from "react-router-dom";
+
 
 class JudgeView extends Component {
   constructor(props) {

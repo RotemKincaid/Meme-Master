@@ -32,10 +32,13 @@ module.exports = {
     let objectKey = data.gamePin;
 
     let playerUsername = data.username;
-
-    let playerAvatar = data.avatar.url;
-
-    let initialPlayerScore = { playerUsername, score: 0, playerAvatar };
+    // this is the change that cam made to keep the avatar images in the scores keep this change
+    // KEEEEEEEP MEEEEEEE
+    let initialPlayerScore = {
+      playerUsername,
+      score: 0,
+      avatar: data.avatar.url
+    };
 
     games[objectKey].scores.push(initialPlayerScore);
 
@@ -88,17 +91,23 @@ module.exports = {
   },
 
   gameObjectCreator: (data, socket, io) => {
+
+    
     console.log("hit gameobject creator");
+
     socket.join(data.gamePin);
 
     io.in(data.gamePin).emit("welcome to");
 
     console.log("cardsFromDb at gameObjectCreator", cardsFromDb[0]);
 
+
     if (cardsFromDb.length) {
       var shuffledCards = cardsFromDb[0].sort(function(a, b) {
         return Math.random() - 0.5;
       });
+    }else {
+      console.log('error at shuffling cards from db')
     }
     // console.log(shuffledCards)
 
@@ -106,6 +115,8 @@ module.exports = {
       var shuffledMedia = mediaFromDb[0].sort(function(a, b) {
         return Math.random() - 0.5;
       });
+    } else {
+      console.log('error at shuffling media from db')
     }
     // console.log('shuffledCards', shuffledCards)
     // console.log('shuffled media', shuffledCards)

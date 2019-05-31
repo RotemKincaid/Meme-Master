@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import Scores from "../Scores/Scores";
 import "./WinnerPage.scss";
+
 import { Link } from "react-router-dom";
 import horizontalLogo from "./nelogo2.png";
+
 import applause from "./applause3.mp3";
 import tada from "./tada.mp3";
 import Card from "../CardPlayerView/CardPlayerView";
@@ -127,7 +129,7 @@ class WinnerPage extends Component {
     return (
       <div className="winnerpage-main">
         <marquee>
-          <img className="horizontal-logo" src={horizontalLogo} />
+          <img className="horizontal-logo" src={horizontalLogo} alt="logo" />
         </marquee>
         {this.state.isOpen ? (
           <div onClick={this.closeScores} className="backdrop" />
