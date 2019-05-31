@@ -68,6 +68,12 @@
       border-radius: 5px;
       animation: fun1 1s ease-in-out 0.3s 1 forwards;
       animation: fun2 1s ease-in-out 0.3s 1 backwards;
+      &:hover {
+        background-color: white;
+        color: rgb(55, 17, 190);
+        text-shadow: none;
+        cursor: pointer;
+      }
     }
 
     @keyframes fun1 {
@@ -114,16 +120,27 @@
     font-size: 20px;
   }
   .instructions-btn {
-    background-color: rgb(245, 163, 12);
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
+    background-color: orange;
     border-radius: 5px;
-    color: rgb(99, 4, 4);
+    color: white;
     word-spacing: 1px;
+    // text-shadow: 2px 2px 3px black;
+    padding: 4px;
+
     // text-shadow: 2px 2px 3px;
-    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+    font-family: roboto;
     height: 40px;
-    width: 185px;
-    border: 1px solid black;
-    margin-top: 30px;
-    font-size: 14px;
+    width: 150px;
+    border: 1px solid rgb(247, 245, 245);
+    margin-top: 50px;
+    font-size: 16px;
+
+    &:hover {
+      color: orange;
+      background-color: white;
+    }
   }
 }

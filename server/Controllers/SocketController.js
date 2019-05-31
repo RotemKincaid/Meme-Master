@@ -3,6 +3,8 @@ const games = {};
 var cardsFromDb = [];
 var mediaFromDb = [];
 
+// import axios from 'axios';
+
 module.exports = {
   joinRoom: (data, socket, io) => {
     // console.log('games before user joins' , games)
@@ -138,23 +140,27 @@ module.exports = {
     let cards = games[gamePin].cards;
     let players = games[gamePin].players;
 
-    for (var i = 0; i < players.length; i++) {
-      games[gamePin].players[i].hand = cards.splice(0, 7);
+    if (cards) {
+      for (var i = 0; i < players.length; i++) {
+        games[gamePin].players[i].hand = games[gamePin].cards.splice(0, 7);
+      }
+      //chose a judge
+
+      games[gamePin].judge = [players[0]];
+
+      games[gamePin].active = true;
+
+      players[0].judge = true;
+
+      games[gamePin].current_image = games[gamePin].images.splice(0, 1);
+
+      let preparedGame = games[gamePin];
+
+      socket.join(data.gamePin);
+      io.in(gamePin).emit("get prepared game", preparedGame);
+    } else {
+      console.log("error at creating new object, no cards from db");
     }
-    //chose a judge
-
-    games[gamePin].judge = [players[0]];
-
-    games[gamePin].active = true;
-
-    players[0].judge = true;
-
-    games[gamePin].current_image = games[gamePin].images.splice(0, 1);
-
-    let preparedGame = games[gamePin];
-
-    socket.join(data.gamePin);
-    io.in(gamePin).emit("get prepared game", preparedGame);
   },
 
   changeTurn: (data, socket, io) => {
@@ -207,15 +213,15 @@ module.exports = {
 
     console.log("GAME.JUDGE BEFORE Change", game.judge);
 
-    for (var i = 0; i < players.length; i++) {
+    for (var i = 0; i < players.length - 1; i++) {
       if (indexOfJudge === i) {
         game.judge = [players[i + 1]];
       } else if (indexOfJudge === players.length) {
-        game.judge = [players[i]];
+        game.judge = [players[0]];
       }
     }
 
-    console.log("game.judge[0].username", game.judge[0].username);
+    // console.log("game.judge[0].username", game.judge[0].username);
 
     let indexOfJudgeByUsername = players.findIndex(player => {
       console.log("PLAYER.username?", player.username);

@@ -2,12 +2,13 @@ import React, { Component } from "react";
 import Scores from "../Scores/Scores";
 import "./WinnerPage.scss";
 import { Link } from "react-router-dom";
-import horizontalLogo from "./memelogohorizontal.png";
+import horizontalLogo from "./nelogo2.png";
 import applause from "./applause3.mp3";
 import tada from "./tada.mp3";
+import Card from "../CardPlayerView/CardPlayerView";
 
 import { connect } from "react-redux";
-import { setGameObject, setSocket } from "../../dux/reducer";
+import { setGameObject, setSocket, pauseSong } from "../../dux/reducer";
 
 class WinnerPage extends Component {
   constructor() {
@@ -32,6 +33,8 @@ class WinnerPage extends Component {
       play: true,
       pause: false
     });
+    this.applause1.play();
+    this.tada1.play();
   };
 
   pause = () => {
@@ -53,8 +56,7 @@ class WinnerPage extends Component {
 
     this.joinRoom(this.props.socket);
 
-    this.play(this.applause1);
-    this.play(this.tada1);
+    this.play();
   }
 
   joinRoom = socket => {
@@ -115,7 +117,7 @@ class WinnerPage extends Component {
   };
 
   render() {
-    console.log("props at winner page", this.props);
+    console.log("props at winner page", this.props.gameObject);
 
     const { gameObject } = this.props;
 
@@ -148,6 +150,9 @@ class WinnerPage extends Component {
                 alt="winner"
                 src={gameObject.current_image[0].media_url}
               />
+              <div className="winner-card">
+                {gameObject.winnerCard[0].content}
+              </div>
             </div>
           ) : (
             <div />
@@ -176,17 +181,19 @@ class WinnerPage extends Component {
 }
 
 function mapStateToProps(state) {
-  return {
-    gamePin: state.gamePin,
-    gameObject: state.gameObject,
-    socket: state.socket,
-    username: state.username
-  };
+  return state;
+  // return {
+  //   gamePin: state.gamePin,
+  //   gameObject: state.gameObject,
+  //   socket: state.socket,
+  //   username: state.username
+  // };
 }
 
 const mapDispatchToProps = {
   setGameObject: setGameObject,
-  setSocket: setSocket
+  setSocket: setSocket,
+  pauseSong: pauseSong
 };
 
 export default connect(

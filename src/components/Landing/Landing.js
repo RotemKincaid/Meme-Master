@@ -5,7 +5,7 @@ import logo from "./mememasterlogo.png";
 
 import "./Landing.scss";
 import { Link } from "react-router-dom";
-import axios from "axios";
+// import axios from "axios";
 import { setSocket, playSong } from "../../dux/reducer";
 import { connect } from "react-redux";
 // import song from "../Landing/sillymusic.mp3";
@@ -29,16 +29,19 @@ class Landing extends Component {
   }
 
   componentDidMount() {
-    axios.get("/api/cards1").then(res => {
-      console.log("cards from db are on server", res);
-    });
-    axios.get("/api/media").then(media => {
-      console.log("media from db are on server");
-    });
+    // this.getCardsAndMediaToServer();
 
     this.props.setSocket(socket);
     this.props.song.play();
   }
+
+  // getCardsAndMediaToServer =() => {
+  //   axios.get("/api/cards1").then(res => {
+  //     console.log("cards from db are on server", res);
+  //   });
+  //   axios.get("/api/media").then(res => {
+  //     console.log("media from db are on server", res);
+  //   });
 
   play = () => {
     this.setState({
@@ -76,9 +79,7 @@ class Landing extends Component {
           </Link>
         </div>
         <Link to="/instructions">
-          <button className="instructions-btn">
-            Not sure how the game works? Click here
-          </button>
+          <button className="instructions-btn">Game Instructions?</button>
         </Link>
       </div>
     );

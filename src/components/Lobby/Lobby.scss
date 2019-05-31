@@ -86,5 +86,12 @@
 
     border-radius: 5px;
     text-shadow: 3px 3px 4px black;
+
+    &:hover {
+      background-color: white;
+      color: rgb(55, 17, 190);
+      text-shadow: none;
+      cursor: pointer;
+    }
   }
 }

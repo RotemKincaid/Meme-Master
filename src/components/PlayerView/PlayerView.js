@@ -17,7 +17,9 @@ class PlayerView extends Component {
       image: "",
       socket: "",
       game: {},
-      chosenCard: []
+      chosenCard: [],
+      play: true,
+      pause: false
     };
   }
 
@@ -37,7 +39,15 @@ class PlayerView extends Component {
     } else {
       this.props.history.push("/");
     }
+    this.props.song2.play();
   }
+  play = () => {
+    this.setState({
+      play: true,
+      pause: false
+    });
+    // this.props.song2.play();
+  };
 
   joinRoom = socket => {
     // const {socket} = this.state
