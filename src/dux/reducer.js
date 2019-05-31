@@ -1,4 +1,5 @@
 import song1 from "../components/Landing/sillymusic.mp3";
+import song2 from "../components/Lobby/sillychicken.mp3";
 
 const initialState = {
   gamePin: "",
@@ -6,13 +7,14 @@ const initialState = {
   gameObject: {},
   socket: "",
   creator: "",
-  song: new Audio(song1)
+  song: new Audio(song1),
+  song2: new Audio()
   // players: '',
 };
 
 const PLAY_SONG = "PLAY_SONG";
 const PAUSE_SONG = "PAUSE_SONG";
-// const SET_SONG = "SET_SONG";
+const SET_SONG = "SET_SONG";
 
 const SET_GAME_PIN = "SET_GAME_PIN";
 const SET_PLAYER_USERNAME = "SET_PLAYER_USERNAME";
@@ -39,8 +41,10 @@ export default function reducer(state = initialState, action) {
     case SET_CREATOR:
       // const newPlayersList = state.players.push(action.payload)
       return { ...state, creator: action.payload };
-    // case PLAY_SONG:
-    //   return { ...state, song: action.payload };
+    case PLAY_SONG:
+      return { ...state, song: action.payload };
+    case SET_SONG:
+      return { ...state, song: action.payload };
 
     default:
       return state;
@@ -92,5 +96,12 @@ export function pauseSong(boolean) {
   return {
     type: PAUSE_SONG,
     payload: boolean
+  };
+}
+
+export function setSong(song) {
+  return {
+    type: SET_SONG,
+    payload: song
   };
 }

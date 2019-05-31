@@ -35,6 +35,7 @@ class Landing extends Component {
     this.props.song.play();
   }
 
+
   getCardsAndMediaToServer =() => {
     axios.get("/api/cards1").then(res => {
       console.log("cards from db are on server", res);
@@ -43,6 +44,7 @@ class Landing extends Component {
       console.log("media from db are on server", res);
     });
   }
+
 
   play = () => {
     this.setState({
@@ -80,9 +82,7 @@ class Landing extends Component {
           </Link>
         </div>
         <Link to="/instructions">
-          <button className="instructions-btn">
-            Not sure how the game works? Click here
-          </button>
+          <button className="instructions-btn">Game Instructions?</button>
         </Link>
       </div>
     );

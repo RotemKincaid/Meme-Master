@@ -68,11 +68,11 @@ module.exports = {
     //   console.log('HIT GET CARDS TO OBJECT', cardsdb.length)
     //   cardsFromDb.push(cardsdb);
 
-    db.get_cards().then(res => {
-      console.log("res at get cards to object", res);
+    db.get_cards().then(cards => {
+      console.log("res at get cards to object", cards);
       // console.log('cardsdb', cardsdb)
-      cardsFromDb.push(res);
-      // res.status(200).send(cardsdb);
+      cardsFromDb.push(cards);
+      // res.status(200).send(cards);
       // console.log('cardsFromDb', cardsFromDb)
     });
   },
@@ -156,26 +156,22 @@ module.exports = {
         games[gamePin].players[i].hand = games[gamePin].cards.splice(0, 7);
       }
       //chose a judge
-  
+
       games[gamePin].judge = [players[0]];
-  
+
       games[gamePin].active = true;
-  
+
       players[0].judge = true;
-  
+
       games[gamePin].current_image = games[gamePin].images.splice(0, 1);
-  
+
       let preparedGame = games[gamePin];
-  
+
       socket.join(data.gamePin);
       io.in(gamePin).emit("get prepared game", preparedGame);
     } else {
-      console.log('error at creating new object, no cards from db')
+      console.log("error at creating new object, no cards from db");
     }
-    
-
-    
-
   },
 
   changeTurn: (data, socket, io) => {
@@ -228,7 +224,7 @@ module.exports = {
 
     console.log("GAME.JUDGE BEFORE Change", game.judge);
 
-    for (var i = 0; i < (players.length - 1); i++) {
+    for (var i = 0; i < players.length - 1; i++) {
       if (indexOfJudge === i) {
         game.judge = [players[i + 1]];
       } else if (indexOfJudge === players.length) {

@@ -35,14 +35,19 @@
       width: 95px;
       border: 1px solid black;
       margin: 3px;
-      
+
       font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
       background-color: rgb(55, 17, 190);
       border-radius: 5px;
       text-shadow: 2px 2px 3px black;
       color: white;
       animation: fun1 1s ease-in-out 0.3s 1 forwards;
-      
+      &:hover {
+        background-color: white;
+        color: rgb(55, 17, 190);
+        text-shadow: none;
+        cursor: pointer;
+      }
 
       @keyframes fun1 {
         0% {

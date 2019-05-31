@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import "./CreateGame.scss";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { setGamePin, setGameObject, setSocket } from "../../dux/reducer";
+import { setGamePin, setGameObject } from "../../dux/reducer";
 import logo from "../../components/logo.png";
 
-import axios from 'axios'
+import axios from "axios";
 
 // import io from "socket.io-client";
 // const socket = io.connect("http://localhost:4052");
@@ -33,7 +33,6 @@ class CreateGame extends Component {
     });
     // console.log('socket at component did mount',socket)
     // this.props.setSocket(socket)
-    
 
     this.props.setGamePin(gamePin);
   }
@@ -45,7 +44,7 @@ class CreateGame extends Component {
     axios.get("/api/media").then(res => {
       console.log("media from db are on server", res);
     });
-  }
+  };
 
   pauseSong = () => {
     this.props.pauseSong();
@@ -108,8 +107,9 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   setGamePin: setGamePin,
-  setGameObject: setGameObject,
-  setSocket: setSocket
+  setGameObject: setGameObject
+  // ,
+  // setSocket: setSocket
 };
 
 export default connect(

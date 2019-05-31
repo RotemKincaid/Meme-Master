@@ -3,8 +3,15 @@ import Card from "../Card/Card";
 import CardPlayerView from "../CardPlayerView/CardPlayerView";
 import "./JudgeView.scss";
 import { connect } from "react-redux";
-import { setGameObject, setSocket } from "../../dux/reducer";
-// import { Link } from "react-router-dom";
+
+import {
+  setGameObject,
+  setSocket,
+  pauseSong,
+  playSong
+} from "../../dux/reducer";
+import { Link } from "react-router-dom";
+
 
 class JudgeView extends Component {
   constructor(props) {
@@ -16,7 +23,10 @@ class JudgeView extends Component {
       socket: "",
       game: {},
       chosenCards: [],
-      winnerCard: []
+      winnerCard: [],
+      play: true,
+      pause: false,
+      chosenPlayerCard: this.props.gameObject.players[0].chosen_card
     };
   }
 
@@ -28,7 +38,29 @@ class JudgeView extends Component {
     console.log("socket at component did mount player view", this.props.socket);
 
     this.joinRoom(this.props.socket);
+    this.playNew();
   }
+  playNew = () => {
+    this.setState({
+      play: true,
+      pause: false
+    });
+    this.props.song2.play();
+  };
+
+  pause = () => {
+    this.setState({
+      play: false,
+      pause: true
+    });
+    this.props.song.pause();
+  };
+
+  changeCard = () => {
+    this.setState({
+      chosenCard: ""
+    });
+  };
 
   joinRoom = socket => {
     // const {socket} = this.state
@@ -56,6 +88,9 @@ class JudgeView extends Component {
     console.log("this.props at chooseCard", this.props);
     const { socket } = this.state;
     console.log("socket at choose card", socket);
+
+    this.pause();
+    this.props.song2.play();
 
     this.setState({
       winnerCard: [card]
@@ -116,6 +151,7 @@ class JudgeView extends Component {
               card={card}
               content={card.content}
               chooseCard={this.chooseCard}
+              changeCard={this.changeCard}
             />
           ) : (
             //non clickable card, just display
@@ -136,7 +172,7 @@ class JudgeView extends Component {
             <div className="judge-avatar-name">
               <h3>
                 {" "}
-                <span>{judgeUsername} </span> you are the judge!{" "}
+                <span>{judgeUsername}, </span> you are the judge!{" "}
               </h3>
               <img
                 alt="lobby-avatar"
@@ -172,17 +208,20 @@ class JudgeView extends Component {
 }
 
 function mapStateToProps(state) {
-  return {
-    gamePin: state.gamePin,
-    gameObject: state.gameObject,
-    socket: state.socket,
-    username: state.username
-  };
+  return state;
+  // return {
+  //   gamePin: state.gamePin,
+  //   gameObject: state.gameObject,
+  //   socket: state.socket,
+  //   username: state.username
+  // };
 }
 
 const mapDispatchToProps = {
   setGameObject: setGameObject,
-  setSocket: setSocket
+  setSocket: setSocket,
+  pauseSong: pauseSong,
+  playSong: playSong
 };
 
 export default connect(

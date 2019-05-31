@@ -52,6 +52,12 @@
         text-shadow: 2px 2px 3px black;
         font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
         // margin-top: 35px;
+        &:hover {
+          background-color: white;
+          color: rgb(55, 17, 190);
+          text-shadow: none;
+          cursor: pointer;
+        }
 
         a {
           text-decoration: none;
@@ -118,6 +124,11 @@
           color: white;
           word-spacing: 1px;
           text-shadow: 2px 2px 3px black;
+          &:hover {
+            background-color: white;
+            color: rgb(55, 17, 190);
+            text-shadow: none;
+          }
         }
       }
       h2 {
