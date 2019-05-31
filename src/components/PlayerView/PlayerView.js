@@ -167,18 +167,20 @@ class PlayerView extends Component {
       <div className="playerview">
         <div className="playerview-avatar-name">
           <h3 className="turn">
+            <span>{judgeUsername}</span> is the judge for this round!{" "}
+            
+            </h3>
             <img
               alt="lobby-avatar"
               className="playerview-avatar"
               src={judgeAvatar}
             />
-            <span>{judgeUsername}</span> is the judge for this round!{" "}
             {/* <img
               alt="lobby-avatar"
               className="playerview-avatar"
               src={player.avatar}
             /> */}
-          </h3>
+          
         </div>
         <img alt="playerview" className="meme-image-playerview" src={image} />
 

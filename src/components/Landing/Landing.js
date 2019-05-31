@@ -29,21 +29,21 @@ class Landing extends Component {
   }
 
   componentDidMount() {
-    this.getCardsAndMediaToServer();
+    // this.getCardsAndMediaToServer();
 
     this.props.setSocket(socket);
     this.props.song.play();
   }
 
 
-  getCardsAndMediaToServer =() => {
-    axios.get("/api/cards1").then(res => {
-      console.log("cards from db are on server", res);
-    });
-    axios.get("/api/media").then(res => {
-      console.log("media from db are on server", res);
-    });
-  }
+  // getCardsAndMediaToServer =() => {
+  //   axios.get("/api/cards1").then(res => {
+  //     console.log("cards from db are on server", res);
+  //   });
+  //   axios.get("/api/media").then(res => {
+  //     console.log("media from db are on server", res);
+  //   });
+  // }
 
 
   play = () => {
