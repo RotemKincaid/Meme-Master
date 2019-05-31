@@ -9,7 +9,7 @@ import {
   setSong,
   playSong
 } from "../../dux/reducer";
-import sillyChicken from "./sillychicken.mp3";
+import sillySong from "./star-wars-cantina-song.mp3";
 // import io from "socket.io-client";
 // const socket = io("http://localhost:4052");
 class Lobby extends Component {
@@ -21,7 +21,7 @@ class Lobby extends Component {
       play: true,
       pause: false
     };
-    this.audio = new Audio(sillyChicken);
+    this.audio = new Audio(sillySong);
   }
   componentDidMount() {
     if (this.props.socket) {
@@ -44,7 +44,6 @@ class Lobby extends Component {
     }
     // this.pauseSong();
   }
-
   pause = () => {
     this.setState({
       play: false,
@@ -52,7 +51,6 @@ class Lobby extends Component {
     });
     this.props.song.pause();
   };
-
   playNew = () => {
     this.setState({
       play: true,
@@ -60,7 +58,6 @@ class Lobby extends Component {
     });
     this.audio.play();
   };
-
   joinRoom = socket => {
     // const {socket} = this.state
     console.log("SOCKET AT JOIN ROOM on lobby", socket);
@@ -76,12 +73,10 @@ class Lobby extends Component {
       // this.getChosenCards(gamePin);
     });
   };
-
   startGame = () => {
     console.log("startGame hit!");
     // const { socket } = this.state;
     const { socket, song2 } = this.props;
-
     console.log(socket);
     const { gamePin } = this.props;
     console.log("gamepin at start game", gamePin);
@@ -93,25 +88,19 @@ class Lobby extends Component {
         game: game
       });
       this.props.setGameObject(game);
-
       this.pause();
       this.playNew(song2);
-
       // this.props.song.pause();
     });
   };
-
   render() {
     const { gameObject, creator } = this.props;
-
     console.log("gameObject from redux", this.props);
     const { players, active } = gameObject;
     console.log("creator at lobby", this.props.gameObject.creator);
     console.log("players at lobby", players);
-
     console.log("ACTIVE AT LOBBY", active);
     console.log(players);
-
     return (
       <div className="lobby">
         <div className="titles">
@@ -120,7 +109,6 @@ class Lobby extends Component {
             {this.props.gamePin}
           </h4>
         </div>
-
         <div className="lobby-inner">
           {players ? (
             <h2>
@@ -141,12 +129,10 @@ class Lobby extends Component {
             <h2>loading..</h2>
           )}
         </div>
-
         {creator ? (
           <div>
             <h5>Is everyone ready to play?</h5>
             <br />
-
             <button className="start-game" onClick={this.startGame}>
               START GAME
             </button>
@@ -154,7 +140,6 @@ class Lobby extends Component {
         ) : (
           <h5>Creator will start the game!</h5>
         )}
-
         {active ? this.props.history.push("/playerview") : null}
       </div>
     );
