@@ -14,7 +14,7 @@ import io from "socket.io-client";
 
 //if hosting take local host out
 // const socket = io();
-const socket = io("http://localhost:4052");
+const socket = io();
 console.log("new socket connection", socket);
 
 class Landing extends Component {
