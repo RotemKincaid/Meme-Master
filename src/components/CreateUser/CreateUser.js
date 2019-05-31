@@ -122,6 +122,7 @@ class CreateUser extends Component {
   };
 
   avatarSet = avatars => {
+    console.log(avatars);
     this.setState({
       avatar: avatars
     });
@@ -236,7 +237,7 @@ class CreateUser extends Component {
             {avatar.url ? (
               <div className="condition-avatar">
                 <h2>Your Selected Avatar:</h2>
-                <img className="selected-avatar" src={avatar.url} />
+                <img className="selected-avatar" src={avatar.url} alt="avatars" />
                 <button className="reset-avatar" onClick={this.resetAvatar}>
                   NOT SURE?
                 </button>

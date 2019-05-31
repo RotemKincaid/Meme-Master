@@ -23,14 +23,14 @@ class CreateGame extends Component {
   }
 
   componentDidMount() {
+    this.getCardsAndMediaToServer();
     const { gamePin } = this.state;
     this.generateRandom();
     this.setState({
-      // game: gameObject,
+      
 
       socket: this.props.socket
     });
-    this.getCardsAndMediaToServer();
     // console.log('socket at component did mount',socket)
     // this.props.setSocket(socket)
 
@@ -79,7 +79,7 @@ class CreateGame extends Component {
     return (
       <div className="creategame">
         <div className="create-game-inner">
-          <img src={logo} />
+          <img src={logo} alt="logo" />
           <br />
           <h3>Here is your game pin:</h3> <h1>{gamePin}</h1>
                             

@@ -56,7 +56,12 @@
       font-size: 20px;
       font-style: bolder;
       text-shadow: 1px 2px 2px white;
-      //   width: 100%;
+        img{
+          height: 25px;
+          width: 25px;
+          border-radius: 50%;
+        }
+     
     }
   }
 
