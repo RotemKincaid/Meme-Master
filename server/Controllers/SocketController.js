@@ -2,50 +2,31 @@ const players = [];
 const games = {};
 var cardsFromDb = [];
 var mediaFromDb = [];
-
-// import axios from 'axios';
+const functions = require('./dataFunctions')
 
 module.exports = {
   joinRoom: (data, socket, io) => {
-    // console.log('games before user joins' , games)
-
     console.log(data, "---> data at JOIN ROOM");
-    console.log(data.avatar.url);
-    socket.join(data.gamePin);
-    players.push(data.username);
-    // console.log(players, data.gamePin, "players");
-    // io.in(data.gamePin).emit("welcome to the game", data.username);
 
-    let newPlayer = {
-      username: data.username,
-      hand: [],
-      avatar: data.avatar.url,
-      judge: false,
-      score: 0,
-      chosen_card: {}
-    };
+    let { avatar, gamePin, username } = data
 
-    // newGame.players.push(newPlayer)
+    socket.join(gamePin);
 
-    //add initial score to scores on game object
+    players.push(username);
+   
+    let newPlayer = functions.newPlayer(data)
 
-    let objectKey = data.gamePin;
-
-    let playerUsername = data.username;
-    // this is the change that cam made to keep the avatar images in the scores keep this change
-    // KEEEEEEEP MEEEEEEE
     let initialPlayerScore = {
-      playerUsername,
+      username,
       score: 0,
-      avatar: data.avatar.url
+      avatar: avatar.url
     };
 
-    games[objectKey].scores.push(initialPlayerScore);
+    games[gamePin].scores.push(initialPlayerScore);
 
-    games[objectKey].players.push(newPlayer);
-    // console.log('game after player joins', games)
+    games[gamePin].players.push(newPlayer);
 
-    io.in(data.gamePin).emit("send updated game", games[objectKey]);
+    io.in(gamePin).emit("send updated game", games[gamePin]);
   },
 
   joinRoomOnly: (data, socket, io) => {
@@ -91,55 +72,26 @@ module.exports = {
   },
 
   gameObjectCreator: (data, socket, io) => {
+    console.log("data at GAME OBJECT CREATOR", data);
 
-    
-    console.log("hit gameobject creator");
+    const { gamePin } = data
 
-    socket.join(data.gamePin);
+    socket.join(gamePin);
 
-    io.in(data.gamePin).emit("welcome to");
+    io.in(gamePin).emit("welcome to");
 
-    console.log("cardsFromDb at gameObjectCreator", cardsFromDb[0]);
+    if (cardsFromDb.length && mediaFromDb) {
 
+      var newGame = functions.newGame(cardsFromDb, mediaFromDb)
 
-    if (cardsFromDb.length) {
-      var shuffledCards = cardsFromDb[0].sort(function(a, b) {
-        return Math.random() - 0.5;
-      });
-    }else {
-      console.log('error at shuffling cards from db')
-    }
-    // console.log(shuffledCards)
+      games[gamePin] = newGame;
 
-    if (mediaFromDb.length) {
-      var shuffledMedia = mediaFromDb[0].sort(function(a, b) {
-        return Math.random() - 0.5;
-      });
+      io.in(gamePin).emit("send new game", newGame);
+
     } else {
-      console.log('error at shuffling media from db')
+      console.log('error at getting media and cards from db')
     }
-    // console.log('shuffledCards', shuffledCards)
-    // console.log('shuffled media', shuffledCards)
-
-    let newGame = {
-      cards: shuffledCards,
-      turn: 1,
-      images: shuffledMedia,
-      current_image: "",
-      players: [],
-      active: false,
-      chosenCards: [],
-      winnerCard: [],
-      scores: [],
-      judge: []
-    };
-
-    let theGame = data.gamePin;
-    games[theGame] = newGame;
-    // console.log(data, "am I getting the data from the frontend?");
-
-    io.in(theGame).emit("send new game", newGame);
-    // console.log(newGame);
+  
   },
 
   prepareGame: (data, socket, io) => {
