@@ -91,6 +91,8 @@ module.exports = {
   },
 
   gameObjectCreator: (data, socket, io) => {
+
+    
     console.log("hit gameobject creator");
 
     socket.join(data.gamePin);
@@ -105,7 +107,7 @@ module.exports = {
         return Math.random() - 0.5;
       });
     }else {
-      this.getCardsToObject()
+      console.log('error at shuffling cards from db')
     }
     // console.log(shuffledCards)
 
@@ -114,7 +116,7 @@ module.exports = {
         return Math.random() - 0.5;
       });
     } else {
-      this.getMedia()
+      console.log('error at shuffling media from db')
     }
     // console.log('shuffledCards', shuffledCards)
     // console.log('shuffled media', shuffledCards)
