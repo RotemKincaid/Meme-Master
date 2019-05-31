@@ -1,5 +1,5 @@
 import song1 from "../components/Landing/sillymusic.mp3";
-import song2 from "../components/Lobby/sillychicken.mp3";
+import song2 from "../components/Lobby/star-wars-cantina-song.mp3";
 
 const initialState = {
   gamePin: "",

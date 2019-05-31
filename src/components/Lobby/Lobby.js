@@ -9,7 +9,7 @@ import {
   setSong,
   playSong
 } from "../../dux/reducer";
-import sillyChicken from "./sillychicken.mp3";
+import sillySong from "./star-wars-cantina-song.mp3";
 // import io from "socket.io-client";
 // const socket = io("http://localhost:4052");
 class Lobby extends Component {
@@ -21,7 +21,7 @@ class Lobby extends Component {
       play: true,
       pause: false
     };
-    this.audio = new Audio(sillyChicken);
+    this.audio = new Audio(sillySong);
   }
   componentDidMount() {
     if (this.props.socket) {
