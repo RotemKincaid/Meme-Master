@@ -1,6 +1,6 @@
 const sinon = require("sinon");
 
-const cRFuncs = require("./FunctionsCreateUser");
+const crFuncs = require("./FunctionsCreateUser");
 
 describe("Create User test Container", () => {
   describe("avatarSet function", () => {

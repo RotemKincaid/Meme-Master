@@ -2,6 +2,16 @@ const sockFuncs = require("./SocketController");
 
 const testDb = require("../test/init");
 
+// var clientIo = require('socket.io-client');
+// var serverIo = require("socket.io")(server);
+
+// var socketURL = 'http://0.0.0.0:5000';
+
+// var options ={
+//   transports: ['websocket'],
+//   'force new connection': true
+// };
+
 describe("Integration tests", () => {
   let db;
 
@@ -54,18 +64,32 @@ describe("Integration tests", () => {
       return sockFuncs.getCardsToObject(req, res);
     });
   });
-
-  
-
-
-  
 });
 
-//Francisca's testing
+// Francisca's testing
 
 // describe('JOIN ROOM:', () => {
-//   test('join room should return a new player', () => {
-//     expect (socksFuncs.joinRoom().toEqual())
+//   it('should create a new player object', () => {
+//     var socket = serverIo.connect(socketURL, options)
+//     console.log(socket)
+
+//     var data = {
+//       username: 'usernametest',
+//       avatar: {url: 'avatarurl'},
+//       gamePin: 'gamepin'
+
+//     }
+//     var newPlayer = {
+//       username: data.username,
+//       hand: [],
+//       avatar: data.avatar.url,
+//       judge: false,
+//       score: 0,
+//       chosen_card: {}
+//     }
+
+//     console.log(sockFuncs.joinRoom(data, socket, socket))
+//     expect (sockFuncs.joinRoom().toEqual())
 //     return sockFuncs.joinRoom(data, socket, io);
 //   })
 // })

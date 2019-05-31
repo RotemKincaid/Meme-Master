@@ -5,6 +5,19 @@ var mediaFromDb = [];
 
 // import axios from 'axios';
 
+const createNewPlayer = (data) => {
+  let newPlayer = {
+    username: data.username,
+    hand: [],
+    avatar: data.avatar.url,
+    judge: false,
+    score: 0,
+    chosen_card: {}
+  };
+
+  return newPlayer
+}
+
 module.exports = {
   joinRoom: (data, socket, io) => {
     // console.log('games before user joins' , games)
@@ -16,14 +29,15 @@ module.exports = {
     // console.log(players, data.gamePin, "players");
     // io.in(data.gamePin).emit("welcome to the game", data.username);
 
-    let newPlayer = {
-      username: data.username,
-      hand: [],
-      avatar: data.avatar.url,
-      judge: false,
-      score: 0,
-      chosen_card: {}
-    };
+    // let newPlayer = {
+    //   username: data.username,
+    //   hand: [],
+    //   avatar: data.avatar.url,
+    //   judge: false,
+    //   score: 0,
+    //   chosen_card: {}
+    // };
+    let newPlayer = createNewPlayer(data)
 
     // newGame.players.push(newPlayer)
 
