@@ -15,7 +15,7 @@
     "massive": "^5.10.0",
     "mobx": "^5.9.4",
     "mobx-react": "^5.4.4",
-    "node-sass": "^4.12.0",
+    "node-sass": "^7.0.0",
     "observable": "^2.1.4",
     "observer": "0.0.2",
     "react": "^16.8.6",
